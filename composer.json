@@ -1,0 +1,30 @@
+{
+    "name": "takshak/adash",
+    "keywords": ["laravel", "breeze", "admin panel", "panel", "dashboard"],
+    "description": "Simple admin panel starter kit",
+    "license": "MIT",
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "authors": [
+        {
+            "name": "Takshak Tiwari",
+            "email": "takshaktiwari@gmail.com"
+        }
+    ],
+    "require": {
+        "laravel/breeze": "^1.6",
+        "intervention/image": "^2.7"
+    },
+    "autoload": {
+        "psr-4" : {
+            "Takshak\\Adash\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Takshak\\Adash\\Providers\\AdashServiceProvider"
+            ]
+        }
+    }
+}
