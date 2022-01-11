@@ -1,0 +1,18 @@
+    @canany(['faqs_access','faqs_create'])
+                <li>
+                    <a href="javascript: void(0);" class="has-arrow waves-effect">
+                        <i class="fas fa-question"></i>
+                        <span>Manage FAQs</span>
+                    </a>
+                    <ul class="sub-menu" aria-expanded="false">
+                        @can('faqs_create')
+                        <li><a href="{{ route('admin.faqs.create') }}">New FAQ</a></li>
+                        @endcan
+
+                        @can('faqs_access')
+                        <li><a href="{{ route('admin.faqs.index') }}">All FAQs</a></li>
+                        @endcan
+                    </ul>
+                </li>
+                @endcanany
+

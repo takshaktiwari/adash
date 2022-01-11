@@ -1,0 +1,17 @@
+    @canany(['testimonials_access', 'testimonials_create'])
+                <li>
+                    <a href="javascript: void(0);" class="has-arrow waves-effect">
+                        <i class="fas fa-comment-dots"></i>
+                        <span>Testimonials</span>
+                    </a>
+                    <ul class="sub-menu" aria-expanded="false">
+                        @can('testimonials_create')
+                        <li><a href="{{ route('admin.testimonials.create') }}">New Testimonial</a></li>
+                        @endcan
+                        
+                        @can('testimonials_access')
+                        <li><a href="{{ route('admin.testimonials.index') }}">All Testimonials</a></li>
+                        @endcan
+                    </ul>
+                </li>
+                @endcanany

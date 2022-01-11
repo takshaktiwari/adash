@@ -1,0 +1,17 @@
+    @canany(['pages_create', 'pages_access'])
+                <li>
+                    <a href="javascript: void(0);" class="has-arrow waves-effect">
+                        <i class="fas fa-file"></i>
+                        <span>Manage Pages</span>
+                    </a>
+                    <ul class="sub-menu" aria-expanded="false">
+                        @can('pages_create')
+                        <li><a href="{{ route('admin.pages.create') }}">New Page</a></li>
+                        @endcan
+
+                        @can('pages_access')
+                        <li><a href="{{ route('admin.pages.index') }}">All Pages</a></li>
+                        @endcan
+                    </ul>
+                </li>
+                @endcanany

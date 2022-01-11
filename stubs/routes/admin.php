@@ -30,33 +30,12 @@ Route::middleware(['auth', 'gates'])->prefix('admin')->name('admin.')->group(fun
 
     Route::resource('users', UserController::class);
     Route::resource('roles', RoleController::class)->except(['show']);
-    Route::resource('pages', PageController::class);
-    Route::resource('faqs', FaqController::class);
-    Route::resource('testimonials', TestimonialController::class);
-
-    Route::prefix('blog')->name('blog.')->group(function(){
-        Route::resource('categories', BlogCategoryController::class);
-        Route::prefix('categories')->name('categories.')->group(function(){
-            Route::get('status-toggle/{category}', [BlogCategoryController::class, 'statusToggle'])->name('status-toggle');
-            Route::get('featured-toggle/{category}', [BlogCategoryController::class, 'featuredToggle'])->name('featured-toggle');
-        });
-
-        Route::resource('posts', BlogPostController::class);
-        Route::prefix('posts')->name('posts.')->group(function(){
-            Route::get('status-toggle/{post}', [BlogPostController::class, 'statusToggle'])->name('status-toggle');
-            Route::get('featured-toggle/{post}', [BlogPostController::class, 'featuredToggle'])->name('featured-toggle');
-        });
-
-        Route::resource('comments', BlogCommentController::class)->except(['create', 'store']);
-    });
-    
-
     Route::get('login-to/{user:id}', [UserController::class, 'loginToUser'])->name('login-to');
     Route::resource('permissions', PermissionController::class)->except(['show']);
     Route::prefix('permissions')->name('permissions.')->group(function(){
         Route::get('/', [PermissionController::class, 'index'])->name('index');
         Route::post('{role}', [PermissionController::class, 'update'])->name('update');
     });
+    
 
-    #Adash::Admin-routes ends here (Do not remove this line)
 });

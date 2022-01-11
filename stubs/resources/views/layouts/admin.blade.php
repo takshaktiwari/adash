@@ -50,7 +50,7 @@
                                 {{ config('app.name', 'Laravel') }}
                                 <span class="d-none d-sm-inline-block"> 
                                      - Crafted with 
-                                    <i class="mdi mdi-heart text-danger"></i> 
+                                    <i class="fas fa-heart text-danger"></i> 
                                     by 
                                     <a href="#" target="_blank" class="text-success font-weight-bold">
                                         Takshak Tiwari
