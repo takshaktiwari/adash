@@ -31,10 +31,11 @@ Route::middleware(['auth', 'gates'])->prefix('admin')->name('admin.')->group(fun
     Route::resource('users', UserController::class);
     Route::resource('roles', RoleController::class)->except(['show']);
     Route::get('login-to/{user:id}', [UserController::class, 'loginToUser'])->name('login-to');
+
     Route::resource('permissions', PermissionController::class)->except(['show']);
     Route::prefix('permissions')->name('permissions.')->group(function(){
-        Route::get('/', [PermissionController::class, 'index'])->name('index');
-        Route::post('{role}', [PermissionController::class, 'update'])->name('update');
+        Route::get('roles', [PermissionController::class, 'rolePermissions'])->name('roles.index');
+        Route::post('{role}', [PermissionController::class, 'rolePermissionsUpdate'])->name('roles.update');
     });
     
 

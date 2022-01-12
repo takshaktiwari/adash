@@ -81,7 +81,7 @@ trait PermissionTrait {
 	                    ->whereNotIn('name', ['admin'])
 	                    ->orderBy('name')->get();
 	    $permissions = Permission::with('children')
-	                            ->whereNull('parent')
+	                            ->whereNull('permission_id')
 	                            ->orderBy('name')->get();
 	    return view('admin.users.permission')->with('roles', $roles)
 	                                        ->with('permissions', $permissions);
@@ -95,7 +95,7 @@ trait PermissionTrait {
 	    ]);
 
 	    $role->permissions()->sync($request->post('permissions'));
-	    return redirect()->route('admin.permission.index')->withSuccess('SUCCESS !! Permissions are successfully updated');
+	    return redirect()->route('admin.permissions.index')->withSuccess('SUCCESS !! Permissions are successfully updated');
 	}
 
 }

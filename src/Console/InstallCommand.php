@@ -45,8 +45,6 @@ class InstallCommand extends Command
     	$this->info('Adash Setup is successfully install.');
     	$this->info('You will find the login credentials in documentation on github or just check the database seeder');
     	$this->info('https://github.com/takshaktiwari/adash');
-
-        exec('composer require barryvdh/laravel-debugbar --dev');
     }
 
     public function askQuestions()
@@ -92,6 +90,9 @@ class InstallCommand extends Command
         $options['--force'] = true;
         if ($this->installType != 'fresh') {
             $options = [];
+        }
+        if ($this->replaceFiles) {
+            $options['--force'] = true;
         }
 
         if (in_array('default', $this->module)) {
@@ -145,7 +146,7 @@ class InstallCommand extends Command
     public function installOtherPackages()
     {
         if ($this->laravelDebugbar) {
-            exec('composer require barryvdh/laravel-debugbar0 --dev');
+            exec('composer require barryvdh/laravel-debugbar --dev');
         }
     }
 

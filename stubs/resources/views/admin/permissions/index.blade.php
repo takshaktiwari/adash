@@ -7,7 +7,7 @@
 		]"
         :actions="[
             ['text' => 'New Permission', 'icon' => 'fas fa-plus', 'url' => route('admin.permissions.create'), 'permission' => 'permissions_create', 'class' => 'btn-success'],
-            ['text' => 'Dashboard', 'icon' => 'fas fa-technometer', 'url' => auth()->user()->dashboardRoute(), 'class' => 'btn-dark'],
+            ['text' => 'Roles & Permissions', 'icon' => 'fas fa-user-shield', 'url' => route('admin.permissions.roles.index'), 'class' => 'btn-dark'],
         ]" />
 	
     <div class="card shadow-sm">

@@ -11,7 +11,7 @@ trait UserTrait {
 
 	public function index(Request $request)
 	{
-		$this->authorize('user_access');
+		$this->authorize('users_access');
 	    $query = User::with('roles');
 	    if ($request->get('search')) {
 	        $query->where(function($query) use($request){
@@ -32,14 +32,14 @@ trait UserTrait {
 
 	public function create()
 	{
-		$this->authorize('user_create');
+		$this->authorize('users_create');
 	    $roles = Role::orderBy('name', 'DESC')->get();
 	    return view('admin.users.create')->with('roles', $roles);
 	}
 
 	public function store(Request $request)
 	{
-		$this->authorize('user_create');
+		$this->authorize('users_create');
 	    $request->validate([
 	        'name'      =>  'required',
 	        'email'     =>  'required|email|unique:users,email',
@@ -63,14 +63,14 @@ trait UserTrait {
 
 	public function edit(User $user)
 	{
-		$this->authorize('user_update');
+		$this->authorize('users_update');
 	    $roles = Role::orderBy('name', 'DESC')->get();
 	    return view('admin.users.edit')->with('roles', $roles)->with('user', $user);
 	}
 
 	public function update(Request $request, User $user)
 	{
-		$this->authorize('user_update');
+		$this->authorize('users_update');
 	    $request->validate([
 	        'name'      =>  'required',
 	        'email'     =>  'required|email|unique:users,email,'.$user->id,
@@ -96,7 +96,7 @@ trait UserTrait {
 
 	public function show(User $user)
 	{
-		$this->authorize('user_show');
+		$this->authorize('users_show');
 	    return view('admin.users.show')->with('user', $user);
 	}
 
@@ -109,7 +109,7 @@ trait UserTrait {
 
 	public function destroy(User $user)
 	{
-		$this->authorize('user_delete');
+		$this->authorize('users_delete');
 	    $user->delete();
 	    return redirect()->route('admin.users.index')->withErrors('SORRY !! Something is not right. Unable to delete user');
 	}

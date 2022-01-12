@@ -21,7 +21,7 @@
     <div class="row">
         @foreach($roles as $role)
             <div class="col-md-6">
-                <form action="{{ route('admin.permission.update', [$role]) }}" method="POST" class="card shadow-sm">
+                <form action="{{ route('admin.permissions.roles.update', [$role]) }}" method="POST" class="card shadow-sm">
                     @csrf
                     <div class="card-header bg-light border-bottom border-secondary pointer text-capitalize font-weight-bold font-18" data-toggle="collapse" data-target="#{{ $role->name }}">
                         {{ $role->name }}

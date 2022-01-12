@@ -56,13 +56,19 @@ function btnLoader(elm) {
     }
 }
 
-function imageCropper(userImageRatio=16/9){
+function imageCropper(userImageRatio=16/9, previewImg=null){
+
     // image-box is the id of the div element that will store our cropping image preview
     const imagebox = document.getElementById('image-box')
         // crop-btn is the id of button that will trigger the event of change original file with cropped file.
     const crop_btn = document.getElementById('crop-btn')
     // id_image is the id of the input tag where we will upload the image
     const input = document.getElementById('crop-image')
+
+    // imagePreview is the id of the input where image will be displayed before upload
+    const imagePreview = document.getElementById(
+        previewImg.targetId ? previewImg.targetId : 'image-preview'
+    );
 
     // When user uploads the image this event will get triggered
     input.addEventListener('change', ()=>{
@@ -111,13 +117,20 @@ function imageCropper(userImageRatio=16/9){
                 // Replace the original image file with the new cropped image file
                 fileInputElement.files = container.files;
 
+                
+                if (previewImg) {
+                    const previewUrl = URL.createObjectURL(file)
+                    var previewImgWidth = previewImg.width ? previewImg.width : '100px';
+                    imagePreview.innerHTML = `<img src="${previewUrl}" id="img_preview" style="width:${previewImgWidth}; height:${previewImg.height}; border-radius: ${previewImg.rounded}">`
+                }
+
                 // Hide the cropper modal
                 $("#cropModal").modal('hide');
 
             });
         });
     }); 
-} 
+}
 
 ! function(t) {
     "use strict";

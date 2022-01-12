@@ -8,7 +8,7 @@
 		]"
         :actions="[
             ['text' => 'All Roles', 'icon' => 'fas fa-list', 'url' => route('admin.roles.index'), 'permission' => 'roles_access', 'class' => 'btn-success btn-loader'],
-            ['text' => 'Dashboard', 'icon' => 'fas fa-technometer', 'url' => auth()->route()->dashboardRoute(), 'class' => 'btn-dark btn-loader'],
+            ['text' => 'Dashboard', 'icon' => 'fas fa-technometer', 'url' => auth()->user()->dashboardRoute(), 'class' => 'btn-dark btn-loader'],
         ]" />
 	
     <div class="row">

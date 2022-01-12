@@ -30,7 +30,7 @@
 					</div>
 				</div>
 				<div class="card-body">
-					<button class="submit" class="btn btn-dark btn-loader">
+					<button type="submit" class="btn btn-dark btn-loader">
 						<i class="fas fa-save"></i> Submit
 					</button>
 				</div>
