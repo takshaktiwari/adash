@@ -9,12 +9,12 @@
         <meta name="keywords" content="@yield('title', config('app.name', 'Laravel'))"  />
         <meta name="author" content="Themesbrand"  />
         <!-- App favicon -->
-        <link rel="shortcut icon" href="{{ url('assets/admin/images/favicon.ico') }}">
-        <link href="{{ url('assets/admin/css/bootstrap.min.css') }}" id="bootstrap-style" rel="stylesheet" type="text/css" />
-        <link href="{{ url('assets/admin/css/icons.min.css') }}" rel="stylesheet" type="text/css" />
-        <link href="{{ url('assets/admin/css/select2.min.css') }}" id="app-style" rel="stylesheet" type="text/css" />
-        <link rel="stylesheet" href="{{ url('assets/admin/css/bootstrap-tagsinput.css') }}">
-        <link href="{{ url('assets/admin/css/app.min.css') }}" id="app-style" rel="stylesheet" type="text/css" />
+        <link rel="shortcut icon" href="{{ asset('admin/images/favicon.ico') }}">
+        <link href="{{ asset('admin/css/bootstrap.min.css') }}" id="bootstrap-style" rel="stylesheet" type="text/css" />
+        <link href="{{ asset('admin/css/icons.min.css') }}" rel="stylesheet" type="text/css" />
+        <link href="{{ asset('admin/css/select2.min.css') }}" id="app-style" rel="stylesheet" type="text/css" />
+        <link rel="stylesheet" href="{{ asset('admin/css/bootstrap-tagsinput.css') }}">
+        <link href="{{ asset('admin/css/app.min.css') }}" id="app-style" rel="stylesheet" type="text/css" />
 
         {{ isset($style) ? $style : '' }}
         {{ isset($style2) ? $style2 : '' }}
@@ -70,14 +70,14 @@
         <!-- Right bar overlay-->
         <div class="rightbar-overlay"></div>
         
-        <script src="{{ url('assets/admin/libs/jquery/jquery.min.js') }}"></script>
-        <script src="{{ url('assets/admin/libs/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-        <script src="{{ url('assets/admin/libs/metismenu/metisMenu.min.js') }}"></script>
-        <script src="{{ url('assets/admin/libs/simplebar/simplebar.min.js') }}"></script>
-        <script src="{{ url('assets/admin/libs/node-waves/waves.min.js') }}"></script>
-        <script src="{{ url('assets/admin/js/select2.min.js') }}"></script>
-        <script src="{{ url('assets/admin/js/bootstrap-tagsinput.min.js') }}"></script>
-        <script src="{{ url('assets/admin/js/app.js') }}"></script>
+        <script src="{{ asset('admin/libs/jquery/jquery.min.js') }}"></script>
+        <script src="{{ asset('admin/libs/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+        <script src="{{ asset('admin/libs/metismenu/metisMenu.min.js') }}"></script>
+        <script src="{{ asset('admin/libs/simplebar/simplebar.min.js') }}"></script>
+        <script src="{{ asset('admin/libs/node-waves/waves.min.js') }}"></script>
+        <script src="{{ asset('admin/js/select2.min.js') }}"></script>
+        <script src="{{ asset('admin/js/bootstrap-tagsinput.min.js') }}"></script>
+        <script src="{{ asset('admin/js/app.js') }}"></script>
 
         {{ isset($script) ? $script : '' }}
     </body>

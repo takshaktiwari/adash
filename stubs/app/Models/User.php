@@ -32,7 +32,7 @@ class User extends Authenticatable implements MustVerifyEmail
                         ? $this->profile_img
                         : url('storage/app/'.$this->profile_img);
         }else{
-            return url('assets/avatar/avatar-128.png');
+            return asset('avatar/avatar-128.png');
         }
         
     }

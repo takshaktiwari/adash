@@ -49,7 +49,7 @@ class AdashServiceProvider extends ServiceProvider
             $databaseStubs.'seeders' => database_path('seeders'),
             $databaseStubs.'seeders/DatabaseSeeder.php' => database_path('seeders/DatabaseSeeder.php'),
 
-            $this->baseStubs.'assets' => base_path('assets'),
+            $this->baseStubs.'assets' => public_path('assets'),
             $viewStubs.'layouts' => resource_path('views/layouts'),
             $viewStubs.'components/admin' => resource_path('views/components/admin'),
 

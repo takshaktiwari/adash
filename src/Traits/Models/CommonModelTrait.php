@@ -29,6 +29,6 @@ trait CommonModelTrait {
 	}
 	public function placeholderImage($value=''): string
 	{
-		return url('assets/admin/images/placeholder-image.png');
+		return asset('images/placeholder-image.png');
 	}
 }
