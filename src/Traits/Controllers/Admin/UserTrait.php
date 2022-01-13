@@ -2,13 +2,14 @@
 
 namespace Takshak\Adash\Traits\Controllers\Admin;
 
-use Auth;
 use App\Models\Role;
 use App\Models\User;
+use Auth;
 use Illuminate\Http\Request;
+use Takshak\Adash\Traits\ImageTrait;
 
 trait UserTrait {
-
+	use ImageTrait;
 	public function index(Request $request)
 	{
 		$this->authorize('users_access');
@@ -46,16 +47,26 @@ trait UserTrait {
 	        'mobile'    =>  'required',
 	        'password'  =>  'required|confirmed',
 	        'roles'     =>  'required|array|min:1',
-	        'email_verified'    =>  'required|boolean'
+	        'email_verified'    =>  'required|boolean',
+	        'profile_img'    =>  'nullable|image',
 	    ]);
 
-	    $user = User::create([
-	        'name'          =>  $request->post('name'),
-	        'email'         =>  $request->post('email'),
-	        'mobile'        =>  $request->post('mobile'),
-	        'password'      =>  \Hash::make($request->post('password')),
-	        'email_verified_at'  =>  $request->post('email_verified') ? date('Y-m-d H:i:s') : null,
-	    ]);
+	    $user = new User;
+	    $user->name          =  $request->post('name');
+	    $user->email         =  $request->post('email');
+	    $user->mobile        =  $request->post('mobile');
+	    $user->password      =  \Hash::make($request->post('password'));
+	    $user->email_verified_at  =  $request->post('email_verified') ? date('Y-m-d H:i:s') : null;
+
+	    if ($request->file('profile_img')) {
+	    	$user->profile_img = 'users/'.time().'.jpg';
+	    	\Imager::init($request->file('profile_img'))
+	    	->resizeFit(400, 400)->inCanvas('#fff')
+	    	->basePath(storage_path('app/public/'))
+	    	->save($user->profile_img);
+	    }
+
+	    $user->save();
 
 	    $user->roles()->sync($request->post('roles'));
 	    return redirect()->route('admin.users.index')->withSuccess('SUCCESS !! New user is successfully created');
@@ -86,7 +97,16 @@ trait UserTrait {
 	                                        ? date('Y-m-d H:i:s') 
 	                                        : null;
 
-	    $user->password = \Hash::make($request->post('password'));
+	    if ($request->post('password')) {
+	    	$user->password = \Hash::make($request->post('password'));
+	    }
+	    if ($request->file('profile_img')) {
+	    	$user->profile_img = 'public/users/'.time().'.jpg';
+	    	\Imager::init($request->file('profile_img'))
+	    	->resizeFit(400, 400)->inCanvas('#fff')
+	    	->basePath(storage_path('app/'))
+	    	->save($user->profile_img);
+	    }
 	    $user->save();
 
 	    $user->roles()->sync($request->post('roles'));

@@ -13,9 +13,19 @@
 
     <div class="row">
         <div class="col-md-6">
-            <form action="{{ route('admin.users.store') }}" method="POST" class="card shadow-sm">
+            <form action="{{ route('admin.users.store') }}" method="POST" class="card shadow-sm" enctype="multipart/form-data">
                 @csrf
                 <div class="card-body">
+                    <div class="d-flex">
+                        <div class="mr-2">
+                            <div id="image-preview"></div>
+                        </div>
+                        <div class="form-group flex-fill">
+                            <label for="">Profile Image</label>
+                            <input type="file" name="profile_img" class="form-control" id="crop-image">
+                        </div>
+                    </div>
+
                     <div class="form-group">
                         <label for="">User Name <span class="text-danger">*</span></label>
                         <input type="text" name="name" class="form-control" required="">
@@ -70,4 +80,13 @@
         </div>
     </div>
     
+    <x-slot name="script">
+        <script>
+            var previewImg = {
+                width: '70px', 
+                rounded: '50px',
+            };
+            imageCropper('crop-image', 1/1, previewImg);
+        </script>
+    </x-slot>
 </x-admin.layout>

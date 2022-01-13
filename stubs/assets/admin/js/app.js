@@ -56,14 +56,14 @@ function btnLoader(elm) {
     }
 }
 
-function imageCropper(userImageRatio=16/9, previewImg=null){
+function imageCropper(targetId='crop-image', userImageRatio=16/9, previewImg=null){
 
     // image-box is the id of the div element that will store our cropping image preview
     const imagebox = document.getElementById('image-box')
         // crop-btn is the id of button that will trigger the event of change original file with cropped file.
     const crop_btn = document.getElementById('crop-btn')
     // id_image is the id of the input tag where we will upload the image
-    const input = document.getElementById('crop-image')
+    const input = document.getElementById(targetId)
 
     // imagePreview is the id of the input where image will be displayed before upload
     const imagePreview = document.getElementById(

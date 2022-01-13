@@ -1,24 +1,36 @@
 <x-admin.layout>
-	<x-admin.breadcrumb 
-			title='Edit Users'
-			:links="[
-				['text' => 'Dashboard', 'url' => route('admin.dashboard') ],
+    <x-admin.breadcrumb 
+            title='Edit Users'
+            :links="[
+                ['text' => 'Dashboard', 'url' => route('admin.dashboard') ],
                 ['text' => 'Users', 'url' => route('admin.users.index')],
                 ['text' =>  'Edit']
-			]"
+            ]"
             :actions="[
                 ['text' => 'Create New', 'permission' => 'users_create', 'icon' => 'fas fa-plus', 'url' => route('admin.users.create'), 'class' => 'btn-success btn-loader'],
                 ['text' => 'All Users', 'icon' => 'fas fa-list', 'url' => route('admin.users.index'),'permission' => 'users_access', 'class' => 'btn-dark btn-loader'],
             ]"
-		/>
-	
+        />
+    
 
     <div class="row">
         <div class="col-md-6">
-            <form action="{{ route('admin.users.update', [$user]) }}" method="POST" class="card shadow-sm">
+            <form action="{{ route('admin.users.update', [$user]) }}" method="POST" class="card shadow-sm" enctype="multipart/form-data">
                 <div class="card-body">
                     @csrf
                     @method('PUT')
+                    <div class="d-flex">
+                        <div class="mr-2">
+                            <div id="image-preview">
+                                <img src="{{ $user->profile_img() }}" alt="image" width="70" class="rounded-circle">
+                            </div>
+                        </div>
+                        <div class="form-group flex-fill">
+                            <label for="">Profile Image</label>
+                            <input type="file" name="profile_img" class="form-control" id="crop-image">
+                        </div>
+                    </div>
+
                     <div class="form-group">
                         <label for="">User Name <span class="text-danger">*</span></label>
                         <input type="text" name="name" class="form-control" required="" value="{{ $user->name }}">
@@ -70,4 +82,13 @@
         </div>
     </div>
     
+    <x-slot name="script">
+        <script>
+            var previewImg = {
+                width: '70px', 
+                rounded: '50px',
+            };
+            imageCropper('crop-image', 1/1, previewImg);
+        </script>
+    </x-slot>
 </x-admin.layout>

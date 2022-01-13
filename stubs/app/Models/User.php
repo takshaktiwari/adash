@@ -32,7 +32,7 @@ class User extends Authenticatable implements MustVerifyEmail
                         ? $this->profile_img
                         : url('storage/app/'.$this->profile_img);
         }else{
-            return asset('avatar/avatar-128.png');
+            return \Avatar::name($this->name)->background(rand(100, 999))->color('fff')->imageUrl();
         }
         
     }

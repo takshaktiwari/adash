@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::view('/', 'welcome');
+Route::view('/', 'welcome')->name('root');
 Route::get('dashboard', [HomeController::class, 'dashboard'])->middleware(['auth'])->name('dashboard');
 
 require __DIR__.'/auth.php';
