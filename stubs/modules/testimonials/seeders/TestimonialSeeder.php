@@ -5,14 +5,13 @@ namespace Database\Seeders;
 use App\Models\Testimonial;
 use Faker\Generator as Faker;
 use Illuminate\Database\Seeder;
-use Takshak\Adash\Traits\ImageTrait;
+use Takshak\Imager\Facades\Avatar;
 
 class TestimonialSeeder extends Seeder
 {
-    use ImageTrait;
     public function run(Faker $faker)
     {
-        \Storage::deleteDirectory('testimonials');
+        \Storage::disk('public')->deleteDirectory('testimonials');
         Testimonial::truncate();
 
         for ($i=0; $i < 8; $i++) { 
@@ -23,7 +22,8 @@ class TestimonialSeeder extends Seeder
             $testimonial->rating    =   rand(1, 5);
             $testimonial->content   =   $faker->realText(rand(100, 300), 2);
 
-            $this->initImg('https://picsum.photos/300/300')->storeImg($testimonial->avatar);
+            Avatar::name($testimonial->title)->background(rand(100, 999))->color('fff')->save(\Storage::disk('public')->path($testimonial->avatar));
+
             $testimonial->save();
         }
     }

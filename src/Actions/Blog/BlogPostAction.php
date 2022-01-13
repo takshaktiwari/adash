@@ -2,12 +2,11 @@
 
 namespace Takshak\Adash\Actions\Blog;
 
-use Takshak\Adash\Traits\ImageTrait;
 use Str;
+use Takshak\Imager\Facades\Imager;
 
 class BlogPostAction
 {
-	use ImageTrait;
 	public function save($request, $post)
 	{
 		$post->title    = $request->post('title');
@@ -22,16 +21,17 @@ class BlogPostAction
 		$post->user_id 			= auth()->id();
 
 		if ($request->file('thumbnail')){
-		    $imageName = $category->slug.'.'.$request->file('thumbnail')->extension();
+		    $imageName = $post->slug.'.'.$request->file('thumbnail')->extension();
 		    $post->image_sm = 'blog_posts/sm/'.$imageName;
 		    $post->image_md = 'blog_posts/md/'.$imageName;
 		    $post->image_lg = 'blog_posts/'.$imageName;
 
-		    $this->initImg($request->file('thumbnail'))
-		        ->resizeFit(800, 500)
-		        ->makeCopy($category->image_lg)
-		        ->makeCopy($category->image_md, 400)
-		        ->makeCopy($category->image_sm, 200);
+		    Imager::init($request->file('thumbnail'))
+		        ->resizeFit(800, 500)->inCanvas('#fff')
+		        ->basePath(\Storage::disk('public')->path('/'))
+		        ->save($post->image_lg)
+		        ->save($post->image_md, 400)
+		        ->save($post->image_sm, 200);
 		}
 		$post->save();
 

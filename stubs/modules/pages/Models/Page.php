@@ -12,7 +12,7 @@ class Page extends Model
 
     public function banner($value='')
     {
-        return url('storage/app/'.$this->banner);
+        return asset('storage/'.$this->banner);
     }
 
     public function scopeActive($query='')

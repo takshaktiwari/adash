@@ -9,13 +9,13 @@
         <meta name="keywords" content="@yield('title', config('app.name', 'Laravel'))"  />
         <meta name="author" content="Themesbrand"  />
         <!-- App favicon -->
-        <link rel="shortcut icon" href="{{ asset('admin/images/favicon.ico') }}">
-        <link href="{{ asset('admin/css/bootstrap.min.css') }}" id="bootstrap-style" rel="stylesheet" type="text/css" />
-        <link href="{{ asset('admin/css/icons.min.css') }}" rel="stylesheet" type="text/css" />
-        <link href="{{ asset('admin/css/select2.min.css') }}" id="app-style" rel="stylesheet" type="text/css" />
-        <link rel="stylesheet" href="{{ asset('admin/css/bootstrap-tagsinput.css') }}">
-        <link rel="stylesheet" href="{{ asset('admin/css/cropper.css') }}">
-        <link href="{{ asset('admin/css/app.min.css') }}" id="app-style" rel="stylesheet" type="text/css" />
+        <link rel="shortcut icon" href="{{ asset('assets/admin/images/favicon.ico') }}">
+        <link href="{{ asset('assets/admin/css/bootstrap.min.css') }}" id="bootstrap-style" rel="stylesheet" type="text/css" />
+        <link href="{{ asset('assets/admin/css/icons.min.css') }}" rel="stylesheet" type="text/css" />
+        <link href="{{ asset('assets/admin/css/select2.min.css') }}" id="app-style" rel="stylesheet" type="text/css" />
+        <link rel="stylesheet" href="{{ asset('assets/admin/css/bootstrap-tagsinput.css') }}">
+        <link rel="stylesheet" href="{{ asset('assets/admin/css/cropper.css') }}">
+        <link href="{{ asset('assets/admin/css/app.min.css') }}" id="app-style" rel="stylesheet" type="text/css" />
 
         {{ isset($style) ? $style : '' }}
     </head>
@@ -92,15 +92,15 @@
             </div>
         </div>
         
-        <script src="{{ asset('admin/js/jquery.min.js') }}"></script>
-        <script src="{{ asset('admin/js/bootstrap.bundle.min.js') }}"></script>
-        <script src="{{ asset('admin/js/metisMenu.min.js') }}"></script>
-        <script src="{{ asset('admin/js/simplebar.min.js') }}"></script>
-        <script src="{{ asset('admin/js/waves.min.js') }}"></script>
-        <script src="{{ asset('admin/js/select2.min.js') }}"></script>
-        <script src="{{ asset('admin/js/bootstrap-tagsinput.min.js') }}"></script>
-        <script src="{{ asset('admin/js/cropper.js') }}"></script>
-        <script src="{{ asset('admin/js/app.js') }}"></script>
+        <script src="{{ asset('assets/admin/js/jquery.min.js') }}"></script>
+        <script src="{{ asset('assets/admin/js/bootstrap.bundle.min.js') }}"></script>
+        <script src="{{ asset('assets/admin/js/metisMenu.min.js') }}"></script>
+        <script src="{{ asset('assets/admin/js/simplebar.min.js') }}"></script>
+        <script src="{{ asset('assets/admin/js/waves.min.js') }}"></script>
+        <script src="{{ asset('assets/admin/js/select2.min.js') }}"></script>
+        <script src="{{ asset('assets/admin/js/bootstrap-tagsinput.min.js') }}"></script>
+        <script src="{{ asset('assets/admin/js/cropper.js') }}"></script>
+        <script src="{{ asset('assets/admin/js/app.js') }}"></script>
 
         {{ isset($script) ? $script : '' }}
     </body>

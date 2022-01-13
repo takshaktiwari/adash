@@ -2,22 +2,21 @@
 
 namespace Takshak\Adash\Actions;
 
-use Takshak\Adash\Traits\ImageTrait;
 use Str;
+use Takshak\Imager\Facades\Imager;
 
 class TestimonialAction
 {
-	use ImageTrait;
-
 	public function save($request, $testimonial)
 	{
 		if ($request->file('avatar')) {
 		    $testimonial->avatar    = 'testimonials/'.\Str::of(microtime())->slug('-').'.';
 		    $testimonial->avatar    .= $request->file('avatar')->extension();
-		    $this->initImg($request->file('avatar'))
+
+		    Imager::init($request->file('avatar'))
 		        ->resizeFit(300, 300)
 		        ->inCanvas('#fff')
-		        ->storeImg($testimonial->avatar);
+		        ->save(\Storage::disk('public')->path($testimonial->avatar));
 		}
 		
 		$testimonial->title     = $request->post('title');

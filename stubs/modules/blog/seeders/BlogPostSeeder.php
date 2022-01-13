@@ -7,14 +7,13 @@ use App\Models\Blog\BlogPost;
 use App\Models\User;
 use Faker\Generator as Faker;
 use Illuminate\Database\Seeder;
-use Takshak\Adash\Traits\ImageTrait;
+use Takshak\Imager\Facades\Picsum;
 
 class BlogPostSeeder extends Seeder
 {
-    use ImageTrait;
     public function run(Faker $faker)
     {
-        \Storage::deleteDirectory('blog_posts');
+        \Storage::disk('public')->deleteDirectory('blog_posts');
         $users = User::pluck('id');
         $postCategories = BlogCategory::pluck('id');
 
@@ -29,10 +28,11 @@ class BlogPostSeeder extends Seeder
             $post->image_md = 'blog_posts/md/'.$fileName;
             $post->image_lg = 'blog_posts/'.$fileName;
 
-            $this->initImg('https://picsum.photos/800/500')
-            ->makeCopy($post->image_lg)
-            ->makeCopy($post->image_md, 400)
-            ->makeCopy($post->image_sm, 200);
+            Picsum::dimensions(800, 500)
+            ->basePath(\Storage::disk('public')->path('/'))
+            ->save($category->image_lg)
+            ->copy($category->image_md, 400)
+            ->copy($category->image_sm, 200);
 
             $post->status   = ($i % 5 == 0) ? false : true;
             $post->featured = ($i % 4 == 0) ? false : true;

@@ -2,13 +2,11 @@
 
 namespace Takshak\Adash\Actions;
 
-use Takshak\Adash\Traits\ImageTrait;
 use Str;
+use Takshak\Imager\Facades\Imager;
 
 class PageAction
 {
-	use ImageTrait;
-
 	public function save($request, $page)
 	{
 		$page->title    =   $request->post('title');
@@ -20,10 +18,10 @@ class PageAction
 		    $page->banner   =   'pages/'.$page->slug.'.';
 		    $page->banner   .=  $request->file('thumbnail')->extension();
 
-		    $this->initImg($request->file('thumbnail'))
+		    Imager::init($request->file('thumbnail'))
 		        ->resizeFit(900, 500)
 		        ->inCanvas('#fff')
-		        ->storeImg($page->banner);
+		        ->save(\Storage::disk('public')->path($page->banner));
 		}
 
 		$page->save();

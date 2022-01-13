@@ -2,12 +2,11 @@
 
 namespace Takshak\Adash\Actions\Blog;
 
-use Takshak\Adash\Traits\ImageTrait;
 use Str;
+use Takshak\Imager\Facades\Imager;
 
 class BlogCategoryAction
 {
-	use ImageTrait;
 	public function save($request, $category)
 	{
 		$category->name = $request->post('name');
@@ -25,11 +24,12 @@ class BlogCategoryAction
 		    $category->image_md = 'blog_categories/md/'.$imageName;
 		    $category->image_sm = 'blog_categories/sm/'.$imageName;
 
-		    $this->initImg($request->file('thumbnail'))
-		        ->resizeFit(800, 500)
-		        ->makeCopy($category->image_lg)
-		        ->makeCopy($category->image_md, 400)
-		        ->makeCopy($category->image_sm, 200);
+		    Imager::init($request->file('thumbnail'))
+		        ->resizeFit(800, 500)->inCanvas('#fff')
+		        ->basePath(\Storage::disk('public')->path('/'))
+		        ->save($category->image_lg)
+		        ->save($category->image_md, 400)
+		        ->save($category->image_sm, 200);
 		}
 		$category->save();
 

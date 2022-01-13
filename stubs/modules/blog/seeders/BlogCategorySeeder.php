@@ -2,32 +2,34 @@
 
 namespace Database\Seeders;
 
+use Str;
+use Storage;
 use App\Models\Blog\BlogCategory;
 use Faker\Generator as Faker;
 use Illuminate\Database\Seeder;
-use Takshak\Adash\Traits\ImageTrait;
+use Takshak\Imager\Facades\Picsum;
 
 class BlogCategorySeeder extends Seeder
 {
-    use ImageTrait;
     public function run(Faker $faker)
     {
-        \Storage::deleteDirectory('blog_categories');
+        Storage::disk('public')->deleteDirectory('blog_categories');
         for ($i=0; $i < 10; $i++) { 
             $category = new BlogCategory;
             $category->name =   $faker->company;
             $category->slug =   \Str::of($category->name)->slug('-');
             $category->blog_category_id  =   ($i > 6) ? BlogCategory::inRandomOrder()->first()?->id : null;
 
-            $fileName = \Str::of(microtime())->slug('-').'.jpg';
+            $fileName = Str::of(microtime())->slug('-').'.jpg';
             $category->image_sm =   'blog_categories/sm/'.$fileName;
             $category->image_md =   'blog_categories/md/'.$fileName;
             $category->image_lg =   'blog_categories/'.$fileName;
 
-            $this->initImg('https://picsum.photos/800/500')
-            ->makeCopy($category->image_lg)
-            ->makeCopy($category->image_md, 400)
-            ->makeCopy($category->image_sm, 200);
+            Picsum::dimensions(800, 500)
+            ->basePath(Storage::disk('public')->path('/'))
+            ->save($category->image_lg)
+            ->copy($category->image_md, 400)
+            ->copy($category->image_sm, 200);
 
             $category->status   =   ($i % 5 == 0) ? false : true;
             $category->featured =   ($i % 4 == 0) ? false : true;

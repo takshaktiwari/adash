@@ -11,7 +11,7 @@
             ['text' => 'New Post', 'icon' => 'fas fa-plus', 'url' => route('admin.blog.posts.create'), 'permission' => 'blog_posts_create', 'class' => 'btn-dark btn-loader'],
         ]" />
 
-    <form method="POST" action="{{ route('admin.blog.posts.update', [$post]) }}" class="card shadow-sm">
+    <form method="POST" action="{{ route('admin.blog.posts.update', [$post]) }}" class="card shadow-sm" enctype="multipart/form-data">
         @csrf
         @method('PUT')
         <div class="card-body table-responsive">
