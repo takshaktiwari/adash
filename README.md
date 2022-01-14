@@ -9,7 +9,10 @@ Imager: Takshak/Imager is integrated to generate seeds and resize and modify ima
 
 ## Installation
 Update your *.env* file, provide database name, user and password. Execute command given below to install **adash admin panel**
-`composer require takshak/adash fresh`
+`composer require takshak/adash`
+
+Run following command to quick installation
+`php artisan adash:install fresh`
 This will prompt you to enter the names of modules which will be installed, eg: default, pages, blog.
 
 To get more customizable options, you can run just without `fresh` argument: `php artisan adash:install`. This will ask some questions like, if you want to migrate the fresh table or not, or you want to seed the tables or not.

@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use Storage;
 use App\Models\Page;
 use Faker\Generator as Faker;
 use Illuminate\Database\Seeder;
@@ -13,7 +14,7 @@ class PageSeeder extends Seeder
     use ImageTrait;
     public function run(Faker $faker)
     {
-        \Storage::disk('public')->deleteDirectory('pages');
+        Storage::disk('public')->deleteDirectory('pages');
         for ($i=0; $i < 8; $i++) { 
             $page = new Page;
             $page->title    =   $faker->realText(rand(30, 60), 2);

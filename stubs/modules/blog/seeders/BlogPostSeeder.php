@@ -30,9 +30,9 @@ class BlogPostSeeder extends Seeder
 
             Picsum::dimensions(800, 500)
             ->basePath(\Storage::disk('public')->path('/'))
-            ->save($category->image_lg)
-            ->copy($category->image_md, 400)
-            ->copy($category->image_sm, 200);
+            ->save($post->image_lg)
+            ->copy($post->image_md, 400)
+            ->copy($post->image_sm, 200);
 
             $post->status   = ($i % 5 == 0) ? false : true;
             $post->featured = ($i % 4 == 0) ? false : true;

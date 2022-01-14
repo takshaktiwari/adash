@@ -27,7 +27,9 @@
                         <tr>
                             <td>{{ $loop->iteration }}</td>
                             <td>
-                                <img src="{{ $page->banner() }}" alt="image" width="70" class="rounded">
+                                @if($page->banner)
+                                    <img src="{{ $page->banner() }}" alt="image" width="70" class="rounded">
+                                @endif
                             </td>
                             <td>
                                 {{ $page->title }}

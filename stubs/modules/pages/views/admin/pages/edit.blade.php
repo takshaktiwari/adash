@@ -23,9 +23,12 @@
             <div class="row">
                 <div class="col-sm-7">
                     <div class="d-flex mb-2">
-                        <div class="mr-3">
-                            <img src="{{ $page->banner() }}" alt="image" width="120" class="rounded">
-                        </div>
+                        @if($page->banner)
+                            <div class="mr-3">
+                                <img src="{{ $page->banner() }}" alt="image" width="120" class="rounded">
+                            </div>
+                        @endif
+                        
                         <div class="flex-fill">
                             <label for="">Banner</label>
                             <input type="file" name="thumbnail" class="form-control" >
