@@ -67,18 +67,24 @@ class MakeCrudCommand extends Command
         $model = $this->option('model')
             ?   $this->option('model')
             :   $this->ask('Enter the model name.');
-        $modelName = Str::of($model)->ucfirst()->afterLast('/');
-        $model = Str::of($model)->ucfirst();
-        $this->call(
-            'make:model', 
-            ['name' => $model]
-        );
-        $this->info($model.' is successfully created.');
-        $this->info('No Model is created, default '.$modelName.' model will be used');
 
+        if ($model) {
+            $modelName = Str::of($model)->ucfirst()->afterLast('/');
+            $model = Str::of($model)->ucfirst();
+            $this->call(
+                'make:model', 
+                ['name' => $model]
+            );
+            $this->info($model.' model is successfully created.');
+        }else{
+            $model = 'CrudModel';
+            $modelName = Str::of($model)->ucfirst()->afterLast('/');
+            $this->line('No Model is created, default `'.$modelName.'` model will be used');
+        }
+        $this->newLine();
+        
         $this->createRequests($model, $newController);
         
-
         $useModel = 'App/Models/'.$model;
         $useModel = Str::of($useModel)->replace('/', '\\');
         $this->filesystem->replaceInFile(
@@ -106,47 +112,62 @@ class MakeCrudCommand extends Command
 
     public function createRequests($model, $newController)
     {
-        if (!$model) {
-            $this->filesystem->replaceInFile(
-                '{{ UseStoreModelRequest }}', 
-                'StoreModelRequest', 
-                $newController
-            );
-            $this->filesystem->replaceInFile(
-                '{{ UseUpdateModelRequest }}', 
-                'UpdateModelRequest', 
-                $newController
-            );
-            $this->filesystem->replaceInFile(
-                '{{ StoreModelRequest }}', 
-                'StoreModelRequest', 
-                $newController
-            );
-            $this->filesystem->replaceInFile(
-                '{{ UpdateModelRequest }}', 
-                'UpdateModelRequest', 
-                $newController
-            );
-            return false;
-        }
-
-        $requestsPath = $this->requests;
-        if (Str::of($model)->contains('/')) {
-            $requestsPath .= Str::of($model)->beforeLast('/');
+        if (!$this->option('requests')){
+            $generateRequests = $this->confirm('Generate Form Request files.', true);
+            if (!$generateRequests) {
+                $this->filesystem->replaceInFile(
+                    '{{ UseStoreModelRequest }}', 
+                    'StoreModelRequest', 
+                    $newController
+                );
+                $this->filesystem->replaceInFile(
+                    '{{ UseUpdateModelRequest }}', 
+                    'UpdateModelRequest', 
+                    $newController
+                );
+                $this->filesystem->replaceInFile(
+                    '{{ StoreModelRequest }}', 
+                    'StoreModelRequest', 
+                    $newController
+                );
+                $this->filesystem->replaceInFile(
+                    '{{ UpdateModelRequest }}', 
+                    'UpdateModelRequest', 
+                    $newController
+                );
+                return false;
+            }
         }
 
         $modelName = Str::of($model)->afterLast('/');
-        $modelParentPath = '';
+        $requestParentPath = '';
         if (Str::of($model)->contains('/')) {
-            $modelParentPath = Str::of($model)->beforeLast('/')->append('/');
+            $requestParentPath = Str::of($model)->beforeLast('/')->append('/');
         }
 
         if ($this->option('requests')) {
-            $modelParentPath = Str::of($this->option('requests'))->ucfirst()->append('/');
+            $requestParentPath = Str::of($this->option('requests'))->ucfirst()->append('/');
         }
 
-        $storeRequest = $modelParentPath.'Store'.$modelName.'Request.php';
-        $updateRequest = $modelParentPath.'Update'.$modelName.'Request.php';
+        $storeRequestName = 'Store'.$modelName.'Request.php';
+        $updateRequestName = 'Update'.$modelName.'Request.php';
+
+        if (!$this->option('requests')) {
+            $this->info($requestParentPath.$storeRequestName.' Request will be created');
+            $this->info($requestParentPath.$updateRequestName.' Request will be created');
+            $newPath = $this->ask('Base Request Path is `'.($requestParentPath ? $requestParentPath : '/').'`. Enter the new path if you want t change the Request\'s Base Path `'.$requestParentPath.'`');
+
+            if ($newPath) {
+                $requestParentPath = $newPath;
+            }
+        }
+
+        if (!Str::endsWith($requestParentPath, '/')) {
+            $requestParentPath = Str::of($requestParentPath)->append('/');
+        }
+
+        $storeRequest = $requestParentPath.$storeRequestName;
+        $updateRequest = $requestParentPath.$updateRequestName;
 
         $this->call('make:request', ["name" => $storeRequest]);
         $this->info($storeRequest.' request is successfully created.');
@@ -187,27 +208,26 @@ class MakeCrudCommand extends Command
             ?   $this->option('views')
             :   $this->ask('Enter views folder path after resource/views.');
 
-        $viewPath = \Str::of($this->views.$viewsPath)->replace('//', '/');
+        $viewPath = Str::of($this->views.$viewsPath)->replace('//', '/')->replace('.', '/');
+
         $this->filesystem->ensureDirectoryExists($viewPath);
-        $newsViews = [
+        $newViews = [
             $viewPath.'/index.blade.php',
             $viewPath.'/create.blade.php',
             $viewPath.'/edit.blade.php',
             $viewPath.'/show.blade.php',
         ];
 
-        foreach ($newsViews as $view) {
+        foreach ($newViews as $view) {
+            $view = Str::of($view)->replace('//', '/');
+
             $content = \Str::of($view)
             ->afterLast('/')
             ->before('.blade')
             ->ucfirst()->singular()
             ->append(' view for '.$viewsPath.' folder, Generated by CRUD command.');
 
-            $this->filesystem->put(
-                $view, 
-                $content
-            );
-
+            $this->filesystem->put($view, $content);
             $this->info($this->str->of($view)->after(resource_path()).' view successfully created.');
         }
 
