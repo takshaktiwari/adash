@@ -48,12 +48,19 @@ class MakeCrudCommand extends Command
         $this->filesystem->put($newController, $stub);
         $this->info($this->argument('controller').' is successfully created.');
 
+        $baseController = '';
+        if (Str::of($this->argument('controller'))->contains('/')) {
+            $baseController = 'use App\Http\Controllers\Controller;';
+        }
 
+        $this->filesystem->replaceInFile(
+            '{{ BaseController }}', $baseController, $newController
+        );
         $this->filesystem->replaceInFile(
             '{{ ControllerName }}', $controllerName, $newController
         );
 
-        $namespace = 'App/Http/Controller';
+        $namespace = 'App/Http/Controllers';
         if (Str::of($this->argument('controller'))->contains('/')) {
             $folder = \Str::of($this->argument('controller'))->beforeLast('/');
             $namespace .= $folder ? '/'.$folder : '';
@@ -80,11 +87,13 @@ class MakeCrudCommand extends Command
 
             $makeMigration = $this->confirm('Do you wnat to create migration?', true);
             if ($makeMigration) {
-                $migrationName = Str::of($model)->lower()->after('/')->prepend('create_')->append('_table');
+                $migrationName = Str::of($model)->lower()->after('/')->plural();
                 $newMigrationName = $this->ask('Do you wnat to create migration: `'.$migrationName.'`. Enter new name if you want to change, eg: user');
                 if ($newMigrationName) {
-                    $migrationName = Str::of($newMigrationName)->lower()->after('/')->prepend('create_')->append('_table');
+                    $migrationName = $newMigrationName;
                 }
+
+                $migrationName = Str::of($migrationName)->lower()->plural()->prepend('create_')->append('_table');
                 $this->call(
                     'make:migration', 
                     ['name' => $migrationName]

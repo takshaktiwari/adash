@@ -3,6 +3,7 @@
 namespace {{ namespace }};
 
 use {{ UseModel }};
+{{ BaseController }};
 use App\Http\Requests\{{ UseStoreModelRequest }};
 use App\Http\Requests\{{ UseUpdateModelRequest }};
 use Illuminate\Http\Request;
