@@ -25,7 +25,6 @@
         <!-- Begin page -->
         <div id="layout-wrapper">
 
-            {{-- <x-admin.alert /> --}}
             <x-alertt-alert />
             <x-admin.header />
             <x-admin.sidebar />

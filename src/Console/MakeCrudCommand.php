@@ -76,6 +76,22 @@ class MakeCrudCommand extends Command
                 ['name' => $model]
             );
             $this->info($model.' model is successfully created.');
+
+
+            $makeMigration = $this->confirm('Do you wnat to create migration?', true);
+            if ($makeMigration) {
+                $migrationName = Str::of($model)->lower()->after('/')->prepend('create_')->append('_table');
+                $newMigrationName = $this->ask('Do you wnat to create migration: `'.$migrationName.'`. Enter new name if you want to change, eg: user');
+                if ($newMigrationName) {
+                    $migrationName = Str::of($newMigrationName)->lower()->after('/')->prepend('create_')->append('_table');
+                }
+                $this->call(
+                    'make:migration', 
+                    ['name' => $migrationName]
+                );
+                $this->info($migrationName.' migration is successfully created.');
+            }
+            
         }else{
             $model = 'CrudModel';
             $modelName = Str::of($model)->ucfirst()->afterLast('/');
@@ -155,7 +171,7 @@ class MakeCrudCommand extends Command
         if (!$this->option('requests')) {
             $this->info($requestParentPath.$storeRequestName.' Request will be created');
             $this->info($requestParentPath.$updateRequestName.' Request will be created');
-            $newPath = $this->ask('Base Request Path is `'.($requestParentPath ? $requestParentPath : '/').'`. Enter the new path if you want t change the Request\'s Base Path `'.$requestParentPath.'`');
+            $newPath = $this->ask('Base Request Path is `'.($requestParentPath ? $requestParentPath : '/').'`. Enter the new path if you want to change the Request\'s Base Path `'.$requestParentPath.'`');
 
             if ($newPath) {
                 $requestParentPath = $newPath;
