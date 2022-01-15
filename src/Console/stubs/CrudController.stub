@@ -46,6 +46,7 @@ class {{ ControllerName }} extends Controller
 
     public function destroy({{ Model }} ${{ model }})
     {
+        ${{ model }}->delete();
         return redirect()->route('{{ routeGroup }}.index')->withSuccess('SUCCESS !! {{ Model }} is successfully deleted.');
     }
 }
