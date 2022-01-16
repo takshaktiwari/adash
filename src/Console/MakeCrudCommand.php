@@ -9,7 +9,12 @@ use Symfony\Component\Process\Process;
 
 class MakeCrudCommand extends Command
 {
-    protected $signature = 'make:crud {controller} {--model=} {--views=} {--requests=}';
+    protected $signature = 'make:crud {controller} 
+    {--model=} 
+    {--views=} 
+    {--requests=} 
+    {--seeder=} 
+    {--migration=}';
 
     
     protected $description = 'Generate Controller with all resourcefulcontent along with Model and Views';
@@ -71,9 +76,17 @@ class MakeCrudCommand extends Command
             '{{ namespace }}', $namespace, $newController
         );
 
-        $model = $this->option('model')
-            ?   $this->option('model')
-            :   $this->ask('Enter the model name.');
+        $model = $this->option('model');
+        if (!$model) {
+            if ($this->confirm('Do you want to generate model.', true)) {
+                $model = Str::of($this->argument('controller'))->before('Controller');
+                $newModel = $this->ask('`'.$model.'` will be generated. Enter the new name if you want to change or press `Enter`');
+                if ($newModel) {
+                    $model = $newModel;
+                }
+            }
+            
+        }
 
         if ($model) {
             $modelName = Str::of($model)->ucfirst()->afterLast('/');
@@ -84,21 +97,44 @@ class MakeCrudCommand extends Command
             );
             $this->info($model.' model is successfully created.');
 
-
-            $makeMigration = $this->confirm('Do you wnat to create migration?', true);
-            if ($makeMigration) {
-                $migrationName = Str::of($model)->lower()->after('/')->plural();
-                $newMigrationName = $this->ask('Do you wnat to create migration: `'.$migrationName.'`. Enter new name if you want to change, eg: user');
-                if ($newMigrationName) {
-                    $migrationName = $newMigrationName;
+            // create migration
+            $migrationName = $this->option('migration');
+            if (!$migrationName) {
+                if ($this->confirm('Do you want to create migration?', true)) {
+                    $migrationName = Str::of($model)->after('/')->lower()->plural();
+                    $newMigrationName = $this->ask('Do you wnat to create migration: `'.$migrationName.'`. Enter new name if you want to change, eg: user');
+                    if ($newMigrationName) {
+                        $migrationName = $newMigrationName;
+                    }
                 }
+            }
 
+            if ($migrationName) {
                 $migrationName = Str::of($migrationName)->lower()->plural()->prepend('create_')->append('_table');
                 $this->call(
                     'make:migration', 
                     ['name' => $migrationName]
                 );
                 $this->info($migrationName.' migration is successfully created.');
+            }
+
+            $seeder = $this->option('seeder');
+            if (!$seeder) {
+                if ($this->confirm('Do you want to create seeder?', true)) {
+                    $seeder = Str::of($model)->after('/')->append('Seeder');
+                    $newSeeder = $this->ask('Do you wnat to create seeder: `'.$seeder.'`. Enter new name if you want to change.');
+                    if ($newSeeder) {
+                        $seeder = $newSeeder;
+                    }
+                }
+            }
+
+            if ($seeder) {
+                $this->call(
+                    'make:seed', 
+                    ['name' => $seeder]
+                );
+                $this->info($seeder.' seeder is successfully created.');
             }
             
         }else{
@@ -107,6 +143,8 @@ class MakeCrudCommand extends Command
             $this->line('No Model is created, default `'.$modelName.'` model will be used');
         }
         $this->newLine();
+
+
         
         $this->createRequests($model, $newController);
         
@@ -174,8 +212,8 @@ class MakeCrudCommand extends Command
             $requestParentPath = Str::of($this->option('requests'))->ucfirst()->append('/');
         }
 
-        $storeRequestName = 'Store'.$modelName.'Request.php';
-        $updateRequestName = 'Update'.$modelName.'Request.php';
+        $storeRequestName = 'Store'.$modelName.'Request';
+        $updateRequestName = 'Update'.$modelName.'Request';
 
         if (!$this->option('requests')) {
             $this->info($requestParentPath.$storeRequestName.' Request will be created');
@@ -260,5 +298,4 @@ class MakeCrudCommand extends Command
             '{{ viewsPath }}', $this->str->of($viewsPath)->replace('/', '.'), $newController
         );
     }
-
 }
