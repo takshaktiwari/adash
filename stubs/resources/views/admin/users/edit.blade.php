@@ -22,7 +22,7 @@
                     <div class="d-flex">
                         <div class="mr-2">
                             <div id="image-preview">
-                                <img src="{{ $user->profile_img() }}" alt="image" width="70" class="rounded-circle">
+                                <img src="{{ $user->profileImg() }}" alt="image" width="70" class="rounded-circle">
                             </div>
                         </div>
                         <div class="form-group flex-fill">

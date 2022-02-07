@@ -13,17 +13,6 @@ trait PublishFilesTrait {
 	
 	public function publishDefault($options)
 	{
-		$kernel = $this->getAppFile('app_path', 'Http/Kernel.php');
-
-		if (!Str::of($kernel)->after('routeMiddleware')->contains('gates')) {
-			$newKernel = Str::of($kernel)->before("'auth'");
-			$newKernel .= "'gates' => \Takshak\Adash\Http\Middleware\GatesMiddleware::class,\n";
-			$newKernel .= "\t\t'auth'";
-			$newKernel .= Str::of($kernel)->after("'auth'");
-
-			$this->filesystem->put(app_path('Http/Kernel.php'), $newKernel);
-		}
-
 		$this->call('vendor:publish', $options);
 	}
 

@@ -25,7 +25,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'email_verified_at' => 'datetime',
     ];
 
-    public function profile_img()
+    public function profileImg()
     {
         if (!empty($this->profile_img)) {
             return \Str::is('https://*', $this->profile_img)
