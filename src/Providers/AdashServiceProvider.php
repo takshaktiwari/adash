@@ -74,16 +74,6 @@ class AdashServiceProvider extends ServiceProvider
 	        
 	    ], 'adash-default');
 
-
-        $this->publishes([
-            $this->baseStubs.'modules/blog/Controllers' => app_path('Http/Controllers/Admin/Blog'),
-            $this->baseStubs.'modules/blog/migrations' => database_path('migrations'),
-            $this->baseStubs.'modules/blog/seeders' => database_path('seeders'),
-            $this->baseStubs.'modules/blog/Models' => app_path('Models/Blog'),
-            $this->baseStubs.'modules/blog/views/admin' => resource_path('views/admin'),
-
-        ], 'adash-blog');
-
         $this->publishes([
             $this->baseStubs.'modules/faqs/Controllers' => app_path('Http/Controllers/Admin'),
             $this->baseStubs.'modules/faqs/migrations' => database_path('migrations'),

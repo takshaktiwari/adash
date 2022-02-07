@@ -16,19 +16,6 @@ trait PublishFilesTrait {
 		$this->call('vendor:publish', $options);
 	}
 
-	public function publishBlog($options)
-	{
-		$seederCalls = [
-			'$this->call(BlogCategorySeeder::class);',
-			'$this->call(BlogPostSeeder::class);',
-			'$this->call(BlogCommentSeeder::class);',
-		];
-		$this->addSeederClass($seederCalls);
-		$this->addSidebarMenu('blog');
-		$this->addRoutes('blog');
-	    $this->call('vendor:publish', $options);
-	}
-
 	public function publishFaqs($options)
 	{
 		$seederCalls = [ '$this->call(FaqSeeder::class);' ];

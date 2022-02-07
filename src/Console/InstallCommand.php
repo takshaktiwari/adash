@@ -55,7 +55,6 @@ class InstallCommand extends Command
                 'Choose the modules you want to work on ? ',
                 [
                     'default'   =>  'Basic admin panel with user management, role and permission',
-                    'blog' => 'Blog category, posts and comments', 
                     'faqs' => 'Frequently asked quesions and answers management', 
                     'pages' => 'Informative page management, like: Privary Policy and T&C', 
                     'testimonials' => 'Manage what user say (Testimonials)', 
@@ -69,7 +68,7 @@ class InstallCommand extends Command
         }
         
         if (in_array('everything', $this->module)) {
-            $this->module = [ 'default', 'blog', 'faqs', 'pages', 'testimonials' ];
+            $this->module = [ 'default', 'faqs', 'pages', 'testimonials' ];
         }
 
         $this->installType = $this->argument('install');
@@ -98,10 +97,6 @@ class InstallCommand extends Command
         if (in_array('default', $this->module)) {
             $options['--tag'] = 'adash-default';
             $this->publishDefault($options);
-        }
-        if (in_array('blog', $this->module)) {
-            $options['--tag'] = 'adash-blog';
-            $this->publishBlog($options);
         }
         if (in_array('faqs', $this->module)) {
             $options['--tag'] = 'adash-faqs';
