@@ -40,7 +40,6 @@ class AdashServiceProvider extends ServiceProvider
     {
         $controllerStubs = $this->baseStubs.'app/Http/Controllers/';
         $databaseStubs = $this->baseStubs.'database/';
-        $viewStubs = $this->baseStubs.'resources/views/';
 
         $this->publishes([
             $controllerStubs.'HomeController.php' => app_path('Http/Controllers/HomeController.php'),
@@ -50,21 +49,7 @@ class AdashServiceProvider extends ServiceProvider
             $databaseStubs.'seeders/DatabaseSeeder.php' => database_path('seeders/DatabaseSeeder.php'),
 
             $this->baseStubs.'assets' => public_path('assets'),
-            $viewStubs.'layouts' => resource_path('views/layouts'),
-            $viewStubs.'components/admin' => resource_path('views/components/admin'),
-
-            $viewStubs.'auth/confirm-password.blade.php' => resource_path('views/auth/confirm-password.blade.php'),
-            $viewStubs.'auth/forgot-password.blade.php' => resource_path('views/auth/forgot-password.blade.php'),
-            $viewStubs.'auth/login.blade.php' => resource_path('views/auth/login.blade.php'),
-            $viewStubs.'auth/register.blade.php' => resource_path('views/auth/register.blade.php'),
-            $viewStubs.'auth/reset-password.blade.php' => resource_path('views/auth/reset-password.blade.php'),
-            $viewStubs.'auth/verify-email.blade.php' => resource_path('views/auth/verify-email.blade.php'),
-            $viewStubs.'components/auth-card.blade.php' => resource_path('views/components/auth-card.blade.php'),
-            $viewStubs.'components/auth-session-status.blade.php' => resource_path('views/components/auth-session-status.blade.php'),
-            $viewStubs.'components/auth-validation-errors.blade.php' => resource_path('views/components/auth-validation-errors.blade.php'),
-            $viewStubs.'components/button.blade.php' => resource_path('views/components/button.blade.php'),
-            $viewStubs.'admin' => resource_path('views/admin'),
-            
+            $this->baseStubs.'resources/views' => resource_path('views'),
             $this->baseStubs.'app/Models' => app_path('Models'),
             $this->baseStubs.'app/View' => app_path('View'),
 	        $this->baseStubs.'routes/admin.php' => base_path('routes/admin.php'),
