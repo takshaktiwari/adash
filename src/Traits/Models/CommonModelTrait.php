@@ -25,7 +25,7 @@ trait CommonModelTrait {
 
 	public function assetUrl($nextPath)
 	{
-		return asset('storage/'.$nextPath);
+		return url('storage/app/public/'.$nextPath);
 	}
 	public function placeholderImage($value=''): string
 	{

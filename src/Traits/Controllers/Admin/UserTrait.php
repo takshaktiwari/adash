@@ -101,10 +101,10 @@ trait UserTrait {
 	    	$user->password = \Hash::make($request->post('password'));
 	    }
 	    if ($request->file('profile_img')) {
-	    	$user->profile_img = 'public/users/'.time().'.jpg';
+	    	$user->profile_img = 'users/'.time().'.jpg';
 	    	\Imager::init($request->file('profile_img'))
 	    	->resizeFit(400, 400)->inCanvas('#fff')
-	    	->basePath(storage_path('app/'))
+	    	->basePath(storage_path('app/public/'))
 	    	->save($user->profile_img);
 	    }
 	    $user->save();

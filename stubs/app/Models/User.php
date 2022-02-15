@@ -30,12 +30,18 @@ class User extends Authenticatable implements MustVerifyEmail
         if (!empty($this->profile_img)) {
             return \Str::is('https://*', $this->profile_img)
                         ? $this->profile_img
-                        : url('storage/app/'.$this->profile_img);
+                        : url('storage/app/public/'.$this->profile_img);
         }else{
-            return \Avatar::name($this->name)->background(rand(100, 999))->color('fff')->imageUrl();
+            $fileName = 'users/'.time().'.jpg';
+            $filePath = \Storage::disk('public')->path($fileName);
+            return \Placeholder::dimensions(150, 150)
+                    ->background(rand(100, 999))
+                    ->text(substr($this->name, 0, 2), ['color' => '#fff', 'size' => 60])
+                    ->save($filePath)->saveModel($this, 'profile_img', $fileName)
+                    ->url();
         }
-        
     }
+    
     public function getFirstNameAttribute()
     {
         return explode(' ', $this->name)[0];
