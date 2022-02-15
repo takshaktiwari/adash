@@ -73,7 +73,7 @@ class AdashServiceProvider extends ServiceProvider
         $this->publishes([
             $this->baseStubs.'modules/pages/Controllers' => app_path('Http/Controllers/Admin'),
             $this->baseStubs.'modules/pages/migrations' => database_path('migrations'),
-            $this->baseStubs.'modules/faqs/factories' => database_path('factories'),
+            $this->baseStubs.'modules/pages/factories' => database_path('factories'),
             $this->baseStubs.'modules/pages/seeders' => database_path('seeders'),
             $this->baseStubs.'modules/pages/Models' => app_path('Models'),
             $this->baseStubs.'modules/pages/views/admin' => resource_path('views/admin'),
@@ -83,7 +83,7 @@ class AdashServiceProvider extends ServiceProvider
         $this->publishes([
             $this->baseStubs.'modules/testimonials/Controllers' => app_path('Http/Controllers/Admin'),
             $this->baseStubs.'modules/testimonials/migrations' => database_path('migrations'),
-            $this->baseStubs.'modules/faqs/factories' => database_path('factories'),
+            $this->baseStubs.'modules/testimonials/factories' => database_path('factories'),
             $this->baseStubs.'modules/testimonials/seeders' => database_path('seeders'),
             $this->baseStubs.'modules/testimonials/Models' => app_path('Models'),
             $this->baseStubs.'modules/testimonials/views/admin' => resource_path('views/admin'),
