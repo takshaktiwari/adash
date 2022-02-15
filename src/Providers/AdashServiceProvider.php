@@ -45,6 +45,7 @@ class AdashServiceProvider extends ServiceProvider
             $controllerStubs.'HomeController.php' => app_path('Http/Controllers/HomeController.php'),
             $controllerStubs.'Admin' => app_path('Http/Controllers/Admin'),
             
+            $databaseStubs.'factories' => database_path('factories'),
             $databaseStubs.'seeders' => database_path('seeders'),
             $databaseStubs.'seeders/DatabaseSeeder.php' => database_path('seeders/DatabaseSeeder.php'),
 
@@ -62,6 +63,7 @@ class AdashServiceProvider extends ServiceProvider
         $this->publishes([
             $this->baseStubs.'modules/faqs/Controllers' => app_path('Http/Controllers/Admin'),
             $this->baseStubs.'modules/faqs/migrations' => database_path('migrations'),
+            $this->baseStubs.'modules/faqs/factories' => database_path('factories'),
             $this->baseStubs.'modules/faqs/seeders' => database_path('seeders'),
             $this->baseStubs.'modules/faqs/Models' => app_path('Models'),
             $this->baseStubs.'modules/faqs/views/admin' => resource_path('views/admin'),
@@ -71,6 +73,7 @@ class AdashServiceProvider extends ServiceProvider
         $this->publishes([
             $this->baseStubs.'modules/pages/Controllers' => app_path('Http/Controllers/Admin'),
             $this->baseStubs.'modules/pages/migrations' => database_path('migrations'),
+            $this->baseStubs.'modules/faqs/factories' => database_path('factories'),
             $this->baseStubs.'modules/pages/seeders' => database_path('seeders'),
             $this->baseStubs.'modules/pages/Models' => app_path('Models'),
             $this->baseStubs.'modules/pages/views/admin' => resource_path('views/admin'),
@@ -80,6 +83,7 @@ class AdashServiceProvider extends ServiceProvider
         $this->publishes([
             $this->baseStubs.'modules/testimonials/Controllers' => app_path('Http/Controllers/Admin'),
             $this->baseStubs.'modules/testimonials/migrations' => database_path('migrations'),
+            $this->baseStubs.'modules/faqs/factories' => database_path('factories'),
             $this->baseStubs.'modules/testimonials/seeders' => database_path('seeders'),
             $this->baseStubs.'modules/testimonials/Models' => app_path('Models'),
             $this->baseStubs.'modules/testimonials/views/admin' => resource_path('views/admin'),
