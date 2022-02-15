@@ -36,6 +36,7 @@ body{
 .line-clamp-7, .lc-7 { display: -webkit-box; -webkit-line-clamp: 7; -webkit-box-orient: vertical; overflow: hidden; }
 .line-clamp-8, .lc-8 { display: -webkit-box; -webkit-line-clamp: 8; -webkit-box-orient: vertical; overflow: hidden; }
 
+.tox-notifications-container { display: none; }
 .select2-container--default { width: 100%!important; }
 .select2-container--default .select2-selection--multiple .select2-selection__choice__display{
     padding-left: 15px;
