@@ -37,6 +37,7 @@ class InstallCommand extends Command
                 //
             }else{
                 $this->error('Quitting!! Run `adash:install` again when all set.');
+                exit;
             }
         }
 
