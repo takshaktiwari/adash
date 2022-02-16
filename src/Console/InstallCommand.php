@@ -2,6 +2,7 @@
 
 namespace Takshak\Adash\Console;
 
+use Illuminate\Support\Str;
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
 use Symfony\Component\Process\Process;
@@ -18,7 +19,6 @@ class InstallCommand extends Command
     protected $replaceFiles = true;
     protected $migrateFresh = true;
     protected $seedDatabase = true;
-    protected $laravelDebugbar = false;
 
     public function __construct()
     {
@@ -28,9 +28,26 @@ class InstallCommand extends Command
 
 	public function handle()
     {
+        if ($this->filesystem->missing(config_path('site.php'))) {
+            $this->filesystem->copy(__DIR__.'/../../config/config.php', config_path('site.php'));
+
+            $this->info('Configuration file `site.php` is copied. Please specify modules / packages if you want.');
+            $this->info('You can change the default packages / modules / settings Or you can continue with defaults.');
+            if ($this->confirm('Do you wish to continue with default?', true)) {
+                //
+            }else{
+                $this->error('Quitting!! Run `adash:install` again when all set.');
+            }
+        }
+
+        if (!config('site.install.command', true)) {
+            $this->error('SORRY !! Install command has been disabled.');
+            exit;
+        }
+
         $this->askQuestions();
 
-        if ($this->installType == 'fresh' || in_array('default', $this->module)) {
+        if ($this->installType == 'fresh') {
             $this->filesystem->cleanDirectory(database_path('migrations'));
             $this->filesystem->cleanDirectory(database_path('seeders'));
             $this->filesystem->cleanDirectory(app_path('Models'));
@@ -49,34 +66,13 @@ class InstallCommand extends Command
 
     public function askQuestions()
     {
-        $this->module = $this->option('module');
-        if (in_array('default', $this->module) && count($this->module) == 1) {
-            $userModules = $this->choice(
-                'Choose the modules you want to work on ? ',
-                [
-                    'default'   =>  'Basic admin panel with user management, role and permission',
-                    'faqs' => 'Frequently asked quesions and answers management', 
-                    'pages' => 'Informative page management, like: Privary Policy and T&C', 
-                    'testimonials' => 'Manage what user say (Testimonials)', 
-                    'everything' => 'Get all above modules'
-                ],
-                'default',
-                $maxAttempts = 3,
-                $allowMultipleSelections = true,
-            );
-            $this->module = array_merge($this->module, $userModules);
-        }
-        
-        if (in_array('everything', $this->module)) {
-            $this->module = [ 'default', 'faqs', 'pages', 'testimonials' ];
-        }
+        $this->module = config('site.install.modules', ['default']);
 
         $this->installType = $this->argument('install');
         if ($this->installType != 'fresh') {
             $this->replaceFiles = $this->confirm('Do you wish to replace existing files?', true);
             $this->migrateFresh = $this->confirm('How do you run fresh migrate?', true);
             $this->seedDatabase = $this->confirm('Do you wish to seed database?', true);
-            $this->laravelDebugbar = $this->confirm('Do you wish to install "barryvdh/laravel-debugbar"?', false);
         }
     }
 
@@ -140,9 +136,15 @@ class InstallCommand extends Command
 
     public function installOtherPackages()
     {
-        if ($this->laravelDebugbar) {
-            exec('composer require barryvdh/laravel-debugbar --dev');
+        foreach (config('site.install.packages') as $package) {
+            $this->info('Installing: '.$package);
+            exec('composer require '.$package);
+            if (Str::of($package)->contains('adash-blog')) {
+                $this->call('adash:blog:install');
+            }
+            $this->newLine();
         }
+        $this->newLine();
     }
 
     

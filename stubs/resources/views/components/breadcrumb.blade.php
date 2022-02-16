@@ -4,7 +4,7 @@
             <h5 class="fw-bold mb-1">{{ $title }}</h5>
         @endif
 
-        <ul class="breadcrumb mb-0 fs-7">
+        <ul class="breadcrumb mb-0 fs-6">
             <li class="breadcrumb-item"><a href="{{ url('/') }}">Home</a></li>
             @foreach($links as $link)
                 @if(!$loop->last)
