@@ -137,7 +137,7 @@ class InstallCommand extends Command
 
     public function installOtherPackages()
     {
-        foreach (config('site.install.packages') as $package) {
+        foreach (config('site.install.packages', []) as $package) {
             $this->info('Installing: '.$package);
             exec('composer require '.$package);
             if (Str::of($package)->contains('adash-blog')) {

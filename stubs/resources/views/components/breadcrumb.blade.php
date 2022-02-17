@@ -1,7 +1,7 @@
 <div class="breadcrumb-area bg-light border-bottom">
     <div class="container py-3">
         @if($title)
-            <h5 class="fw-bold mb-1">{{ $title }}</h5>
+            <h5 class="fw-bold mb-1 lc-1">{{ substr($title, 0, 60) }}</h5>
         @endif
 
         <ul class="breadcrumb mb-0 fs-6">
