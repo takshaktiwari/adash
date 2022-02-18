@@ -11,13 +11,17 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     <style>
+        html { scroll-behavior: smooth; } 
         .lc-1 { display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden; }
         .lc-2 { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
         .lc-3 { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
         .lc-4 { display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; }
     </style>
+
+    {{ isset($style) ? $style : '' }}
 </head>
 <body>
+    <x-alertt-alert />
     <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
         <div class="container">
             <a class="navbar-brand" href="{{ url('/') }}">Adash</a>
@@ -65,5 +69,6 @@
     </nav>
 
     {{ $slot }}
+    {{ isset($script) ? $script : '' }}
 </body>
 </html>
