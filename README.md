@@ -1,11 +1,11 @@
 
 # Introduction to Adash
 
-**Adash** is a admin panel package made for laravel on top of *Laravel Breeze*. It is a very simple setup for a quick start, with a saperate admin panel having user, roles & permissions,  posts, pages, faqs and testimonials management. This package uses Bootstrap 4.x. 
+**Adash** is a admin panel package made for laravel on top of *Laravel Breeze*. It is a very simple setup for a quick start, with a separate admin panel having user, roles & permissions,  posts, pages, faqs and testimonials management. This package uses Bootstrap 4.x. 
 
 Alertt: Alertt package has been integrated for any operation alert message, for any customization in this, please refer to takshak/alertt.
 
-Imager: Takshak/Imager is integrated to generate seeds and resize and modify images at the time of upload images in defferent sections in the panel. This is also user to get default placeholder images and user avatars. For more information about this package, please refer to takshak/imager
+Imager: Takshak/Imager is integrated to generate seeds and resize and modify images at the time of upload images in different sections in the panel. This is also user to get default placeholder images and user avatars. For more information about this package, please refer to takshak/imager
 
 ## Installation
 Update your *.env* file, provide database name, user and password. Execute command given below to install **adash admin panel**
