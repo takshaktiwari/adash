@@ -24,7 +24,7 @@ return [
 		| These are third party packages other than `takshak/adash`.
 		| There are several packages which can be used for improvements of project.
 		|-------------------------------------
-		| Some Packages: takshak/adash-blog, barryvdh/laravel-debugbar
+		| Some Packages: takshak/adash-blog, takshak/adash-slider, barryvdh/laravel-debugbar
 		*/
 		'packages'	=>	[
 

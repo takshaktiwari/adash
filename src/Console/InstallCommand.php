@@ -54,12 +54,12 @@ class InstallCommand extends Command
             $this->filesystem->cleanDirectory(app_path('Models'));
             $this->filesystem->cleanDirectory(resource_path('views/admin'));
         }
-    	
+
         $this->publishFiles();
         $this->installOtherPackages();
-        $this->migateDB();
+        $this->migrateDB();
         $this->seedDB();
-    	
+
     	$this->info('Adash Setup is successfully install.');
     	$this->info('You will find the login credentials in documentation on github or just check the database seeder');
     	$this->info('https://github.com/takshaktiwari/adash');
@@ -82,7 +82,7 @@ class InstallCommand extends Command
         if ($this->installType == 'fresh' || in_array('default', $this->module)){
             $this->call('breeze:install');
         }
-        
+
         $options['--force'] = true;
         if ($this->installType != 'fresh') {
             $options = [];
@@ -112,7 +112,7 @@ class InstallCommand extends Command
     	$this->newLine();
     }
 
-    public function migateDB()
+    public function migrateDB()
     {
         if ($this->migrateFresh) {
             $this->call('migrate:fresh');
@@ -143,10 +143,13 @@ class InstallCommand extends Command
             if (Str::of($package)->contains('adash-blog')) {
                 $this->call('adash:blog:install');
             }
+            if (Str::of($package)->contains('adash-slider')) {
+                $this->call('adash:slider:install');
+            }
             $this->newLine();
         }
         $this->newLine();
     }
 
-    
+
 }
