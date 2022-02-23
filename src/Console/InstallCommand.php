@@ -141,10 +141,10 @@ class InstallCommand extends Command
             $this->info('Installing: '.$package);
             exec('composer require '.$package);
             if (Str::of($package)->contains('adash-blog')) {
-                exec('php artisan adash:blog:install');
+                $this->call('adash-blog:install');
             }
             if (Str::of($package)->contains('adash-slider')) {
-                exec('php artisan adash:slider:install');
+                $this->call('php artisan adash-slider:install');
             }
             $this->info('Other package: ' . $package . ' has been installed');
             $this->newLine();
