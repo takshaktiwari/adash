@@ -56,11 +56,11 @@ class InstallCommand extends Command
         }
 
         $this->publishFiles();
-        $this->installOtherPackages();
         $this->migrateDB();
         $this->seedDB();
+        $this->installOtherPackages();
 
-    	$this->info('Adash Setup is successfully install.');
+        $this->info('Adash Setup is successfully installed.');
     	$this->info('You will find the login credentials in documentation on github or just check the database seeder');
     	$this->info('https://github.com/takshaktiwari/adash');
     }
@@ -141,15 +141,14 @@ class InstallCommand extends Command
             $this->info('Installing: '.$package);
             exec('composer require '.$package);
             if (Str::of($package)->contains('adash-blog')) {
-                $this->call('adash:blog:install');
+                exec('php artisan adash:blog:install');
             }
             if (Str::of($package)->contains('adash-slider')) {
-                $this->call('adash:slider:install');
+                exec('php artisan adash:slider:install');
             }
+            $this->info('Other package: ' . $package . ' has been installed');
             $this->newLine();
         }
         $this->newLine();
     }
-
-
 }
