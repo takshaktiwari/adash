@@ -15,7 +15,7 @@
         "laravel/breeze": "^1.6",
         "intervention/image": "^2.7",
         "takshak/alertt": "^1.0",
-        "takshak/imager": "^1.0"
+        "takshak/imager": "*"
     },
     "autoload": {
         "psr-4" : {

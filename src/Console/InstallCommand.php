@@ -2,10 +2,8 @@
 
 namespace Takshak\Adash\Console;
 
-use Illuminate\Support\Str;
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
-use Symfony\Component\Process\Process;
 use Takshak\Adash\Traits\Console\PublishFilesTrait;
 
 class InstallCommand extends Command
@@ -139,14 +137,9 @@ class InstallCommand extends Command
     {
         foreach (config('site.install.packages', []) as $package) {
             $this->info('Installing: '.$package);
-            exec('composer require '.$package);
-            if (Str::of($package)->contains('adash-blog')) {
-                $this->call('adash-blog:install');
-            }
-            if (Str::of($package)->contains('adash-slider')) {
-                $this->call('php artisan adash-slider:install');
-            }
+            exec('composer require ' . $package);
             $this->info('Other package: ' . $package . ' has been installed');
+            $this->success('Run commands associated to this packages.');
             $this->newLine();
         }
         $this->newLine();
