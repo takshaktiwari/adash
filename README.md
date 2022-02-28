@@ -24,9 +24,9 @@ You can disable *install command* from *config/site.php* by setting *command* ke
 
 ### Other packages being used
 
-`**Alertt:**` Alertt package has been integrated for any operation alert message, for any customization in this, please refer to [takshak/alertt](https://github.com/takshaktiwari/alertt).
+**`Alertt:`** Alertt package has been integrated for any operation alert message, for any customization in this, please refer to [takshak/alertt](https://github.com/takshaktiwari/alertt).
 
-`**Imager:**` Takshak/Imager is integrated to generate seeds and resize and modify images at the time of upload images in different sections in the panel. This is also user to get default placeholder images and user avatars. For more information about this package, please refer to [takshak/imager](https://github.com/takshaktiwari/imager)
+**`Imager:`** Takshak/Imager is integrated to generate seeds and resize and modify images at the time of upload images in different sections in the panel. This is also user to get default placeholder images and user avatars. For more information about this package, please refer to [takshak/imager](https://github.com/takshaktiwari/imager)
 
 - - -
 This package comes with some default users, roles, and permission, which are inserted using seeders. There seeders for all the modules. You will get a default admin user  with email: *adash@gmail.com* and password: *123456*
