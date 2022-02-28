@@ -13,7 +13,7 @@ class Testimonial extends Model
     public function avatarUrl()
     {
         return $this->avatar
-            ? asset('storage/'.$this->avatar)
+            ? storage($this->avatar)
             : 'https://ui-avatars.com/api/?size=300&name='.$this->title;
     }
 }

@@ -33,7 +33,7 @@ class AdashServiceProvider extends ServiceProvider
 
     public function register()
     {
-    	
+
     }
 
     public function publishFiles()
@@ -44,7 +44,7 @@ class AdashServiceProvider extends ServiceProvider
         $this->publishes([
             $controllerStubs.'HomeController.php' => app_path('Http/Controllers/HomeController.php'),
             $controllerStubs.'Admin' => app_path('Http/Controllers/Admin'),
-            
+
             $databaseStubs.'factories' => database_path('factories'),
             $databaseStubs.'seeders' => database_path('seeders'),
             $databaseStubs.'seeders/DatabaseSeeder.php' => database_path('seeders/DatabaseSeeder.php'),
@@ -57,7 +57,7 @@ class AdashServiceProvider extends ServiceProvider
             $this->baseStubs.'routes/web.php' => base_path('routes/web.php'),
 
             __DIR__.'/../../database/migrations' => database_path('migrations'),
-	        
+
 	    ], 'adash-default');
 
         $this->publishes([
@@ -89,8 +89,7 @@ class AdashServiceProvider extends ServiceProvider
             $this->baseStubs.'modules/testimonials/views/admin' => resource_path('views/admin'),
 
         ], 'adash-testimonials');
-
     }
-
-
 }
+
+require_once __DIR__ . '/../helpers.php';
