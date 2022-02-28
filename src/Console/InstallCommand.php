@@ -57,6 +57,7 @@ class InstallCommand extends Command
         $this->migrateDB();
         $this->seedDB();
         $this->installOtherPackages();
+        $this->call('storage:link');
 
         $this->info('Adash Setup is successfully installed.');
     	$this->info('You will find the login credentials in documentation on github or just check the database seeder');
