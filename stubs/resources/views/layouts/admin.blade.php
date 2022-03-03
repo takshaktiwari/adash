@@ -101,6 +101,7 @@
         <script src="{{ asset('assets/admin/js/select2.min.js') }}"></script>
         <script src="{{ asset('assets/admin/js/bootstrap-tagsinput.min.js') }}"></script>
         <script src="{{ asset('assets/admin/js/cropper.js') }}"></script>
+        <script src="{{ asset('assets/admin/js/tinymce.min.js') }}"></script>
         <script src="{{ asset('assets/admin/js/app.js') }}"></script>
         <script src="{{ asset('assets/admin/js/script.js') }}"></script>
 

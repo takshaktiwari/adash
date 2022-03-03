@@ -51,10 +51,7 @@
         </div>
 
         <div class="d-flex">
-            <div class="form-check form-switch mb-3">
-                <input type="checkbox" class="form-check-input theme-choice" id="dark-mode-switch" >
-                <label class="form-check-label" for="dark-mode-switch">Dark Mode</label>
-            </div>
+
             <div class="dropdown d-inline-block">
                 <button type="button" class="btn header-item waves-effect" id="page-header-user-dropdown"
                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -91,6 +88,12 @@
                 <button type="button" class="btn header-item noti-icon waves-effect" data-toggle="fullscreen">
                     <i class="fas fa-arrows-alt"></i>
                 </button>
+            </div>
+            <div class="dropdown d-none d-lg-inline-block">
+                <input type="checkbox" class="form-check-input theme-choice" id="dark-mode-switch" >
+                <label class="form-check-label btn header-item noti-icon waves-effect d-flex mb-0" for="dark-mode-switch">
+                    <i class="fas fa-moon m-auto"></i>
+                </label>
             </div>
         </div>
     </div>

@@ -5,12 +5,12 @@
   display: none;
 }
 
-.bg-secondary{
-    background-color: #6c757d!important;
+.bg-secondary {
+  background-color: #6c757d !important;
 }
 .page-content .container-fluid {
-  padding-right: var(--bs-gutter-x, .75rem);
-  padding-left: var(--bs-gutter-x, .75rem);
+  padding-right: var(--bs-gutter-x, 0.75rem);
+  padding-left: var(--bs-gutter-x, 0.75rem);
 }
 
 .font-10,
@@ -237,15 +237,21 @@
 }
 
 .form-control::-webkit-input-placeholder {
-  /* Edge */
   color: #a9a9a9;
 }
 
 .form-control:-ms-input-placeholder {
-  /* Internet Explorer 10-11 */
   color: #a9a9a9;
 }
 
 .form-control::placeholder {
   color: #a9a9a9;
+}
+.form-group{
+    margin-bottom: 1.5rem;
+}
+
+#dark-mode-switch {
+  position: absolute;
+  opacity: 0;
 }
