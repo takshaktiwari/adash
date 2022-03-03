@@ -24,6 +24,10 @@
 
     <body data-sidebar="dark">
 
+        <div id="loader">
+            <div class="spinner-border"></div>
+        </div>
+
         <!-- Begin page -->
         <div id="layout-wrapper">
 

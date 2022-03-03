@@ -1,6 +1,19 @@
 $("select[multiple]").select2();
 $("select.select2").select2();
 
+
+function loader(action = true) {
+  var elm = $("#loader");
+  if (action) {
+    elm.css("display", "flex");
+  } else {
+    elm.css("display", "none");
+  }
+}
+$(window).on("load", function () {
+  loader(false);
+});
+
 $(".delete-alert").click(function(event) {
     var confirmation = confirm('Are you sure to delete this? Deleted items will not revert.');
 
