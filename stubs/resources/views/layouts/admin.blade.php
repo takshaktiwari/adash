@@ -10,14 +10,16 @@
         <meta name="author" content="Themesbrand"  />
         <!-- App favicon -->
         <link rel="shortcut icon" href="{{ asset('assets/admin/images/favicon.ico') }}">
-        <link href="{{ asset('assets/admin/css/bootstrap.min.css') }}" id="bootstrap-style" rel="stylesheet" type="text/css" />
-        <link href="{{ asset('assets/admin/css/icons.min.css') }}" rel="stylesheet" type="text/css" />
-        <link href="{{ asset('assets/admin/css/select2.min.css') }}" id="app-style" rel="stylesheet" type="text/css" />
+        <link rel="stylesheet" href="{{ asset('assets/admin/css/bootstrap.min.css') }}" data-dark="{{ asset('assets/admin/css/bootstrap-dark.min.css') }}" id="bootstrap-style" type="text/css" />
+        <link rel="stylesheet" href="{{ asset('assets/admin/css/icons.min.css') }}" type="text/css" />
+        <link rel="stylesheet" href="{{ asset('assets/admin/css/select2.min.css') }}" type="text/css" />
         <link rel="stylesheet" href="{{ asset('assets/admin/css/bootstrap-tagsinput.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/admin/css/cropper.css') }}">
-        <link href="{{ asset('assets/admin/css/app.min.css') }}" id="app-style" rel="stylesheet" type="text/css" />
+        <link rel="stylesheet" href="{{ asset('assets/admin/css/app.min.css') }}" data-dark="{{ asset('assets/admin/css/app-dark.min.css') }}" id="app-style"  type="text/css" />
+        <link rel="stylesheet" href="{{ asset('assets/admin/css/style.css') }}" type="text/css" />
 
         {{ isset($style) ? $style : '' }}
+        @stack('styles')
     </head>
 
     <body data-sidebar="dark">
@@ -46,12 +48,12 @@
                     <div class="container-fluid">
                         <div class="row">
                             <div class="col-12">
-                                © <script>{{ date('Y') }}</script> 
+                                © <script>{{ date('Y') }}</script>
                                 {{ config('app.name', 'Laravel') }}
-                                <span class="d-none d-sm-inline-block"> 
-                                     - Crafted with 
-                                    <i class="fas fa-heart text-danger"></i> 
-                                    by 
+                                <span class="d-none d-sm-inline-block">
+                                     - Crafted with
+                                    <i class="fas fa-heart text-danger"></i>
+                                    by
                                     <a href="#" target="_blank" class="text-success font-weight-bold">
                                         Takshak Tiwari
                                     </a>.
@@ -90,7 +92,7 @@
                 </div>
             </div>
         </div>
-        
+
         <script src="{{ asset('assets/admin/js/jquery.min.js') }}"></script>
         <script src="{{ asset('assets/admin/js/bootstrap.bundle.min.js') }}"></script>
         <script src="{{ asset('assets/admin/js/metisMenu.min.js') }}"></script>
@@ -100,7 +102,9 @@
         <script src="{{ asset('assets/admin/js/bootstrap-tagsinput.min.js') }}"></script>
         <script src="{{ asset('assets/admin/js/cropper.js') }}"></script>
         <script src="{{ asset('assets/admin/js/app.js') }}"></script>
+        <script src="{{ asset('assets/admin/js/script.js') }}"></script>
 
         {{ isset($script) ? $script : '' }}
+        @stack('scripts')
     </body>
 </html>
