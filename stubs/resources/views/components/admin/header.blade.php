@@ -9,7 +9,7 @@
                     </span>
                     <span class="logo-lg mb-0">
                         <h2 class="mb-0 d-flex">
-                            <span>Adash</span> 
+                            <span>Adash</span>
                         </h2>
                     </span>
                 </a>
@@ -32,14 +32,14 @@
                             Dashboard
                         </a>
                         <div class="dropdown-divider"></div>
-                       
+
                         @can('user_access')
                         <a class="dropdown-item" href="{{ url('admin/users') }}">
                             <i class="fas fa-users mr-1"></i>
                             Users List
                         </a>
                         @endcan
-                        
+
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="{{ url('logout') }}">
                             <i class="fas fa-power-off mr-1"></i>
@@ -51,7 +51,10 @@
         </div>
 
         <div class="d-flex">
-
+            <div class="form-check form-switch mb-3">
+                <input type="checkbox" class="form-check-input theme-choice" id="dark-mode-switch" >
+                <label class="form-check-label" for="dark-mode-switch">Dark Mode</label>
+            </div>
             <div class="dropdown d-inline-block">
                 <button type="button" class="btn header-item waves-effect" id="page-header-user-dropdown"
                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
