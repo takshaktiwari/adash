@@ -57,9 +57,9 @@ class InstallCommand extends Command
             $this->filesystem->cleanDirectory(resource_path('views/admin'));
         }
 
-        /* $this->publishFiles();
+        $this->publishFiles();
         $this->migrateDB();
-        $this->seedDB(); */
+        $this->seedDB();
         $this->installOtherPackages();
         $this->call('storage:link');
 
