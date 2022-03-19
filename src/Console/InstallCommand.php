@@ -5,12 +5,16 @@ namespace Takshak\Adash\Console;
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
 use Takshak\Adash\Traits\Console\PublishFilesTrait;
+use Symfony\Component\Process\Process;
 
 class InstallCommand extends Command
 {
     use PublishFilesTrait;
 
-	protected $signature = 'adash:install {install=default} {--module=*default}';
+    protected $signature = 'adash:install
+                            {install=default}
+                            {--module=*default}
+                            {--composer=global : Absolute path to the Composer binary which should be used to install packages}';
     protected $module;
     protected $filesystem;
     protected $installType;
@@ -53,9 +57,9 @@ class InstallCommand extends Command
             $this->filesystem->cleanDirectory(resource_path('views/admin'));
         }
 
-        $this->publishFiles();
+        /* $this->publishFiles();
         $this->migrateDB();
-        $this->seedDB();
+        $this->seedDB(); */
         $this->installOtherPackages();
         $this->call('storage:link');
 
@@ -136,13 +140,32 @@ class InstallCommand extends Command
 
     public function installOtherPackages()
     {
-        foreach (config('site.install.packages', []) as $package) {
-            $this->info('Installing: '.$package);
-            exec('composer require ' . $package);
-            $this->info('Other package: ' . $package . ' has been installed');
-            $this->success('Run commands associated to this packages.');
-            $this->newLine();
+        $packages = config('site.install.packages', []);
+        if (!count($packages)) {
+            return true;
         }
+
+        $this->requireComposerPackages($packages);
         $this->newLine();
+    }
+
+    protected function requireComposerPackages($packages)
+    {
+        $composer = $this->option('composer');
+
+        if ($composer !== 'global') {
+            $command = ['php', $composer, 'require'];
+        }
+
+        $command = array_merge(
+            $command ?? ['composer', 'require'],
+            is_array($packages) ? $packages : func_get_args()
+        );
+
+        (new Process($command, base_path(), ['COMPOSER_MEMORY_LIMIT' => '-1']))
+        ->setTimeout(null)
+            ->run(function ($type, $output) {
+                $this->output->write($output);
+            });
     }
 }
