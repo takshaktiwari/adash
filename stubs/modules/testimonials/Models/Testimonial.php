@@ -14,6 +14,6 @@ class Testimonial extends Model
     {
         return $this->avatar
             ? storage($this->avatar)
-            : 'https://ui-avatars.com/api/?size=300&name='.$this->title;
+            : 'https://ui-avatars.com/api/?size=300&name=' . $this->title;
     }
 }

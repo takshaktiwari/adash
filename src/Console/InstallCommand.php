@@ -28,16 +28,16 @@ class InstallCommand extends Command
         $this->filesystem = new Filesystem;
     }
 
-	public function handle()
+    public function handle()
     {
         if ($this->filesystem->missing(config_path('site.php'))) {
-            $this->filesystem->copy(__DIR__.'/../../config/config.php', config_path('site.php'));
+            $this->filesystem->copy(__DIR__ . '/../../config/config.php', config_path('site.php'));
 
             $this->info('Configuration file `site.php` is copied. Please specify modules / packages if you want.');
             $this->info('You can change the default packages / modules / settings Or you can continue with defaults.');
             if ($this->confirm('Do you wish to continue with default?', true)) {
                 //
-            }else{
+            } else {
                 $this->error('Quitting!! Run `adash:install` again when all set.');
                 exit;
             }
@@ -64,8 +64,8 @@ class InstallCommand extends Command
         $this->call('storage:link');
 
         $this->info('Adash Setup is successfully installed.');
-    	$this->info('You will find the login credentials in documentation on github or just check the database seeder');
-    	$this->info('https://github.com/takshaktiwari/adash');
+        $this->info('You will find the login credentials in documentation on github or just check the database seeder');
+        $this->info('https://github.com/takshaktiwari/adash');
     }
 
     public function askQuestions()
@@ -82,7 +82,7 @@ class InstallCommand extends Command
 
     public function publishFiles()
     {
-        if ($this->installType == 'fresh' || in_array('default', $this->module)){
+        if ($this->installType == 'fresh' || in_array('default', $this->module)) {
             $this->call('breeze:install');
         }
 
@@ -111,8 +111,8 @@ class InstallCommand extends Command
             $this->publishTestimonials($options);
         }
 
-    	$this->line('Adash scaffolding installed successfully.');
-    	$this->newLine();
+        $this->line('Adash scaffolding installed successfully.');
+        $this->newLine();
     }
 
     public function migrateDB()
@@ -120,7 +120,7 @@ class InstallCommand extends Command
         if ($this->migrateFresh) {
             $this->call('migrate:fresh');
             $this->line('Fresh database successfully migrated');
-        }else{
+        } else {
             $this->call('migrate');
             $this->line('Database successfully migrated');
         }
@@ -163,7 +163,7 @@ class InstallCommand extends Command
         );
 
         (new Process($command, base_path(), ['COMPOSER_MEMORY_LIMIT' => '-1']))
-        ->setTimeout(null)
+            ->setTimeout(null)
             ->run(function ($type, $output) {
                 $this->output->write($output);
             });

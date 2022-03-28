@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use App\Models\Permission;
 use App\Models\Role;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -16,12 +16,12 @@ class Permission extends Model
     {
         return $this->belongsToMany(Role::class);
     }
-    public function children($value='')
+    public function children()
     {
         return $this->hasMany(Permission::class);
     }
 
-    public function scopeParent($query='')
+    public function scopeParent(Builder $query)
     {
         return $query->whereNull('permission_id');
     }
