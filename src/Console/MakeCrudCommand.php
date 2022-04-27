@@ -9,15 +9,15 @@ use Symfony\Component\Process\Process;
 
 class MakeCrudCommand extends Command
 {
-    protected $signature = 'make:crud {controller} 
-    {--model=} 
-    {--views=} 
-    {--requests=} 
-    {--seeder=} 
+    protected $signature = 'make:crud {controller}
+    {--model=}
+    {--views=}
+    {--requests=}
+    {--seeder=}
     {--migration=}';
 
-    
-    protected $description = 'Generate Controller with all resourcefulcontent along with Model and Views';
+
+    protected $description = 'Generate Controller with all resourceful content along with Model and Views';
 
     protected $str;
     protected $filesystem;
@@ -59,21 +59,27 @@ class MakeCrudCommand extends Command
         }
 
         $this->filesystem->replaceInFile(
-            '{{ BaseController }}', $baseController, $newController
+            '{{ BaseController }}',
+            $baseController,
+            $newController
         );
         $this->filesystem->replaceInFile(
-            '{{ ControllerName }}', $controllerName, $newController
+            '{{ ControllerName }}',
+            $controllerName,
+            $newController
         );
 
         $namespace = 'App/Http/Controllers';
         if (Str::of($this->argument('controller'))->contains('/')) {
-            $folder = \Str::of($this->argument('controller'))->beforeLast('/');
+            $folder = Str::of($this->argument('controller'))->beforeLast('/');
             $namespace .= $folder ? '/'.$folder : '';
         }
         $namespace = Str::of($namespace)->replace('/', '\\');
 
         $this->filesystem->replaceInFile(
-            '{{ namespace }}', $namespace, $newController
+            '{{ namespace }}',
+            $namespace,
+            $newController
         );
 
         $model = $this->option('model');
@@ -85,14 +91,13 @@ class MakeCrudCommand extends Command
                     $model = $newModel;
                 }
             }
-            
         }
 
         if ($model) {
             $modelName = Str::of($model)->ucfirst()->afterLast('/');
             $model = Str::of($model)->ucfirst();
             $this->call(
-                'make:model', 
+                'make:model',
                 ['name' => $model]
             );
             $this->info($model.' model is successfully created.');
@@ -112,7 +117,7 @@ class MakeCrudCommand extends Command
             if ($migrationName) {
                 $migrationName = Str::of($migrationName)->lower()->plural()->prepend('create_')->append('_table');
                 $this->call(
-                    'make:migration', 
+                    'make:migration',
                     ['name' => $migrationName]
                 );
                 $this->info($migrationName.' migration is successfully created.');
@@ -131,13 +136,12 @@ class MakeCrudCommand extends Command
 
             if ($seeder) {
                 $this->call(
-                    'make:seed', 
+                    'make:seed',
                     ['name' => $seeder]
                 );
                 $this->info($seeder.' seeder is successfully created.');
             }
-            
-        }else{
+        } else {
             $model = 'CrudModel';
             $modelName = Str::of($model)->ucfirst()->afterLast('/');
             $this->line('No Model is created, default `'.$modelName.'` model will be used');
@@ -145,57 +149,59 @@ class MakeCrudCommand extends Command
         $this->newLine();
 
 
-        
+
         $this->createRequests($model, $newController);
-        
+
         $useModel = 'App/Models/'.$model;
         $useModel = Str::of($useModel)->replace('/', '\\');
         $this->filesystem->replaceInFile(
-            '{{ UseModel }}', $useModel, $newController
+            '{{ UseModel }}',
+            $useModel,
+            $newController
         );
         $this->filesystem->replaceInFile(
-            '{{ Model }}', $modelName, $newController
+            '{{ Model }}',
+            $modelName,
+            $newController
         );
         $this->filesystem->replaceInFile(
-            '{{ model }}', lcfirst($modelName), $newController
+            '{{ model }}',
+            lcfirst($modelName),
+            $newController
         );
         $this->filesystem->replaceInFile(
-            '{{ models }}', 
-            Str::of($modelName)->camel()->plural(), 
+            '{{ models }}',
+            Str::of($modelName)->camel()->plural(),
             $newController
         );
 
-        $this->createViews($newController);
-
-        $routeGroup = $this->ask('Enter route group name. eg: {routeGroup}.index, {routeGroup}.show');
-        $this->filesystem->replaceInFile(
-            '{{ routeGroup }}', $routeGroup, $newController
-        );
+        $this->createViews($model, $newController);
+        $this->setupRouteGroup($model, $newController);
     }
 
     public function createRequests($model, $newController)
     {
-        if (!$this->option('requests')){
+        if (!$this->option('requests')) {
             $generateRequests = $this->confirm('Generate Form Request files.', true);
             if (!$generateRequests) {
                 $this->filesystem->replaceInFile(
-                    '{{ UseStoreModelRequest }}', 
-                    'StoreModelRequest', 
+                    '{{ UseStoreModelRequest }}',
+                    'StoreModelRequest',
                     $newController
                 );
                 $this->filesystem->replaceInFile(
-                    '{{ UseUpdateModelRequest }}', 
-                    'UpdateModelRequest', 
+                    '{{ UseUpdateModelRequest }}',
+                    'UpdateModelRequest',
                     $newController
                 );
                 $this->filesystem->replaceInFile(
-                    '{{ StoreModelRequest }}', 
-                    'StoreModelRequest', 
+                    '{{ StoreModelRequest }}',
+                    'StoreModelRequest',
                     $newController
                 );
                 $this->filesystem->replaceInFile(
-                    '{{ UpdateModelRequest }}', 
-                    'UpdateModelRequest', 
+                    '{{ UpdateModelRequest }}',
+                    'UpdateModelRequest',
                     $newController
                 );
                 return false;
@@ -224,9 +230,11 @@ class MakeCrudCommand extends Command
                 $requestParentPath = $newPath;
             }
         }
-
         if (!Str::endsWith($requestParentPath, '/')) {
             $requestParentPath = Str::of($requestParentPath)->append('/');
+        }
+        if ($requestParentPath == '/') {
+            $requestParentPath == '';
         }
 
         $storeRequest = $requestParentPath.$storeRequestName;
@@ -239,23 +247,23 @@ class MakeCrudCommand extends Command
         $this->info($updateRequest.' request is successfully created.');
 
         $this->filesystem->replaceInFile(
-            '{{ UseStoreModelRequest }}', 
-            Str::of($storeRequest)->replace('/', '\\')->before('.php'), 
+            '{{ UseStoreModelRequest }}',
+            Str::of($storeRequest)->replace('/', '\\')->before('.php'),
             $newController
         );
         $this->filesystem->replaceInFile(
-            '{{ UseUpdateModelRequest }}', 
-            Str::of($updateRequest)->replace('/', '\\')->before('.php'), 
+            '{{ UseUpdateModelRequest }}',
+            Str::of($updateRequest)->replace('/', '\\')->before('.php'),
             $newController
         );
         $this->filesystem->replaceInFile(
-            '{{ StoreModelRequest }}', 
-            \Str::of($storeRequest)->afterLast('/')->before('.php'), 
+            '{{ StoreModelRequest }}',
+            Str::of($storeRequest)->afterLast('/')->before('.php'),
             $newController
         );
         $this->filesystem->replaceInFile(
-            '{{ UpdateModelRequest }}', 
-            \Str::of($updateRequest)->afterLast('/')->before('.php'), 
+            '{{ UpdateModelRequest }}',
+            Str::of($updateRequest)->afterLast('/')->before('.php'),
             $newController
         );
 
@@ -265,11 +273,15 @@ class MakeCrudCommand extends Command
         ];
     }
 
-    public function createViews($newController)
+    public function createViews($model, $newController)
     {
         $viewsPath = $this->option('views')
             ?   $this->option('views')
             :   $this->ask('Enter views folder path after resource/views.');
+
+        if (!$viewsPath) {
+            $viewsPath = Str::of($model)->lower()->plural();
+        }
 
         $viewPath = Str::of($this->views.$viewsPath)->replace('//', '/')->replace('.', '/');
 
@@ -284,7 +296,7 @@ class MakeCrudCommand extends Command
         foreach ($newViews as $view) {
             $view = Str::of($view)->replace('//', '/');
 
-            $content = \Str::of($view)
+            $content = Str::of($view)
             ->afterLast('/')
             ->before('.blade')
             ->ucfirst()->singular()
@@ -295,7 +307,22 @@ class MakeCrudCommand extends Command
         }
 
         $this->filesystem->replaceInFile(
-            '{{ viewsPath }}', $this->str->of($viewsPath)->replace('/', '.'), $newController
+            '{{ viewsPath }}',
+            $this->str->of($viewsPath)->replace('/', '.'),
+            $newController
+        );
+    }
+
+    public function setupRouteGroup($model, $newController)
+    {
+        $routeGroup = $this->ask('Enter route group name. eg: {routeGroup}.index, {routeGroup}.show');
+        if ($routeGroup == '') {
+            $routeGroup = Str::of($model)->lower()->plural();
+        }
+        $this->filesystem->replaceInFile(
+            '{{ routeGroup }}',
+            $routeGroup,
+            $newController
         );
     }
 }
