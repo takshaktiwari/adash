@@ -2,100 +2,100 @@
 
 namespace Takshak\Adash\Traits\Controllers\Admin;
 
-use App\Models\Role;
-use App\Models\Permission;
 use Illuminate\Http\Request;
+use Takshak\Adash\Models\Permission;
+use Takshak\Adash\Models\Role;
 
-trait PermissionTrait {
-	
-	public function index(Request $request)
-	{
-		$this->authorize('permissions_access');
-	    $permissions = Permission::parent()->with('children')->orderBy('name')->get();
-	    return view('admin.permissions.index', compact('permissions'));
-	}
+trait PermissionTrait
+{
 
-	public function create()
-	{
-		$this->authorize('permissions_create');
-	    $permissions = Permission::select('id', 'name', 'title')->parent()->orderBy('name')->get();
-	    return view('admin.permissions.create', compact('permissions'));
-	}
+    public function index(Request $request)
+    {
+        $this->authorize('permissions_access');
+        $permissions = Permission::parent()->with('children')->orderBy('name')->get();
+        return view('admin.permissions.index', compact('permissions'));
+    }
 
-	public function store(Request $request)
-	{
-		$this->authorize('permissions_create');
-	    $request->validate([
-	        'permission_id'    =>  'nullable|numeric',
-	        'name'      =>  'required|unique:permissions,name',
-	        'title'     =>  'required',
-	    ]);
+    public function create()
+    {
+        $this->authorize('permissions_create');
+        $permissions = Permission::select('id', 'name', 'title')->parent()->orderBy('name')->get();
+        return view('admin.permissions.create', compact('permissions'));
+    }
 
-	    Permission::create([
-	        'permission_id'    =>  $request->post('permission_id'),
-	        'name'    =>  $request->post('name'),
-	        'title'    =>  $request->post('title'),
-	        'hint'    =>  $request->post('hint'),
-	    ]);
+    public function store(Request $request)
+    {
+        $this->authorize('permissions_create');
+        $request->validate([
+            'permission_id'    =>  'nullable|numeric',
+            'name'      =>  'required|unique:permissions,name',
+            'title'     =>  'required',
+        ]);
 
-	    return redirect()->route('admin.permissions.index')->withSuccess('SUCCESS !! New Permission is successfully created');
-	}
+        Permission::create([
+            'permission_id'    =>  $request->post('permission_id'),
+            'name'    =>  $request->post('name'),
+            'title'    =>  $request->post('title'),
+            'hint'    =>  $request->post('hint'),
+        ]);
 
-	public function edit(Permission $permission)
-	{
-		$this->authorize('permissions_update');
-	    $permissions = Permission::select('id', 'name', 'title')->parent()->orderBy('name')->get();
-	    return view('admin.permissions.edit', compact('permission', 'permissions'));
-	}
+        return to_route('admin.permissions.index')->withSuccess('SUCCESS !! New Permission is successfully created');
+    }
 
-	public function update(Request $request, Permission $permission)
-	{
-		$this->authorize('permissions_update');
-	    $request->validate([
-	        'permission_id'    =>  'nullable|numeric',
-	        'name'      =>  'required|unique:permissions,name,'.$permission->id,
-	        'title'     =>  'required',
-	    ]);
+    public function edit(Permission $permission)
+    {
+        $this->authorize('permissions_update');
+        $permissions = Permission::select('id', 'name', 'title')->parent()->orderBy('name')->get();
+        return view('admin.permissions.edit', compact('permission', 'permissions'));
+    }
 
-	    $permission->update([
-	        'permission_id'    =>  $request->post('permission_id'),
-	        'name'    =>  $request->post('name'),
-	        'title'    =>  $request->post('title'),
-	        'hint'    =>  $request->post('hint'),
-	    ]);
+    public function update(Request $request, Permission $permission)
+    {
+        $this->authorize('permissions_update');
+        $request->validate([
+            'permission_id'    =>  'nullable|numeric',
+            'name'      =>  'required|unique:permissions,name,' . $permission->id,
+            'title'     =>  'required',
+        ]);
 
-	    return redirect()->route('admin.permissions.index')->withSuccess('SUCCESS !! New Permission is successfully updated');
-	}
+        $permission->update([
+            'permission_id'    =>  $request->post('permission_id'),
+            'name'    =>  $request->post('name'),
+            'title'    =>  $request->post('title'),
+            'hint'    =>  $request->post('hint'),
+        ]);
 
-	public function destroy(Permission $permission)
-	{
-		$this->authorize('permissions_delete');
-	    $permission->delete();
-	    return redirect()->route('admin.permissions.index')->withSuccess('SUCCESS !! Permission is successfully deleted');
-	}
+        return to_route('admin.permissions.index')->withSuccess('SUCCESS !! New Permission is successfully updated');
+    }
 
-	public function rolePermissions()
-	{
-		$this->authorize('permissions_roles_update');
-	    $roles = Role::with('permissions')
-	                    ->whereNotIn('name', ['admin'])
-	                    ->orderBy('name')->get();
-	    $permissions = Permission::with('children')
-	                            ->whereNull('permission_id')
-	                            ->orderBy('name')->get();
-	    return view('admin.users.permission')->with('roles', $roles)
-	                                        ->with('permissions', $permissions);
-	}
+    public function destroy(Permission $permission)
+    {
+        $this->authorize('permissions_delete');
+        $permission->delete();
+        return to_route('admin.permissions.index')->withSuccess('SUCCESS !! Permission is successfully deleted');
+    }
 
-	public function rolePermissionsUpdate(Request $request, Role $role)
-	{
-		$this->authorize('permissions_roles_update');
-	    $request->validate([
-	        'permissions'   =>  'required|array'
-	    ]);
+    public function rolePermissions()
+    {
+        $this->authorize('permissions_roles_update');
+        $roles = Role::with('permissions')
+            ->whereNotIn('name', ['admin'])
+            ->orderBy('name')->get();
+        $permissions = Permission::with('children')
+            ->whereNull('permission_id')
+            ->orderBy('name')->get();
+        return view('admin.users.permission')->with('roles', $roles)
+            ->with('permissions', $permissions);
+    }
 
-	    $role->permissions()->sync($request->post('permissions'));
-	    return redirect()->route('admin.permissions.index')->withSuccess('SUCCESS !! Permissions are successfully updated');
-	}
+    public function rolePermissionsUpdate(Request $request, Role $role)
+    {
+        $this->authorize('permissions_roles_update');
+        $request->validate([
+            'permissions'   =>  'required|array'
+        ]);
 
+        $role->permissions()->sync($request->post('permissions'));
+        return to_route('admin.permissions.index')->withSuccess('SUCCESS !! Permissions are successfully updated');
+    }
 }

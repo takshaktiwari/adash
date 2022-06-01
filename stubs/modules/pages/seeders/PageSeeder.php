@@ -2,9 +2,9 @@
 
 namespace Database\Seeders;
 
-use Storage;
-use App\Models\Page;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Storage;
+use Takshak\Adash\Models\Page;
 
 class PageSeeder extends Seeder
 {

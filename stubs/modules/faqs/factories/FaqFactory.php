@@ -3,9 +3,12 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Takshak\Adash\Models\Faq;
 
 class FaqFactory extends Factory
 {
+    protected $model = Faq::class;
+
     /**
      * Define the model's default state.
      *
@@ -13,7 +16,7 @@ class FaqFactory extends Factory
      */
     public function definition()
     {
-        $pref = \App\Models\Faq::count() + 1;
+        $pref = Faq::count() + 1;
         return [
             'question'  =>   $this->faker->realText(rand(50, 150)),
             'pref'      =>   $pref,

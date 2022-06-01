@@ -2,20 +2,21 @@
 
 namespace App\View\Components\Admin;
 
-use App\Models\Permission;
-use Auth;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\View\Component;
+use Takshak\Adash\Models\Permission;
 
 class Layout extends Component
 {
     public function __construct()
     {
         $roleIds = Auth::user()->roles->pluck('id')->toArray();
-        $permissions = Permission::whereHas('roles', function($query) use($roleIds){
-            $query->whereIn('roles.id', $roleIds);
-        })
-        ->get();
+        $permissions = Permission::query()
+            ->whereHas('roles', function ($query) use ($roleIds) {
+                $query->whereIn('roles.id', $roleIds);
+            })
+            ->get();
 
         foreach ($permissions as $permission) {
             Gate::define($permission->name, function ($user) {

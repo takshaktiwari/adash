@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
-use App\Models\Role;
 use Illuminate\Database\Seeder;
+use Takshak\Adash\Models\Role;
 
 class RoleSeeder extends Seeder
 {
@@ -14,8 +14,8 @@ class RoleSeeder extends Seeder
      */
     public function run()
     {
-        Role::create(['name'	=>	'admin']);
-        Role::create(['name'	=>	'user']);
+        Role::create(['name'    =>    'admin']);
+        Role::create(['name'    =>    'user']);
 
         Role::create(['name'    =>  'editor']);
         Role::create(['name'    =>  'manager']);

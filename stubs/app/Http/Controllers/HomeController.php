@@ -2,9 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use Auth;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
@@ -12,11 +10,8 @@ class HomeController extends Controller
     {
         if (auth()->user()->roles->contains('name', 'admin')) {
             return redirect()->route('admin.dashboard');
-
-        }else{
+        } else {
             return redirect()->route('user.dashboard');
-            
         }
     }
-
 }

@@ -2,11 +2,11 @@
 
 namespace Takshak\Adash\Http\Middleware;
 
-use App\Models\Permission;
-use Auth;
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
+use Takshak\Adash\Models\Permission;
 
 class GatesMiddleware
 {
@@ -20,10 +20,11 @@ class GatesMiddleware
     public function handle(Request $request, Closure $next)
     {
         $roleIds = Auth::user()->roles->pluck('id')->toArray();
-        $permissions = Permission::whereHas('roles', function($query) use($roleIds){
-            $query->whereIn('roles.id', $roleIds);
-        })
-        ->get();
+        $permissions = Permission::query()
+            ->whereHas('roles', function ($query) use ($roleIds) {
+                $query->whereIn('roles.id', $roleIds);
+            })
+            ->get();
 
         foreach ($permissions as $permission) {
             Gate::define($permission->name, function ($user) {

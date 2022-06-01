@@ -2,12 +2,11 @@
 
 namespace Database\Seeders;
 
-use App\Models\Faq;
 use Illuminate\Database\Seeder;
+use Takshak\Adash\Models\Faq;
 
 class FaqSeeder extends Seeder
 {
-    
     public function run()
     {
         Faq::truncate();
