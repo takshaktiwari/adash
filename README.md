@@ -5,10 +5,12 @@
 
 ## Installation
 Update your *.env* file, provide database name, user and password. Execute command given below to install **adash admin panel**
-`composer require takshak/adash`
+
+    `composer require takshak/adash`
 
 Run following command to quick installation
-`php artisan adash:install fresh`
+
+    `php artisan adash:install fresh`
 
 By default default scaffold will be generated with default options, instead you can change your setting in configuration file `site.php` and run `php artisan adash:install` once again. This will ask some questions like, if you want to migrate the fresh table or not, or you want to seed the tables or not.
 
