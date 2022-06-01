@@ -4,87 +4,87 @@ namespace Takshak\Adash\Traits\Console;
 
 use Illuminate\Support\Str;
 
-trait PublishFilesTrait {
+trait PublishFilesTrait
+{
 
-	protected $stubsDir = __DIR__.'/../../../stubs/';
-	protected $adminSidebar = 'views/components/admin/sidebar.blade.php';
-	protected $dbSeederClass = 'seeders/DatabaseSeeder.php';
-
-	
-	public function publishDefault($options)
-	{
-		$this->call('vendor:publish', $options);
-	}
-
-	public function publishFaqs($options)
-	{
-		$seederCalls = [ '$this->call(FaqSeeder::class);' ];
-		$this->addSeederClass($seederCalls);
-		$this->addSidebarMenu('faqs');
-		$this->addRoutes('faqs');
-	    $this->call('vendor:publish', $options);
-	}
-	
-	public function publishPages($options)
-	{
-		$seederCalls = [ '$this->call(PageSeeder::class);' ];
-		$this->addSeederClass($seederCalls);
-		$this->addSidebarMenu('pages');
-		$this->addRoutes('pages');
-	    $this->call('vendor:publish', $options);
-	}
-	
-	public function publishTestimonials($options)
-	{
-		$seederCalls = [ '$this->call(TestimonialSeeder::class);' ];
-		$this->addSeederClass($seederCalls);
-		$this->addSidebarMenu('testimonials');
-		$this->addRoutes('testimonials');
-	    $this->call('vendor:publish', $options);
-	}
+    protected $stubsDir = __DIR__ . '/../../../stubs/';
+    protected $adminSidebar = 'views/components/admin/sidebar.blade.php';
+    protected $dbSeederClass = 'seeders/DatabaseSeeder.php';
 
 
-	public function getAppFile($function='app_path', $file='')
-	{
-		return $this->filesystem->get($function($file));
-	}
+    public function publishDefault($options)
+    {
+        $this->call('vendor:publish', $options);
+    }
 
-	public function addSidebarMenu($module)
-	{
-		$stub = $this->filesystem->get($this->stubsDir.'modules/'.$module.'/views/stubs/sidebar.stub');
+    public function publishFaqs($options)
+    {
+        $seederCalls = ['$this->call(FaqSeeder::class);'];
+        $this->addSeederClass($seederCalls);
+        $this->addSidebarMenu('faqs');
+        $this->addRoutes('faqs');
+        $this->call('vendor:publish', $options);
+    }
 
-		$adminSidebar = $this->getAppFile('resource_path', $this->adminSidebar);
+    public function publishPages($options)
+    {
+        $seederCalls = ['$this->call(PageSeeder::class);'];
+        $this->addSeederClass($seederCalls);
+        $this->addSidebarMenu('pages');
+        $this->addRoutes('pages');
+        $this->call('vendor:publish', $options);
+    }
 
-		$sidebar = Str::of($adminSidebar)->beforeLast('</ul>');
-		$sidebar .= $stub;
-		$sidebar .= "\t\t\t</ul>";
-		$sidebar .= Str::of($adminSidebar)->afterLast('</ul>');
+    public function publishTestimonials($options)
+    {
+        $seederCalls = ['$this->call(TestimonialSeeder::class);'];
+        $this->addSeederClass($seederCalls);
+        $this->addSidebarMenu('testimonials');
+        $this->addRoutes('testimonials');
+        $this->call('vendor:publish', $options);
+    }
 
-		$this->filesystem->put(resource_path($this->adminSidebar), $sidebar);
-	}
 
-	public function addSeederClass($seederCalls)
-	{
-		$dbSeederClass = $this->getAppFile('database_path', $this->dbSeederClass);
-		$seeder = Str::of($dbSeederClass)->beforeLast(';');
-		$seeder .= ";\n";
-		foreach ($seederCalls as $seederCall) {
-			$seeder .= "\t\t".$seederCall."\n";
-		}
-		$seeder .= Str::of($dbSeederClass)->afterLast(';');
-		$this->filesystem->put(database_path($this->dbSeederClass), $seeder);
-	}
+    public function getAppFile($function = 'app_path', $file = '')
+    {
+        return $this->filesystem->get($function($file));
+    }
 
-	public function addRoutes($module)
-	{
-		$stub = $this->filesystem->get($this->stubsDir.'modules/'.$module.'/routes/admin.stub');
-		$adminRoutes = $this->getAppFile('base_path', 'routes/admin.php');
+    public function addSidebarMenu($module)
+    {
+        $stub = $this->filesystem->get($this->stubsDir . 'modules/' . $module . '/views/stubs/sidebar.stub');
 
-		$routes = Str::of($adminRoutes)->beforeLast('});');
-		$routes .= $stub;
-		$routes .= '});';
+        $adminSidebar = $this->getAppFile('resource_path', $this->adminSidebar);
 
-		$this->filesystem->put(base_path('routes/admin.php'), $routes);
-	}
+        $sidebar = Str::of($adminSidebar)->beforeLast('</ul>');
+        $sidebar .= $stub;
+        $sidebar .= "\t\t\t</ul>";
+        $sidebar .= Str::of($adminSidebar)->afterLast('</ul>');
 
+        $this->filesystem->put(resource_path($this->adminSidebar), $sidebar);
+    }
+
+    public function addSeederClass($seederCalls)
+    {
+        $dbSeederClass = $this->getAppFile('database_path', $this->dbSeederClass);
+        $seeder = Str::of($dbSeederClass)->beforeLast(';');
+        $seeder .= ";\n";
+        foreach ($seederCalls as $seederCall) {
+            $seeder .= "\t\t" . $seederCall . "\n";
+        }
+        $seeder .= Str::of($dbSeederClass)->afterLast(';');
+        $this->filesystem->put(database_path($this->dbSeederClass), $seeder);
+    }
+
+    public function addRoutes($module)
+    {
+        $stub = $this->filesystem->get($this->stubsDir . 'modules/' . $module . '/routes/admin.stub');
+        $adminRoutes = $this->getAppFile('base_path', 'routes/admin.php');
+
+        $routes = Str::of($adminRoutes)->beforeLast('});');
+        $routes .= $stub;
+        $routes .= '});';
+
+        $this->filesystem->put(base_path('routes/admin.php'), $routes);
+    }
 }

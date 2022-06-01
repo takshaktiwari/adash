@@ -1,1 +1,1 @@
-	Route::resource('faqs', FaqController::class);
+	Route::resource('faqs', \App\Http\Controllers\Admin\FaqController::class);

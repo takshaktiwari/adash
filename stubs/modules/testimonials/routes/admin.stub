@@ -1,1 +1,1 @@
-	Route::resource('testimonials', TestimonialController::class);
+	Route::resource('testimonials', \App\Http\Controllers\Admin\TestimonialController::class);
