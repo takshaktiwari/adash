@@ -30,7 +30,7 @@ return [
 		| Some Packages: takshak/adash-blog, takshak/adash-slider, barryvdh/laravel-debugbar
 		*/
         'packages'    =>    [
-            'takshak/adash-blog',
+            #'takshak/adash-blog',
             #'takshak/adash-slider',
             #'barryvdh/laravel-debugbar --dev'
         ],

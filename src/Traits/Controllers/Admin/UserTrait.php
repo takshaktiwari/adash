@@ -2,11 +2,11 @@
 
 namespace Takshak\Adash\Traits\Controllers\Admin;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Takshak\Adash\Models\Role;
-use Takshak\Adash\Models\User;
 use Takshak\Adash\Traits\ImageTrait;
 use Takshak\Imager\Facades\Imager;
 

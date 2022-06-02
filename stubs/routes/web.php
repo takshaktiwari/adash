@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 /*
 |--------------------------------------------------------------------------
@@ -13,8 +14,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::view('/', 'home');
-Route::get('dashboard', [HomeController::class, 'dashboard'])->middleware(['auth'])->name('dashboard');
+Route::view('/', 'home')->name('root');
+Route::middleware(['auth'])->group(function () {
+    Route::get('dashboard', [HomeController::class, 'dashboard'])->name('dashboard');
+    Route::prefix('user')->name('user.')->group(function () {
+        Route::get('dashboard', [UserController::class, 'dashboard'])->name('dashboard');
+    });
+});
 
-require __DIR__.'/auth.php';
-require __DIR__.'/admin.php';
+require __DIR__ . '/auth.php';
+require __DIR__ . '/admin.php';

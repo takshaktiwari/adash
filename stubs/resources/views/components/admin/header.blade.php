@@ -22,7 +22,8 @@
 
             <div class="d-none d-sm-block">
                 <div class="dropdown pt-3 d-inline-block">
-                    <a class="btn btn-light dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <a class="btn btn-light dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Shortcuts <i class="fas fa-caret-down"></i>
                     </a>
 
@@ -31,13 +32,13 @@
                             <i class="fas fa-home mr-1"></i>
                             Dashboard
                         </a>
-                        <div class="dropdown-divider"></div>
 
                         @can('user_access')
-                        <a class="dropdown-item" href="{{ url('admin/users') }}">
-                            <i class="fas fa-users mr-1"></i>
-                            Users List
-                        </a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="{{ url('admin/users') }}">
+                                <i class="fas fa-users mr-1"></i>
+                                Users List
+                            </a>
                         @endcan
 
                         <div class="dropdown-divider"></div>
@@ -54,8 +55,9 @@
 
             <div class="dropdown d-inline-block">
                 <button type="button" class="btn header-item waves-effect" id="page-header-user-dropdown"
-                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <img class="rounded-circle header-profile-user" src="{{ auth()->user()->profileImg() }}" alt="Header Avatar">
+                    data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <img class="rounded-circle header-profile-user" src="{{ auth()->user()->profileImg() }}"
+                        alt="Header Avatar">
                 </button>
                 <div class="dropdown-menu dropdown-menu-right">
                     <!-- item-->
@@ -85,13 +87,14 @@
             </div>
 
             <div class="dropdown d-none d-lg-inline-block">
-                <button type="button" class="btn header-item noti-icon waves-effect" data-toggle="fullscreen">
+                <button type="button" class="btn header-item noti-icon waves-effect" data-bs-toggle="fullscreen">
                     <i class="fas fa-arrows-alt"></i>
                 </button>
             </div>
             <div class="dropdown d-none d-lg-inline-block">
-                <input type="checkbox" class="form-check-input theme-choice" id="dark-mode-switch" >
-                <label class="form-check-label btn header-item noti-icon waves-effect d-flex mb-0" for="dark-mode-switch">
+                <input type="checkbox" class="form-check-input theme-choice" id="dark-mode-switch">
+                <label class="form-check-label btn header-item noti-icon waves-effect d-flex mb-0"
+                    for="dark-mode-switch">
                     <i class="fas fa-moon m-auto"></i>
                 </label>
             </div>

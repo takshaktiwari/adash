@@ -58,7 +58,7 @@
                                      - Crafted with
                                     <i class="fas fa-heart text-danger"></i>
                                     by
-                                    <a href="#" target="_blank" class="text-success font-weight-bold">
+                                    <a href="https://github.com/takshaktiwari/" target="_blank" class="text-success font-weight-bold">
                                         Takshak Tiwari
                                     </a>.
                                 </span>
