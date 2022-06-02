@@ -1,5 +1,5 @@
 <x-admin.layout>
-	<x-admin.breadcrumb 
+	<x-admin.breadcrumb
 		title='All FAQs'
 		:links="[
 			['text' => 'Dashboard', 'url' => route('admin.dashboard') ],
@@ -7,10 +7,10 @@
 		]"
         :actions="[
             ['text' => 'All Faqs', 'icon' => 'fas fa-list', 'class' => 'btn-secondary btn-loader', 'url' => route('admin.faqs.index'), 'permission' => 'faqs_access' ],
-            ['text' => 'Create New', 'icon' => 'fas fa-plus', 'url' => route('admin.faqs.create'), 'permission' => 'faqs_create' 'class' => 'btn-dark btn-loader'],
+            ['text' => 'Create New', 'icon' => 'fas fa-plus', 'url' => route('admin.faqs.create'), 'permission' => 'faqs_create', 'class' => 'btn-dark btn-loader'],
         ]" />
 
-	
+
     <div class="card shadow-sm">
         <div class="card-body table-responsive">
             @if($faq->status)

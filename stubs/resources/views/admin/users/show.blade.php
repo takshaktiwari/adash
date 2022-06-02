@@ -1,5 +1,5 @@
 <x-admin.layout>
-	<x-admin.breadcrumb 
+	<x-admin.breadcrumb
 			title='User Detail'
 			:links="[
 				['text' => 'Dashboard', 'url' => route('admin.dashboard') ],
@@ -11,15 +11,15 @@
                 ['text' => 'All Users', 'icon' => 'fas fa-list', 'url' => route('admin.users.index'), 'permission' => 'users_access', 'class' => 'btn-dark btn-loader'],
             ]"
 		/>
-	
+
     <div class="row">
         <div class="col-md-6">
             <div class="card shadow-sm">
+                <div class="card-header">
+                    <h5 class="mb-0 text-dark">User Information</h5>
+                </div>
                 <div class="card-body">
                     <table class="table">
-                        <tr class="table-dark">
-                            <td colspan="2"><h5 class="mb-0 text-dark">User Information</h5></td>
-                        </tr>
                         <tr>
                             <td><b>Name:</b></td>
                             <td>{{ $user->name }}</td>
@@ -44,7 +44,7 @@
                             <td><b>Created:</b></td>
                             <td>{{ date('d-M-y h:i A', strtotime($user->created_at)) }}</td>
                         </tr>
-                       
+
                         <tr>
                             <td colspan="2" class="text-center">
                                 @can('user_update')
@@ -66,6 +66,6 @@
         </div>
 
     </div>
-    
-    
+
+
 </x-admin.layout>

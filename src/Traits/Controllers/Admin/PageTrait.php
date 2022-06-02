@@ -39,6 +39,11 @@ trait PageTrait
         return to_route('admin.pages.index')->withSuccess('SUCCESS !! New page has been successfully created');
     }
 
+    public function show(Page $page)
+    {
+        return view('admin.pages.show', compact('page'));
+    }
+
     public function edit(Page $page)
     {
         $this->authorize('pages_update');

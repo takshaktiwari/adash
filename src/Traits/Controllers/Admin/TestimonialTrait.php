@@ -64,7 +64,9 @@ trait TestimonialTrait
     public function destroy(Testimonial $testimonial)
     {
         $this->authorize('testimonials_delete');
-        Storage::delete([$testimonial->avatar]);
+        if ($testimonial->avatar) {
+            Storage::delete([$testimonial->avatar]);
+        }
         $testimonial->delete();
 
         return to_route('admin.testimonials.index')->withSuccess('SUCCESS !! Testimonial is not successfully created.');
