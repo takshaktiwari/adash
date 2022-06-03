@@ -28,21 +28,21 @@
                     </a>
 
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                        <a class="dropdown-item" href="{{ url('admin/home') }}">
+                        <a class="dropdown-item" href="{{ route('admin.dashboard') }}">
                             <i class="fas fa-home mr-1"></i>
                             Dashboard
                         </a>
 
-                        @can('user_access')
+                        @can('users_access')
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="{{ url('admin/users') }}">
+                            <a class="dropdown-item" href="{{ route('admin.users.index') }}">
                                 <i class="fas fa-users mr-1"></i>
                                 Users List
                             </a>
                         @endcan
 
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="{{ url('logout') }}">
+                        <a class="dropdown-item" href="{{ route('logout') }}">
                             <i class="fas fa-power-off mr-1"></i>
                             Logout
                         </a>
@@ -53,7 +53,7 @@
 
         <div class="d-flex">
 
-            <div class="dropdown d-inline-block">
+            <div class="dropdown d-inline-block dropstart">
                 <button type="button" class="btn header-item waves-effect" id="page-header-user-dropdown"
                     data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <img class="rounded-circle header-profile-user" src="{{ auth()->user()->profileImg() }}"
@@ -66,7 +66,11 @@
                         <i class="fas fa-home mr-1"></i>
                         Dashboard
                     </a>
-
+                    <a class="dropdown-item" href="{{ route('admin.profile.edit') }}">
+                        <i class="mdi mdi-lock-open-outline font-size-17 align-middle mr-1"></i>
+                        <i class="fas fa-user mr-1"></i>
+                        My Profile
+                    </a>
                     <a class="dropdown-item" href="{{ route('admin.password') }}">
                         <i class="mdi mdi-lock-open-outline font-size-17 align-middle mr-1"></i>
                         <i class="fas fa-key mr-1"></i>

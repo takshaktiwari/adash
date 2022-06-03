@@ -47,6 +47,12 @@
 
                 <li class="menu-title">Manage Account</li>
                 <li>
+                    <a href="{{ route('admin.profile.edit') }}" class=" waves-effect">
+                        <i class="fas fa-user"></i>
+                        <span>Update Profile</span>
+                    </a>
+                </li>
+                <li>
                     <a href="{{ route('admin.password') }}" class=" waves-effect">
                         <i class="fas fa-key"></i>
                         <span>Change Password</span>

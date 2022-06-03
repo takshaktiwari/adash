@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use Takshak\Adash\Models\Role;
 use Takshak\Adash\Traits\ImageTrait;
 use Takshak\Imager\Facades\Imager;
@@ -90,15 +91,13 @@ trait UserTrait
             'email'     =>  'required|email|unique:users,email,' . $user->id,
             'mobile'    =>  'required',
             'roles'      =>  'required|array|min:1',
-            'email_verified'    =>  'required|boolean'
+            'email_verified'    =>  'required|boolean',
         ]);
 
         $user->name          =  $request->post('name');
         $user->email         =  $request->post('email');
         $user->mobile        =  $request->post('mobile');
-        $user->email_verified_at  =  $request->post('email_verified')
-            ? date('Y-m-d H:i:s')
-            : null;
+        $user->email_verified_at  =  $request->post('email_verified') ? now() : null;
 
         if ($request->post('password')) {
             $user->password = Hash::make($request->post('password'));
@@ -123,6 +122,13 @@ trait UserTrait
         return view('admin.users.show')->with('user', $user);
     }
 
+    public function statusToggle(User $user)
+    {
+        $this->authorize('users_update');
+        $user->update(['status' => $user->status ? false : true]);
+        return back()->withSuccess('Status successfully updated');
+    }
+
     public function loginToUser(User $user)
     {
         $this->authorize('login_to_user');
@@ -134,6 +140,14 @@ trait UserTrait
     {
         $this->authorize('users_delete');
         $user->delete();
-        return to_route('admin.users.index')->withErrors('SORRY !! Something is not right. Unable to delete user');
+        return to_route('admin.users.index')->withErrors('User has been successfully deleted.');
+    }
+
+    public function profileImgRemove(User $user)
+    {
+        if ($user->profile_img && Storage::disk('public')->exists($user->profile_img)) {
+            Storage::disk('public')->delete([$user->profile_img]);
+        }
+        return to_route('admin.users.edit', [$user]);
     }
 }

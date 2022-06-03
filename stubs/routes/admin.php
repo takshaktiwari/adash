@@ -21,10 +21,17 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth', GatesMiddleware::class, RefererMiddleware::class])->prefix('admin')->name('admin.')->group(function () {
     Route::get('dashboard', [AdminController::class, 'index'])->name('dashboard');
+    Route::get('profile/edit', [AdminController::class, 'profileEdit'])->name('profile.edit');
+    Route::post('profile/update', [AdminController::class, 'profileUpdate'])->name('profile.update');
     Route::get('password', [AdminController::class, 'password'])->name('password');
     Route::post('password', [AdminController::class, 'passwordUpdate'])->name('password.update');
 
     Route::resource('users', UserController::class);
+    Route::prefix('users')->name('users.')->controller(UserController::class)->group(function () {
+        Route::get('status-toggle/{user}', 'statusToggle')->name('status-toggle');
+        Route::get('profile-img/remove/{user}', 'profileImgRemove')->name('users.profile_img.remove');
+    });
+
     Route::resource('roles', RoleController::class)->except(['show']);
     Route::get('login-to/{user:id}', [UserController::class, 'loginToUser'])->name('login-to');
 
