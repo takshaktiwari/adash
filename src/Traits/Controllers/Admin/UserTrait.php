@@ -148,6 +148,6 @@ trait UserTrait
         if ($user->profile_img && Storage::disk('public')->exists($user->profile_img)) {
             Storage::disk('public')->delete([$user->profile_img]);
         }
-        return to_route('admin.users.edit', [$user]);
+        return to_route('admin.users.show', [$user]);
     }
 }
