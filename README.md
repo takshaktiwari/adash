@@ -37,6 +37,7 @@ This package comes with some default users, roles, and permission, which are ins
 ## Extra functionalities
 
 - **RefererMiddleware middleware:**  This middleware can be used to redirect from specific route to some other route. Both routes (form, to) should be passed in the route, eg. 
+
     route(
         'some.route', 
         [
@@ -55,3 +56,4 @@ This package comes with some default users, roles, and permission, which are ins
 
     eg: route('some.route',  [ 'refer' => [ 'refer_from' => route('redirect.source'), 'refer_to' => route('redirect.destination'), 'method' => 'GET' ] ] );
 
+- - -
