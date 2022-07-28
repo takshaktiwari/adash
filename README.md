@@ -38,22 +38,21 @@ This package comes with some default users, roles, and permission, which are ins
 
 - **RefererMiddleware middleware:**  This middleware can be used to redirect from specific route to some other route. Both routes (form, to) should be passed in the route, eg. 
 
-    route(
-        'some.route', 
-        [
-            'refer' => [
-                // specify the route from where the application will be redirected
-                'refer_from'    => route('redirect.source'), 
+        route(
+            'some.route', 
+            [
+                'refer' => [
+                    // specify the route from where the application will be redirected
+                    'refer_from'    => route('redirect.source'), 
 
-                // specify the destination route where to be redirected back
-                'refer_to'      => route('redirect.destination'),
+                    // specify the destination route where to be redirected back
+                    'refer_to'      => route('redirect.destination'),
 
-                // optional (checking the request method along with 'refer_from')
-                'method'        => 'GET' 
+                    // optional (checking the request method along with 'refer_from')
+                    'method'        => 'GET' 
+                ]
             ]
-        ]
-    );
+        );
 
-    eg: route('some.route',  [ 'refer' => [ 'refer_from' => route('redirect.source'), 'refer_to' => route('redirect.destination'), 'method' => 'GET' ] ] );
-
-- - -
+        - - -
+        eg: route('some.route',  [ 'refer' => [ 'refer_from' => route('redirect.source'), 'refer_to' => route('redirect.destination'), 'method' => 'GET' ] ] );
