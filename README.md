@@ -30,5 +30,28 @@ You can disable *install command* from *config/site.php* by setting *command* ke
 
 **`Imager:`** Takshak/Imager is integrated to generate seeds and resize and modify images at the time of upload images in different sections in the panel. This is also user to get default placeholder images and user avatars. For more information about this package, please refer to [takshak/imager](https://github.com/takshaktiwari/imager)
 
-- - -
+
 This package comes with some default users, roles, and permission, which are inserted using seeders. There seeders for all the modules. You will get a default admin user  with email: *adash@gmail.com* and password: *123456*
+- - -
+
+## Extra functionalities
+- - -
+- **RefererMiddleware middleware:**  This middleware can be used to redirect from specific route to some other route. Both routes (form, to) should be passed in the route, eg. 
+    route(
+        'some.route', 
+        [
+            'refer' => [
+                // specify the route from where the application will be redirected
+                'refer_from'    => route('redirect.source'), 
+
+                // specify the destination route where to be redirected back
+                'refer_to'      => route('redirect.destination'),
+
+                // optional (checking the request method along with 'refer_from')
+                'method'        => 'GET' 
+            ]
+        ]
+    );
+
+    eg: route('some.route',  [ 'refer' => [ 'refer_from' => route('redirect.source'), 'refer_to' => route('redirect.destination'), 'method' => 'GET' ] ] );
+

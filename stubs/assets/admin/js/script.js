@@ -28,11 +28,13 @@ if (localStorage.getItem("sidebar") == 'hidden') {
     $("body").addClass('sidebar-enable vertical-collpsed');
 }
 $("#vertical-menu-btn").click(function(event) {
-    if ($("body").hasClass('vertical-collpsed')) {
-        localStorage.setItem("sidebar", "show");
-    }else{
-        localStorage.setItem("sidebar", "hidden");
-    }
+    setTimeout(function () {
+        if ($("body").hasClass('vertical-collpsed')) {
+            localStorage.setItem("sidebar", "hidden");
+        } else {
+            localStorage.setItem("sidebar", "show");
+        }
+    }, 500);
 });
 
 
