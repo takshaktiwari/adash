@@ -6,11 +6,11 @@
 ## Installation
 Update your *.env* file, provide database name, user and password. Execute command given below to install **adash admin panel**
 
-    `composer require takshak/adash`
+    composer require takshak/adash
 
 Run following command to quick installation
 
-    `php artisan adash:install fresh`
+    php artisan adash:install fresh
 
 By default default scaffold will be generated with default options, instead you can change your setting in configuration file `site.php` and run `php artisan adash:install` once again. This will ask some questions like, if you want to migrate the fresh table or not, or you want to seed the tables or not.
 
@@ -36,7 +36,7 @@ This package comes with some default users, roles, and permission, which are ins
 
 ## Extra functionalities
 
-- **RefererMiddleware middleware:**  This middleware can be used to redirect from specific route to some other route. Both routes (form, to) should be passed in the route, eg. 
+- **ReferrerMiddleware middleware:**  This middleware can be used to redirect from specific route to some other route. Both routes (form, to) should be passed in the route, eg. 
 
         route(
             'some.route', 
@@ -54,5 +54,7 @@ This package comes with some default users, roles, and permission, which are ins
             ]
         );
 
-        - - -
-        eg: route('some.route',  [ 'refer' => [ 'refer_from' => route('redirect.source'), 'refer_to' => route('redirect.destination'), 'method' => 'GET' ] ] );
+    - - -
+    For Example:
+    
+        route('some.route',  [ 'refer' => [ 'refer_from' => route('redirect.source'), 'refer_to' => route('redirect.destination'), 'method' => 'GET' ] ] );

@@ -5,7 +5,7 @@ namespace Takshak\Adash\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 
-class RefererMiddleware
+class ReferrerMiddleware
 {
     /**
      * Handle an incoming request.
