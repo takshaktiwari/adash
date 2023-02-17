@@ -4,8 +4,6 @@ namespace Takshak\Adash\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Takshak\Adash\Console\InstallCommand;
-use Takshak\Adash\Console\MakeCrudCommand;
-
 
 class AdashServiceProvider extends ServiceProvider
 {
@@ -17,7 +15,7 @@ class AdashServiceProvider extends ServiceProvider
             return;
         }
 
-        $this->commands([InstallCommand::class, MakeCrudCommand::class]);
+        $this->commands([InstallCommand::class]);
         $this->publishFiles();
         $this->loadMigrationsFrom(__DIR__ . '/../../database/migrations');
     }

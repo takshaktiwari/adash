@@ -25,7 +25,7 @@ class InstallCommand extends Command
     public function __construct()
     {
         parent::__construct();
-        $this->filesystem = new Filesystem;
+        $this->filesystem = new Filesystem();
     }
 
     public function handle()
@@ -83,7 +83,9 @@ class InstallCommand extends Command
     public function publishFiles()
     {
         if ($this->installType == 'fresh' || in_array('default', $this->module)) {
-            $this->call('breeze:install');
+            $this->call('breeze:install', [
+                'stack' => 'blade'
+            ]);
         }
 
         $options['--force'] = true;
