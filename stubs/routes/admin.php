@@ -23,8 +23,6 @@ Route::middleware(['auth', GatesMiddleware::class, ReferrerMiddleware::class])->
     Route::get('dashboard', [AdminController::class, 'index'])->name('dashboard');
     Route::get('profile/edit', [AdminController::class, 'profileEdit'])->name('profile.edit');
     Route::post('profile/update', [AdminController::class, 'profileUpdate'])->name('profile.update');
-    Route::get('password', [AdminController::class, 'password'])->name('password');
-    Route::post('password', [AdminController::class, 'passwordUpdate'])->name('password.update');
 
     Route::resource('users', UserController::class);
     Route::prefix('users')->name('users.')->controller(UserController::class)->group(function () {

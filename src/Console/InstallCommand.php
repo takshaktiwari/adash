@@ -48,6 +48,7 @@ class InstallCommand extends Command
             exit;
         }
 
+        $this->filesystem->cleanDirectory(resource_path('views/profile'));
         $this->askQuestions();
 
         if ($this->installType == 'fresh') {

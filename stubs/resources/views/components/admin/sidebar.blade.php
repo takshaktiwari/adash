@@ -53,12 +53,6 @@
                     </a>
                 </li>
                 <li>
-                    <a href="{{ route('admin.password') }}" class=" waves-effect">
-                        <i class="fas fa-key"></i>
-                        <span>Change Password</span>
-                    </a>
-                </li>
-                <li>
                     <a href="javascript:void(0)" class=" waves-effect"
                         onclick="event.preventDefault();document.getElementById('logout-form').submit();">
                         <i class="fas fa-power-off"></i>
