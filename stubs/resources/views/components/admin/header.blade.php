@@ -71,12 +71,6 @@
                         <i class="fas fa-user mr-1"></i>
                         My Profile
                     </a>
-                    <a class="dropdown-item" href="{{ route('admin.password') }}">
-                        <i class="mdi mdi-lock-open-outline font-size-17 align-middle mr-1"></i>
-                        <i class="fas fa-key mr-1"></i>
-                        Password
-                    </a>
-
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item text-danger" href="{{ route('logout') }}"
                         onclick="event.preventDefault();document.getElementById('logout-form').submit();">
