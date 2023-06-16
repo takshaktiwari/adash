@@ -15,11 +15,10 @@ class CreatePermissionsTable extends Migration
     {
         Schema::create('permissions', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('permission_id')->nullable()->default(null)->constrained('permissions')->onDelete('cascade');
             $table->string('name');
-            $table->foreignId('permission_id')->nullable()->default(null)->constrained()->onDelete('cascade');
             $table->string('title')->nullable()->comment('display name');
-            $table->string('hint', 255)->nullable()
-                                        ->comment('info about the permission');
+            $table->string('hint', 255)->nullable()->comment('info about the permission');
             $table->timestamps();
         });
     }

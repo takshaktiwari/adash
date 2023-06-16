@@ -13,6 +13,7 @@ class Permission extends Model
 {
     use HasFactory;
     protected $guarded = [];
+    protected $table = 'permissions';
 
     /**
      * The roles that belong to the Permission
