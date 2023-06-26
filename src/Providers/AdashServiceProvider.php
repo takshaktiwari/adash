@@ -42,6 +42,7 @@ class AdashServiceProvider extends ServiceProvider
         $this->publishes([
             $controllerStubs . 'HomeController.php' => app_path('Http/Controllers/HomeController.php'),
             $controllerStubs . 'UserController.php' => app_path('Http/Controllers/UserController.php'),
+            $controllerStubs . 'QueryController.php' => app_path('Http/Controllers/QueryController.php'),
             $controllerStubs . 'Admin' => app_path('Http/Controllers/Admin'),
 
             $databaseStubs . 'factories' => database_path('factories'),
