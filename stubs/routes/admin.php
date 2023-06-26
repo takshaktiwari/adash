@@ -31,7 +31,7 @@ Route::middleware(['auth', GatesMiddleware::class, ReferrerMiddleware::class])->
         Route::get('profile-img/remove/{user}', 'profileImgRemove')->name('users.profile_img.remove');
     });
 
-    Route::resource('queries', QueryController::class)->except(['show']);
+    Route::resource('queries', QueryController::class);
     Route::resource('roles', RoleController::class)->except(['show']);
     Route::get('login-to/{user:id}', [UserController::class, 'loginToUser'])->name('login-to');
 

@@ -25,6 +25,6 @@ trait QueryTrait
     public function destroy(Query $query)
     {
         $query->delete();
-        return redirect()->back()->withSuccess('SUCCESS !! Query has been deleted.');
+        return redirect()->route('admin.queries.index')->withSuccess('SUCCESS !! Query has been deleted.');
     }
 }
