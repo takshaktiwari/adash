@@ -54,7 +54,30 @@ This package comes with some default users, roles, and permission, which are ins
             ]
         );
 
-    - - -
-    For Example:
+- - -
+For Example:
     
-        route('some.route',  [ 'refer' => [ 'refer_from' => route('redirect.source'), 'refer_to' => route('redirect.destination'), 'method' => 'GET' ] ] );
+        route('some.route',  [ 
+            'refer' => [ 
+                'refer_from' => route('redirect.source'), 
+                'refer_to' => route('redirect.destination'), 
+                'method' => 'GET' 
+            ] 
+        ]);
+
+- - -
+
+## Queries Management
+
+You can directly submit query forms from frontend to admin panel by posting forms on `route('queries.store')`. It will be stored on the database and an email will also be send to the mail defined in env file `MAIL_PRIMARY`. 
+
+Possible input names are:
+
+- `name`: (string) You can store user's name.
+- `email`: (string) You can store user's email.
+- `mobile`: (string) Store user's mobile / phone.
+- `subject`: (string) Subject of form or mail.
+- `title`: (string) Can be used for title of the form.
+- `content`: (text) Store message of content of form.
+- `others`: (array) Other keys can also be specified via `name="others[input_name]"`.
+- `redirect`: (string) Will be input type hidden and hold the url on which it will be redirected after submission.
