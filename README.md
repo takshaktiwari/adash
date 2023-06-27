@@ -71,7 +71,7 @@ This package comes with some default users, roles, and permission, which are ins
 
 You can directly submit query forms from frontend to admin panel by posting forms on `route('queries.store')`. It will be stored on the database and an email will also be send to the mail defined in env file `MAIL_PRIMARY`. 
 
-Possible input names are:
+Possible input names are given below. All inputs are optional can will be defined in form if required:
 
 - `name`: (string) You can store user's name.
 - `email`: (string) You can store user's email.
