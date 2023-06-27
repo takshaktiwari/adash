@@ -55,7 +55,7 @@ This package comes with some default users, roles, and permission, which are ins
         );
 
 
-For Example:
+**For Example:**
     
         route('some.route',  [ 
             'refer' => [ 
