@@ -1,4 +1,5 @@
 <?php
+
 namespace Takshak\Adash\Traits\Controllers;
 
 use Illuminate\Http\Request;
@@ -18,7 +19,20 @@ trait QueryControllerTrait
             'title'  =>  'nullable|string',
             'content'  =>  'nullable|string',
             'others'  =>  'nullable|array',
+            'files'  =>  'nullable|array',
+            'files.*'  =>  'nullable|file',
         ]);
+
+        $others = $request->post('others') ?? [];
+        foreach ($request->file('files') as $key => $file) {
+            $filePath = $file->storeAs(
+                'queries',
+                str()->of(microtime())->slug('-')->append('.'.$file->extension()),
+                'public'
+            );
+
+            $others[$key] = storage($filePath);
+        }
 
         $query = Query::create([
             'name'  =>  $request->post('name'),
@@ -28,7 +42,7 @@ trait QueryControllerTrait
             'origin'  =>  url()->previous(),
             'title'  =>  $request->post('title'),
             'content'  =>  $request->post('content'),
-            'others'  =>  $request->post('others'),
+            'others'  =>  $others,
         ]);
 
         Mail::to(config('site.primary_mail'))->send(new QueryStoreMail($query));

@@ -80,4 +80,5 @@ Possible input names are given below. All inputs are optional can will be define
 - `title`: (string) Can be used for title of the form.
 - `content`: (text) Store message of content of form.
 - `others`: (array) Other keys can also be specified via `name="others[input_name]"`.
+- `files`: (array) You can put files specified via `name="files[resume]"`. Url of the file will be saved to database and included in mail.
 - `redirect`: (string) Will be input type hidden and hold the url on which it will be redirected after submission.
