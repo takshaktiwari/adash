@@ -24,14 +24,15 @@ trait QueryControllerTrait
         ]);
 
         $others = $request->post('others') ?? [];
-        foreach ($request->file('files') as $key => $file) {
-            $filePath = $file->storeAs(
-                'queries',
-                str()->of(microtime())->slug('-')->append('.'.$file->extension()),
-                'public'
-            );
-
-            $others[$key] = storage($filePath);
+        if ($request->file('files')){
+            foreach ($request->file('files') as $key => $file) {
+                $filePath = $file->storeAs(
+                    'queries',
+                    str()->of(microtime())->slug('-')->append('.'.$file->extension()),
+                    'public'
+                );
+                $others[$key] = storage($filePath);
+            }
         }
 
         $query = Query::create([
