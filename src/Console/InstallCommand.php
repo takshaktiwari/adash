@@ -52,10 +52,10 @@ class InstallCommand extends Command
         $this->askQuestions();
 
         if ($this->installType == 'fresh') {
-            $this->filesystem->cleanDirectory(database_path('migrations'));
-            $this->filesystem->cleanDirectory(database_path('seeders'));
-            $this->filesystem->cleanDirectory(app_path('Models'));
-            $this->filesystem->cleanDirectory(resource_path('views/admin'));
+            #$this->filesystem->cleanDirectory(database_path('migrations'));
+            #$this->filesystem->cleanDirectory(database_path('seeders'));
+            #$this->filesystem->cleanDirectory(app_path('Models'));
+            #$this->filesystem->cleanDirectory(resource_path('views/admin'));
         }
 
         $this->publishFiles();
@@ -91,7 +91,7 @@ class InstallCommand extends Command
 
         $options['--force'] = true;
         if ($this->installType != 'fresh') {
-            $options = [];
+            unset($options['--force']);
         }
         if ($this->replaceFiles) {
             $options['--force'] = true;

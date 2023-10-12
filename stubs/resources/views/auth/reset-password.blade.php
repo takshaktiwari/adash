@@ -17,20 +17,20 @@
 
             <!-- Email Address -->
             <div class="form-group">
-                <x-label for="email" >Email</x-label>
-                <x-input id="email" class="form-control" type="email" name="email" value="{{ old('email', $request->email) }}" required autofocus />
+                <label for="email" >Email</label>
+                <input id="email" class="form-control" type="email" name="email" value="{{ old('email', $request->email) }}" required autofocus />
             </div>
 
             <!-- Password -->
             <div class="form-group">
-                <x-label for="password" >Password</x-label>
-                <x-input id="password" class="form-control" type="password" name="password" required />
+                <label for="password" >Password</label>
+                <input id="password" class="form-control" type="password" name="password" required />
             </div>
 
             <!-- Confirm Password -->
             <div class="form-group">
-                <x-label for="password_confirmation" >Confirm Password</x-label>
-                <x-input id="password_confirmation" class="form-control"
+                <label for="password_confirmation" >Confirm Password</label>
+                <input id="password_confirmation" class="form-control"
                                     type="password"
                                     name="password_confirmation" required />
             </div>
