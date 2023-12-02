@@ -84,6 +84,6 @@ Possible input names are given below. All inputs are optional can will be define
 
 Most of the settings can be managed on the settings page. You can add your own custom settings, modify and delete but the default settings cannot be deleted. You can also see and manage the settings by the command line.
 
-- php artisan adash:settings: list all the settings with all the details. To search and list only specific setting, you can pass the option `--search=`
-- php artisan adash:settings {action}: possible values for the `action` argument is __create, update__ and __flush__. __create__ and __update__ argument do the same as the name specifies and __flush__ argument flushes the settings cache.
+- `php artisan adash:settings`: list all the settings with all the details. To search and list only specific setting, you can pass the option `--search=`
+- `php artisan adash:settings {action}`: possible values for the `action` argument is _create, update_ and _flush_. _create_ and _update_ argument do the same as the name specifies and _flush_ argument flushes the settings cache.
 
