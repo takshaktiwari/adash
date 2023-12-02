@@ -16,12 +16,19 @@ class SettingsCommand extends Command
 
     public function handle()
     {
+
         if ($this->argument('action') == 'create') {
             $this->createSetting();
+            cache()->forget('settings');
             exit;
         }
         if ($this->argument('action') == 'update') {
             $this->updateSetting();
+            cache()->forget('settings');
+            exit;
+        }
+        if ($this->argument('action') == 'flush') {
+            cache()->forget('settings');
             exit;
         }
 

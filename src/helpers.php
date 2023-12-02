@@ -34,6 +34,11 @@ if (!function_exists('setting')) {
         if (is_string($key)) {
             $setting = $settings->where('setting_key', $key)->first();
             $returningValue = $onlyValue ? $setting?->setting_value : $setting;
+            if ($returningValue) {
+                $returningValue = json_decode($returningValue)
+                    ? json_decode($returningValue, true)
+                    : $returningValue;
+            }
         } else {
             $settings = $settings->whereIn('setting_key', $key);
             $returningValue = $onlyValue ? $settings?->pluck('setting_value') : $settings;

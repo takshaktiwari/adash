@@ -21,8 +21,6 @@ return [
         ],
     ],
 
-    'primary_mail' => env('MAIL_PRIMARY', 'hello@example.com'),
-
     /*
     | Imager
     |---------------------

@@ -46,7 +46,7 @@ trait QueryControllerTrait
             'others'  =>  $others,
         ]);
 
-        Mail::to(config('site.primary_mail'))->send(new QueryStoreMail($query));
+        Mail::to(setting('primary_email', 'hello@example.com'))->send(new QueryStoreMail($query));
 
         $route = $request->input('redirect') ? $request->input('redirect') : url()->previous();
         return redirect($route)->withSuccess('Your query has been stored. We will be back in a while. Thank you for choosing us.');

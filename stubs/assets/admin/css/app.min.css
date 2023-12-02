@@ -1,19 +1,5 @@
 @import url(https://fonts.googleapis.com/css?family=Roboto:400,500|Sarabun:400,600,700&amp;display=swap);
 
-:root {
-    --primary: #333547;
-    --primary2: #383b4e;
-    --secondary: #f8f8fa;
-    --text-color: #8699ad;
-    --text-color2: #b4c9de;
-    --text-color3: #3b3b3b;
-    --text-color4: #6c757d;
-    --header-bg: #fff;
-    --footer-bg: #fff;
-    --card-bg: #fff;
-    --card-footer-bg: #e9ecef;
-}
-
 body{
     background-color: var(--secondary);
     color: var(--text-color3);

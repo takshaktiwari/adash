@@ -52,6 +52,7 @@ trait SettingTrait
                 'remarks' => $request->post('remarks'),
             ]
         );
+        cache()->forget('settings');
 
         return redirect()->route('admin.settings.index')->withSuccess('SUCCESS !! Setting has been updated.');
     }
@@ -63,8 +64,10 @@ trait SettingTrait
         ]);
     }
 
-    public function destroy(Setting $setting) {
+    public function destroy(Setting $setting)
+    {
         $setting->delete();
+        cache()->forget('settings');
         return redirect()->route('admin.settings.index')->withSuccess('SUCCESS !! Setting has been deleted.');
     }
 }
