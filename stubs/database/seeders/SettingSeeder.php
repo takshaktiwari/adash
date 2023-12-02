@@ -114,7 +114,7 @@ class SettingSeeder extends Seeder
                         'remarks' => 'Primary2 / Sidebar hover color'
                     ],
                     'secondary' => [
-                        'color' => '#f8f8fa',
+                        'color' => '#e6e6e6',
                         'remarks' => 'Secondary / Site background'
                     ],
                     'text-color' => [

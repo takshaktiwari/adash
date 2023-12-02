@@ -79,3 +79,11 @@ Possible input names are given below. All inputs are optional can will be define
 - `others`: (array) Other keys can also be specified via `name="others[input_name]"`.
 - `files`: (array) You can put files specified via `name="files[resume]"`. Url of the file will be saved to database and included in mail.
 - `redirect`: (string) Will be input type hidden and hold the url on which it will be redirected after submission.
+
+## Settings Management
+
+Most of the settings can be managed on the settings page. You can add your own custom settings, modify and delete but the default settings cannot be deleted. You can also see and manage the settings by the command line.
+
+- php artisan adash:settings: list all the settings with all the details. To search and list only specific setting, you can pass the option `--search=`
+- php artisan adash:settings {action}: possible values for the `action` argument is __create, update__ and __flush__. __create__ and __update__ argument do the same as the name specifies and __flush__ argument flushes the settings cache.
+
