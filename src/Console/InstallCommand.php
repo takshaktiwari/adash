@@ -11,11 +11,8 @@ class InstallCommand extends Command
 {
     use PublishFilesTrait;
 
-    protected $signature = 'adash:install
-                            {install=default}
-                            {--module=*default}
-                            {--composer=global : Absolute path to the Composer binary which should be used to install packages}';
-    protected $module;
+    protected $signature = 'adash:install {install=default}';
+    protected $modules;
     protected $filesystem;
     protected $installType;
     protected $replaceFiles = true;
@@ -30,17 +27,21 @@ class InstallCommand extends Command
 
     public function handle()
     {
+        $this->modules = $this->choice(
+            "Please specify modules you want to install. \nEg: 0, 1, 3",
+            ['default', 'faqs', 'pages', 'testimonials', 'all of above'],
+            0,
+            null,
+            true
+        );
+
+        if(in_array('all of above', $this->modules)){
+            $this->modules = ['faqs', 'pages', 'testimonials'];
+        }
+        $this->modules[] = 'default';
+
         if ($this->filesystem->missing(config_path('site.php'))) {
             $this->filesystem->copy(__DIR__ . '/../../config/config.php', config_path('site.php'));
-
-            $this->info('Configuration file `site.php` is copied. Please specify modules / packages if you want.');
-            $this->info('You can change the default packages / modules / settings Or you can continue with defaults.');
-            if ($this->confirm('Do you wish to continue with default?', true)) {
-                //
-            } else {
-                $this->error('Quitting!! Run `adash:install` again when all set.');
-                exit;
-            }
         }
 
         if (!config('site.install.command', true)) {
@@ -50,14 +51,6 @@ class InstallCommand extends Command
 
         $this->filesystem->cleanDirectory(resource_path('views/profile'));
         $this->askQuestions();
-
-        if ($this->installType == 'fresh') {
-            #$this->filesystem->cleanDirectory(database_path('migrations'));
-            #$this->filesystem->cleanDirectory(database_path('seeders'));
-            #$this->filesystem->cleanDirectory(app_path('Models'));
-            #$this->filesystem->cleanDirectory(resource_path('views/admin'));
-        }
-
         $this->publishFiles();
         $this->migrateDB();
         $this->seedDB();
@@ -71,8 +64,6 @@ class InstallCommand extends Command
 
     public function askQuestions()
     {
-        $this->module = config('site.install.modules', ['default']);
-
         $this->installType = $this->argument('install');
         if ($this->installType != 'fresh') {
             $this->replaceFiles = $this->confirm('Do you wish to replace existing files?', true);
@@ -83,7 +74,8 @@ class InstallCommand extends Command
 
     public function publishFiles()
     {
-        if ($this->installType == 'fresh' || in_array('default', $this->module)) {
+        if ($this->installType == 'fresh' || in_array('default', $this->modules)) {
+
             $this->call('breeze:install', [
                 'stack' => 'blade'
             ]);
@@ -97,19 +89,19 @@ class InstallCommand extends Command
             $options['--force'] = true;
         }
 
-        if (in_array('default', $this->module)) {
+        if (in_array('default', $this->modules)) {
             $options['--tag'] = 'adash-default';
             $this->publishDefault($options);
         }
-        if (in_array('faqs', $this->module)) {
+        if (in_array('faqs', $this->modules)) {
             $options['--tag'] = 'adash-faqs';
             $this->publishFaqs($options);
         }
-        if (in_array('pages', $this->module)) {
+        if (in_array('pages', $this->modules)) {
             $options['--tag'] = 'adash-pages';
             $this->publishPages($options);
         }
-        if (in_array('testimonials', $this->module)) {
+        if (in_array('testimonials', $this->modules)) {
             $options['--tag'] = 'adash-testimonials';
             $this->publishTestimonials($options);
         }

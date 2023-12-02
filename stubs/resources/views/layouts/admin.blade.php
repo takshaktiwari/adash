@@ -3,13 +3,16 @@
 
     <head>
         <meta charset="utf-8" />
-        <title>@yield('title', config('app.name', 'Laravel'))</title>
+        <title>@yield('title', setting('site_name', 'Adash'))</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="description" content="@yield('title', config('app.name', 'Laravel'))"  />
-        <meta name="keywords" content="@yield('title', config('app.name', 'Laravel'))"  />
+        <meta name="description" content="@yield('title', setting('site_name', 'Adash'))"  />
+        <meta name="keywords" content="@yield('title', setting('site_name', 'Adash'))"  />
         <meta name="author" content="Themesbrand"  />
         <!-- App favicon -->
-        <link rel="shortcut icon" href="{{ asset('assets/admin/images/favicon.ico') }}">
+        <link rel="shortcut icon" href="{{ setting('favicon', asset('assets/admin/images/favicon.ico')) }}">
+
+
+
         <link rel="stylesheet" href="{{ asset('assets/admin/css/bootstrap.min.css') }}" data-dark="{{ asset('assets/admin/css/bootstrap-dark.min.css') }}" id="bootstrap-style" type="text/css" />
         <link rel="stylesheet" href="{{ asset('assets/admin/css/icons.min.css') }}" type="text/css" />
         <link rel="stylesheet" href="{{ asset('assets/admin/css/select2.min.css') }}" type="text/css" />

@@ -56,6 +56,12 @@
 
                 <li class="menu-title">Manage Account</li>
                 <li>
+                    <a href="{{ route('admin.settings.index') }}" class=" waves-effect">
+                        <i class="fas fa-tools"></i>
+                        <span>Settings</span>
+                    </a>
+                </li>
+                <li>
                     <a href="{{ route('admin.profile.edit') }}" class=" waves-effect">
                         <i class="fas fa-user"></i>
                         <span>Update Profile</span>

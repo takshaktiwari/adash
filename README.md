@@ -1,7 +1,6 @@
-
 # Introduction to Adash
 
-**Adash** is a admin panel package made for laravel on top of *Laravel Breeze*. It is a very simple setup for a quick start, with a separate admin panel having user, roles & permissions,  posts, pages, faqs and testimonials management. This package uses Bootstrap 4.x. 
+**Adash** is a admin panel package made for laravel on top of *Laravel Breeze*. It is a very simple setup for a quick start, with a separate admin panel having user, roles & permissions,  posts, pages, faqs and testimonials management. This package uses Bootstrap 5.x. 
 
 ## Installation
 Update your *.env* file, provide database name, user and password. Execute command given below to install **adash admin panel**
@@ -11,8 +10,6 @@ Update your *.env* file, provide database name, user and password. Execute comma
 Run following command to quick installation
 
     php artisan adash:install fresh
-
-By default default scaffold will be generated with default options, instead you can change your setting in configuration file `site.php` and run `php artisan adash:install` once again. This will ask some questions like, if you want to migrate the fresh table or not, or you want to seed the tables or not.
 
 After installation you will get routes in admin.php file in routes folder, models and controller with their related trait and views. To override the properties / functionalities, define your own respective function in controller. This package comes with a route middleware `GatesMiddleware::class`, admin routes will be wrapped within this middleware.
 
