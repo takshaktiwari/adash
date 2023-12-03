@@ -226,7 +226,7 @@ body[data-topbar="dark"] .app-search span {
 }
 
 body[data-sidebar="dark"] .navbar-brand-box {
-    background: var(--primary);
+    background-color: var(--primary);
 }
 
 body[data-sidebar="dark"] .logo-dark {
@@ -712,7 +712,7 @@ body[data-layout="horizontal"] .footer {
 }
 
 body[data-sidebar="dark"] .vertical-menu {
-    background: var(--primary);
+    background-color: var(--primary);
 }
 
 body[data-sidebar="dark"] #sidebar-menu ul li a {

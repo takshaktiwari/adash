@@ -274,3 +274,21 @@
   font-family: "Font Awesome 5 Free";
   font-weight: bold;
 }
+
+body .vertical-menu, body .navbar-brand-box{
+    background-image: var(--sidebar-image);
+}
+.page-content{
+    background-image: var(--body-image);
+}
+
+.layout_rounded #sidebar-menu ul li a{
+    border-radius: 0rem 12rem 12rem 0rem;
+}
+.layout_rounded .card{
+    border-radius: 2rem;
+    overflow: hidden;
+}
+.layout_rounded .btn{
+    border-radius: 1rem;
+}

@@ -24,6 +24,9 @@
             --footer-bg: {{ setting('theme_colors')['footer-bg']['color'] }};
             --card-bg: {{ setting('theme_colors')['card-bg']['color'] }};
             --card-footer-bg: {{ setting('theme_colors')['card-footer-bg']['color'] }};
+
+            --sidebar-image: url({{ setting('sidebar_image') }});
+            --body-image: url({{ setting('body_image') }});
         }
     </style>
 

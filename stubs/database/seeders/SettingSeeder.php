@@ -100,6 +100,30 @@ class SettingSeeder extends Seeder
 
         Setting::updateOrCreate(
             [
+                'title' => 'Sidebar image',
+                'setting_key' => 'sidebar_image'
+            ],
+            [
+                'setting_value' => '',
+                'protected' => true,
+                'remarks' => 'Sidebar image. You can try: ' . asset('assets/admin/images/sidebar_1.jpg')
+            ]
+        );
+
+        Setting::updateOrCreate(
+            [
+                'title' => 'Body image',
+                'setting_key' => 'body_image'
+            ],
+            [
+                'setting_value' => '',
+                'protected' => true,
+                'remarks' => 'Body image. You can try: ' . asset('assets/admin/images/body_1.jpg')
+            ]
+        );
+
+        Setting::updateOrCreate(
+            [
                 'title' => 'Theme colors',
                 'setting_key' => 'theme_colors'
             ],

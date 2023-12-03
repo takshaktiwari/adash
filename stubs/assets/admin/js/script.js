@@ -1,6 +1,7 @@
 $("select[multiple]").select2();
 $("select.select2").select2();
 
+Waves.attach('.btn');
 
 function loader(action = true) {
   var elm = $("#loader");
