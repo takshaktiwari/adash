@@ -5,6 +5,7 @@ namespace Takshak\Adash\Providers;
 use Illuminate\Support\ServiceProvider;
 use Takshak\Adash\Console\InstallCommand;
 use Takshak\Adash\Console\SettingsCommand;
+use Illuminate\Pagination\Paginator;
 
 class AdashServiceProvider extends ServiceProvider
 {
@@ -15,6 +16,8 @@ class AdashServiceProvider extends ServiceProvider
         if (!$this->app->runningInConsole()) {
             return;
         }
+
+        Paginator::useBootstrapFive();
 
         $this->commands([InstallCommand::class, SettingsCommand::class]);
         $this->publishFiles();
