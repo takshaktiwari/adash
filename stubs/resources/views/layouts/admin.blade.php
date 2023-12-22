@@ -10,21 +10,19 @@
     <meta name="author" content="Themesbrand" />
     <!-- App favicon -->
     <link rel="shortcut icon" href="{{ setting('favicon', asset('assets/admin/images/favicon.ico')) }}">
-
     <style>
         :root {
-            --primary: {{ setting('theme_colors')['primary']['color'] }};
-            --primary2: {{ setting('theme_colors')['primary2']['color'] }};
-            --secondary: {{ setting('theme_colors')['secondary']['color'] }};
-            --text-color: {{ setting('theme_colors')['text-color']['color'] }};
-            --text-color2: {{ setting('theme_colors')['text-color2']['color'] }};
-            --text-color3: {{ setting('theme_colors')['text-color3']['color'] }};
-            --text-color4: {{ setting('theme_colors')['text-color4']['color'] }};
-            --header-bg: {{ setting('theme_colors')['header-bg']['color'] }};
-            --footer-bg: {{ setting('theme_colors')['footer-bg']['color'] }};
-            --card-bg: {{ setting('theme_colors')['card-bg']['color'] }};
-            --card-footer-bg: {{ setting('theme_colors')['card-footer-bg']['color'] }};
-
+            --primary: #333547;
+            --primary2: #383b4e;
+            --secondary: #e6e6e6;
+            --text-color: #e6e6e6;
+            --text-color2: #b4c9de;
+            --text-color3: #3b3b3b;
+            --text-color4: #6c757d;
+            --header-bg: #ffffff;
+            --footer-bg: #ffffff;
+            --card-bg: #ffffff;
+            --card-footer-bg: #e9ecef;
             --sidebar-image: url({{ setting('sidebar_image') }});
             --body-image: url({{ setting('body_image') }});
         }

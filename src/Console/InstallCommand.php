@@ -4,6 +4,7 @@ namespace Takshak\Adash\Console;
 
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
+use Illuminate\Support\Facades\Artisan;
 use Takshak\Adash\Traits\Console\PublishFilesTrait;
 use Symfony\Component\Process\Process;
 
@@ -47,6 +48,12 @@ class InstallCommand extends Command
         if (!config('site.install.command', true)) {
             $this->error('SORRY !! Install command has been disabled.');
             exit;
+        }
+
+        if($this->argument('install') == 'fresh'){
+            $this->info('Seeding dummy images');
+            Artisan::call('imager:seed 50');
+            $this->line(Artisan::output());
         }
 
         $this->filesystem->cleanDirectory(resource_path('views/profile'));
