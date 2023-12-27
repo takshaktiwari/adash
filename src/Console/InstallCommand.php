@@ -36,7 +36,7 @@ class InstallCommand extends Command
             true
         );
 
-        if(in_array('all of above', $this->modules)){
+        if(in_array('all of above', $this->modules)) {
             $this->modules = ['faqs', 'pages', 'testimonials'];
         }
         $this->modules[] = 'default';
@@ -50,8 +50,7 @@ class InstallCommand extends Command
             exit;
         }
 
-        if($this->argument('install') == 'fresh'){
-            $this->info('Seeding dummy images');
+        if ($this->confirm('Do you wish to seed dummy images?', true)) {
             Artisan::call('imager:seed 50');
             $this->line(Artisan::output());
         }
