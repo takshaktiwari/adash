@@ -18,6 +18,36 @@ trait ColumnFilterTrait
             $query->when(request($column) != '', function ($query) use ($column) {
                 $query->where($column, request($column));
             });
+
+            $query->when(request($column . ':>=') != '', function ($query) use ($column) {
+                $query->where($column, '>=', request($column . ':>='));
+            });
+            $query->when(request($column . ':>') != '', function ($query) use ($column) {
+                $query->where($column, '>', request($column . ':>'));
+            });
+
+            $query->when(request($column . ':<=') != '', function ($query) use ($column) {
+                $query->where($column, '<=', request($column . ':<='));
+            });
+            $query->when(request($column . ':<') != '', function ($query) use ($column) {
+                $query->where($column, '<', request($column . ':<'));
+            });
+
+            $query->when(request($column . ':%like%') != '', function ($query) use ($column) {
+                $query->where($column, 'LIKE', '%' . request($column . ':%like%') . '%');
+            });
+
+            $query->when(request($column . ':like%') != '', function ($query) use ($column) {
+                $query->where($column, 'LIKE', request($column . ':like%') . '%');
+            });
+
+            $query->when(request($column . ':%like') != '', function ($query) use ($column) {
+                $query->where($column, 'LIKE', '%' . request($column . ':%like'));
+            });
+
+            $query->when(request($column . ':like') != '', function ($query) use ($column) {
+                $query->where($column, 'LIKE', request($column . ':like'));
+            });
         }
 
         return $query;
