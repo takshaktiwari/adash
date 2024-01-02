@@ -27,6 +27,31 @@ class SettingsCommand extends Command
             cache()->forget('settings');
             exit;
         }
+        if ($this->argument('action') == 'delete') {
+            $search = $this->option('search');
+            if (!$search) {
+                $search = $this->ask('Enter the ID / title / name of the setting.');
+                if (!$search) {
+                    $this->error('Please provide an input. Starting again ...');
+                    $this->handle();
+                }
+            }
+
+            $setting = Setting::query()
+                ->where('id', $search)
+                ->orWhere('title', $search)
+                ->orWhere('setting_key', $search)
+                ->first();
+
+            if (!$setting) {
+                $this->error('No settings has been found. Please try again');
+                exit;
+            }
+
+            $setting->delete();
+            $this->error('Setting has been deleted.');
+            exit;
+        }
         if ($this->argument('action') == 'flush') {
             cache()->forget('settings');
             exit;
