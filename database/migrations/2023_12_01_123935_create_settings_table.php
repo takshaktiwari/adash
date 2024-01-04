@@ -14,7 +14,7 @@ return new class () extends Migration {
             $table->id();
             $table->string('title')->nullable()->default(null);
             $table->string('setting_key');
-            $table->text('setting_value');
+            $table->text('setting_value')->nullable()->default(null);
             $table->boolean('protected')->default(false);
             $table->string('remarks', 255)->nullable()->default(null);
             $table->timestamps();
