@@ -65,7 +65,7 @@
                         @else
                             <div class="d-flex">
                                 <input type="text" class="form-control" name="setting_value"
-                                    value="{{ $setting->setting_value }}" id="setting_value" required
+                                    value="{{ $setting->setting_value }}" id="setting_value"
                                     placeholder="Setting name / title">
                                 <div class="form-check my-auto ps-4 ms-3">
                                     <label class="form-check-label">

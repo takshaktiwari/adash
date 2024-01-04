@@ -25,7 +25,7 @@ trait SettingTrait
         $request->validate([
             'title' => 'required',
             'setting_key' => 'required',
-            'setting_value' => 'required',
+            'setting_value' => 'nullable',
             'remarks' => 'nullable|max:255',
         ]);
 
