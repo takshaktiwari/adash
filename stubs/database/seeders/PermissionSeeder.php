@@ -5,145 +5,173 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use Takshak\Adash\Models\Permission;
 use Takshak\Adash\Models\Role;
+use Illuminate\Support\Facades\DB;
 
 class PermissionSeeder extends Seeder
 {
+    public $permissions = [];
+
     public function run()
     {
+        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+        Permission::truncate();
+
         foreach ($this->data() as $item) {
             $permission = Permission::create([
-                'name'    =>    $item['name'],
-                'title'    =>    $item['title'],
+                'name' => $item['name'],
+                'title' => $item['title'],
             ]);
+            $this->bifurcatePermissions($item);
 
             if (count($item['children']) > 0) {
                 foreach ($item['children'] as $child) {
                     Permission::create([
-                        'name'        =>    $child['name'],
-                        'permission_id'    =>    $permission->id,
-                        'title'        =>    $child['title'],
+                        'name' => $child['name'],
+                        'permission_id' => $permission->id,
+                        'title' => $child['title'],
                     ]);
+                    $this->bifurcatePermissions($child);
                 }
             }
         }
 
-        $permissions = Permission::pluck('id')->toArray();
+        foreach ($this->permissions as $role => $permissions) {
+            $permissions = Permission::whereIn('name', $permissions)->pluck('id')->toArray();
+            $role = Role::where('name', $role)->first();
+            $role->permissions()->sync($permissions);
+        }
+    }
 
-        $adminRole = Role::where('name', 'admin')->first();
-        $adminRole->permissions()->sync($permissions);
+    public function bifurcatePermissions($item)
+    {
+        foreach ($item['roles'] ?? [] as $role) {
+            if (!isset($this->permissions[$role])) {
+                $this->permissions[$role] = [];
+            }
+
+            $this->permissions[$role][] = $item['name'];
+        }
     }
 
     public function data($value = '')
     {
-        return  [
+        return collect([
             [
-                'name'        =>    'queries_access',
-                'title'        =>    'Queries Management',
+                'name' => 'queries_access',
+                'title' => 'Queries Management',
+                'roles' => ['admin'],
                 'children'    =>    [
-                    ['name'    => 'queries_show', 'title' =>    'Queries Create'],
-                    ['name'    => 'queries_create', 'title' =>    'Queries Create'],
-                    ['name'    => 'queries_update', 'title' =>    'Queries Update'],
-                    ['name'    => 'queries_delete', 'title' =>    'Queries Delete'],
+                    ['name' => 'queries_show', 'title' => 'Queries Create', 'roles' => ['admin']],
+                    ['name' => 'queries_create', 'title' => 'Queries Create', 'roles' => ['admin']],
+                    ['name' => 'queries_update', 'title' => 'Queries Update', 'roles' => ['admin']],
+                    ['name' => 'queries_delete', 'title' => 'Queries Delete', 'roles' => ['admin']],
                 ]
             ],
 
             [
-                'name'        =>    'roles_access',
-                'title'        =>    'Roles Management',
-                'children'    =>    [
-                    ['name'    => 'roles_create', 'title' =>    'Roles Create'],
-                    ['name'    => 'roles_update', 'title' =>    'Roles Update'],
-                    ['name'    => 'roles_delete', 'title' =>    'Roles Delete'],
+                'name'  => 'roles_access',
+                'title'  => 'Roles Management',
+                'roles' => ['admin'],
+                'children' => [
+                    ['name' => 'roles_create', 'title' => 'Roles Create', 'roles' => ['admin']],
+                    ['name' => 'roles_update', 'title' => 'Roles Update', 'roles' => ['admin']],
+                    ['name' => 'roles_delete', 'title' => 'Roles Delete', 'roles' => ['admin']],
                 ]
             ],
 
             [
-                'name'        =>    'permissions_access',
-                'title'        =>    'Permissions Access',
-                'children'    =>    [
-                    ['name'    => 'permissions_create', 'title' =>    'Permissions Update'],
-                    ['name'    => 'permissions_update', 'title' =>    'Permissions Update'],
-                    ['name'    => 'permissions_delete', 'title' =>    'Permissions Update'],
-                    ['name'    => 'permissions_roles_update', 'title' =>    'Permissions Roles Update'],
+                'name'  => 'permissions_access',
+                'title'  => 'Permissions Access',
+                'roles' => ['admin'],
+                'children' => [
+                    ['name' => 'permissions_create', 'title' => 'Permissions Update', 'roles' => ['admin']],
+                    ['name' => 'permissions_update', 'title' => 'Permissions Update', 'roles' => ['admin']],
+                    ['name' => 'permissions_delete', 'title' => 'Permissions Update', 'roles' => ['admin']],
+                    ['name' => 'permissions_roles_update', 'title' => 'Permissions Roles Update', 'roles' => ['admin']],
                 ]
             ],
 
             [
-                'name'        =>    'users_access',
-                'title'        =>    'Users Management',
-                'children'    =>    [
-                    ['name'    => 'users_show', 'title' =>    'Users Show'],
-                    ['name'    => 'users_create', 'title' =>    'Users Create'],
-                    ['name'    => 'users_update', 'title' =>    'Users Update'],
-                    ['name'    => 'users_delete', 'title' =>    'Users Delete'],
-                    ['name'    => 'login_to_user', 'title' =>    'Users Login To'],
+                'name'  => 'users_access',
+                'title'  => 'Users Management',
+                'roles' => ['admin'],
+                'children' => [
+                    ['name' => 'users_show', 'title' => 'Users Show', 'roles' => ['admin']],
+                    ['name' => 'users_create', 'title' => 'Users Create', 'roles' => ['admin']],
+                    ['name' => 'users_update', 'title' => 'Users Update', 'roles' => ['admin']],
+                    ['name' => 'users_delete', 'title' => 'Users Delete', 'roles' => ['admin']],
+                    ['name' => 'login_to_user', 'title' => 'Users Login To', 'roles' => ['admin']],
                 ]
             ],
 
             [
-                'name'        =>    'pages_access',
-                'title'        =>    'Pages Management',
-                'children'    =>    [
-                    ['name'    => 'pages_create', 'title' =>    'Pages Create'],
-                    ['name'    => 'pages_show', 'title' =>    'Pages Show'],
-                    ['name'    => 'pages_update', 'title' =>    'Pages Update'],
-                    ['name'    => 'pages_delete', 'title' =>    'Pages Delete'],
+                'name'  => 'pages_access',
+                'title'  => 'Pages Management',
+                'roles' => ['admin'],
+                'children' => [
+                    ['name' => 'pages_create', 'title' => 'Pages Create', 'roles' => ['admin']],
+                    ['name' => 'pages_show', 'title' => 'Pages Show', 'roles' => ['admin']],
+                    ['name' => 'pages_update', 'title' => 'Pages Update', 'roles' => ['admin']],
+                    ['name' => 'pages_delete', 'title' => 'Pages Delete', 'roles' => ['admin']],
                 ]
             ],
 
             [
-                'name'        =>    'faqs_access',
-                'title'        =>    'FAQs Management',
-                'children'    =>    [
-                    ['name'    => 'faqs_create', 'title' =>    'FAQs Create'],
-                    ['name'    => 'faqs_show', 'title' =>    'FAQs Show'],
-                    ['name'    => 'faqs_update', 'title' =>    'FAQs Update'],
-                    ['name'    => 'faqs_delete', 'title' =>    'FAQs Delete'],
+                'name'  => 'faqs_access',
+                'title'  => 'FAQs Management',
+                'roles' => ['admin'],
+                'children' => [
+                    ['name' => 'faqs_create', 'title' => 'FAQs Create', 'roles' => ['admin']],
+                    ['name' => 'faqs_show', 'title' => 'FAQs Show', 'roles' => ['admin']],
+                    ['name' => 'faqs_update', 'title' => 'FAQs Update', 'roles' => ['admin']],
+                    ['name' => 'faqs_delete', 'title' => 'FAQs Delete', 'roles' => ['admin']],
                 ]
             ],
 
             [
-                'name'        =>    'testimonials_access',
-                'title'        =>    'Testimonials Management',
-                'children'    =>    [
-                    ['name'    => 'testimonials_create', 'title' =>    'Testimonials Create'],
-                    ['name'    => 'testimonials_update', 'title' =>    'Testimonials Update'],
-                    ['name'    => 'testimonials_delete', 'title' =>    'Testimonials Delete'],
+                'name'  => 'testimonials_access',
+                'title'  => 'Testimonials Management',
+                'roles' => ['admin'],
+                'children' => [
+                    ['name' => 'testimonials_create', 'title' => 'Testimonials Create', 'roles' => ['admin']],
+                    ['name' => 'testimonials_update', 'title' => 'Testimonials Update', 'roles' => ['admin']],
+                    ['name' => 'testimonials_delete', 'title' => 'Testimonials Delete', 'roles' => ['admin']],
                 ]
             ],
 
             [
-                'name'        =>    'blog_categories_access',
-                'title'        =>    'Blog Categories Management',
-                'children'    =>    [
-                    ['name'    => 'blog_categories_create', 'title' =>    'Blog Categories Create'],
-                    ['name'    => 'blog_categories_update', 'title' =>    'Blog Categories Update'],
-                    ['name'    => 'blog_categories_delete', 'title' =>    'Blog Categories Delete'],
+                'name'  => 'blog_categories_access',
+                'title'  => 'Blog Categories Management',
+                'roles' => ['admin'],
+                'children' => [
+                    ['name' => 'blog_categories_create', 'title' => 'Blog Categories Create', 'roles' => ['admin']],
+                    ['name' => 'blog_categories_update', 'title' => 'Blog Categories Update', 'roles' => ['admin']],
+                    ['name' => 'blog_categories_delete', 'title' => 'Blog Categories Delete', 'roles' => ['admin']],
                 ]
             ],
 
             [
-                'name'        =>    'blog_posts_access',
-                'title'        =>    'Blog Posts Management',
-                'children'    =>    [
-                    ['name'    => 'blog_posts_create', 'title' =>    'Blog Posts Create'],
-                    ['name'    => 'blog_posts_show', 'title' =>    'Blog Posts Show'],
-                    ['name'    => 'blog_posts_update', 'title' =>    'Blog Posts Update'],
-                    ['name'    => 'blog_posts_delete', 'title' =>    'Blog Posts Delete'],
+                'name'  => 'blog_posts_access',
+                'title'  => 'Blog Posts Management',
+                'roles' => ['admin'],
+                'children' => [
+                    ['name' => 'blog_posts_create', 'title' => 'Blog Posts Create', 'roles' => ['admin']],
+                    ['name' => 'blog_posts_show', 'title' => 'Blog Posts Show', 'roles' => ['admin']],
+                    ['name' => 'blog_posts_update', 'title' => 'Blog Posts Update', 'roles' => ['admin']],
+                    ['name' => 'blog_posts_delete', 'title' => 'Blog Posts Delete', 'roles' => ['admin']],
                 ]
             ],
 
             [
-                'name'        =>    'blog_comments_access',
-                'title'        =>    'Blog Comments Management',
-                'children'    =>    [
-                    ['name'    => 'blog_comments_update', 'title' =>    'Blog Comments Update'],
-                    ['name'    => 'blog_comments_show', 'title' =>    'Blog Comments Show'],
-                    ['name'    => 'blog_comments_delete', 'title' =>    'Blog Comments Delete'],
+                'name'  => 'blog_comments_access',
+                'title'  => 'Blog Comments Management',
+                'roles' => ['admin'],
+                'children' => [
+                    ['name' => 'blog_comments_update', 'title' => 'Blog Comments Update', 'roles' => ['admin']],
+                    ['name' => 'blog_comments_show', 'title' => 'Blog Comments Show', 'roles' => ['admin']],
+                    ['name' => 'blog_comments_delete', 'title' => 'Blog Comments Delete', 'roles' => ['admin']],
                 ]
             ],
-
-
-        ];
+        ]);
     }
 }
