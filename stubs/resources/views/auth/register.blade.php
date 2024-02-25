@@ -42,7 +42,7 @@
             </div>
 
             <div class="d-flex justify-content-between mt-4">
-                <x-button class="ml-4">
+                <x-button>
                     {{ __('Register') }}
                 </x-button>
 

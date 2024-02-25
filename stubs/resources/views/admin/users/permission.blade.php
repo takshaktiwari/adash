@@ -1,10 +1,10 @@
 <x-admin.layout>
-    <x-slot name="style">
+    @push('styles')
         <style>
             .permissions .list-group-item { border-radius: 0px; }
             .permissions > ul:nth-child(even) .list-group-item{ background-color: #e4e4e4; }
         </style>
-    </x-slot>
+    @endpush
 	<x-admin.breadcrumb
 			title='User Permissions'
 			:links="[
@@ -81,11 +81,11 @@
         @endforeach
     </div>
 
-    <x-slot name="script">
+    @push('scripts')
         <script>
             $(document).ready(function($) {
                 $('[data-toggle="popover"]').popover();
             });
         </script>
-    </x-slot>
+    @endpush
 </x-admin.layout>

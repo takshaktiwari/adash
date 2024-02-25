@@ -16,6 +16,7 @@
             'icon' => 'fas fa-list',
             'url' => route('admin.settings.index'),
             'class' => 'btn-success btn-loader',
+            'permission' => 'settings_access'
         ],
     ]" />
 

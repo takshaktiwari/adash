@@ -15,12 +15,12 @@
                 {{-- end adash-dashboard --}}
 
                 @can('queries_access')
-                <li>
-                    <a href="{{ route('admin.queries.index') }}" class="waves-effect">
-                        <i class="fas fa-question-circle"></i>
-                        <span>Queries</span>
-                    </a>
-                </li>
+                    <li>
+                        <a href="{{ route('admin.queries.index') }}" class="waves-effect">
+                            <i class="fas fa-question-circle"></i>
+                            <span>Queries</span>
+                        </a>
+                    </li>
                 @endcan
 
                 @canany(['roles_access', 'permissions_access', 'users_access'])
@@ -55,12 +55,15 @@
 
 
                 <li class="menu-title">Manage Account</li>
-                <li>
-                    <a href="{{ route('admin.settings.index') }}" class=" waves-effect">
-                        <i class="fas fa-tools"></i>
-                        <span>Settings</span>
-                    </a>
-                </li>
+                @can('settings_create')
+                    <li>
+                        <a href="{{ route('admin.settings.index') }}" class=" waves-effect">
+                            <i class="fas fa-tools"></i>
+                            <span>Settings</span>
+                        </a>
+                    </li>
+                @endcan
+
                 <li>
                     <a href="{{ route('admin.profile.edit') }}" class=" waves-effect">
                         <i class="fas fa-user"></i>

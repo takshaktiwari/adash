@@ -129,6 +129,17 @@ class PermissionSeeder extends Seeder
             ],
 
             [
+                'name'  => 'settings_access',
+                'title'  => 'Settings Management',
+                'roles' => ['admin'],
+                'children' => [
+                    ['name' => 'settings_create', 'title' => 'Settings Create', 'roles' => ['admin']],
+                    ['name' => 'settings_update', 'title' => 'Settings Update', 'roles' => ['admin']],
+                    ['name' => 'settings_delete', 'title' => 'Settings Delete', 'roles' => ['admin']],
+                ]
+            ],
+
+            [
                 'name'  => 'testimonials_access',
                 'title'  => 'Testimonials Management',
                 'roles' => ['admin'],

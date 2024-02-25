@@ -36,9 +36,10 @@
     <link rel="stylesheet" href="{{ asset('assets/admin/css/cropper.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/admin/css/app.min.css') }}"
         data-dark="{{ asset('assets/admin/css/app-dark.min.css') }}" id="app-style" type="text/css" />
+
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('assets/admin/css/style.css') }}" type="text/css" />
 
-    {{ isset($style) ? $style : '' }}
     @stack('styles')
 </head>
 
@@ -129,11 +130,11 @@
     <script src="{{ asset('assets/admin/js/select2.min.js') }}"></script>
     <script src="{{ asset('assets/admin/js/bootstrap-tagsinput.min.js') }}"></script>
     <script src="{{ asset('assets/admin/js/cropper.js') }}"></script>
-    <script src="{{ asset('assets/admin/js/tinymce.min.js') }}"></script>
     <script src="{{ asset('assets/admin/js/app.js') }}"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
     <script src="{{ asset('assets/admin/js/script.js') }}"></script>
 
-    {{ isset($script) ? $script : '' }}
     @stack('scripts')
 </body>
 

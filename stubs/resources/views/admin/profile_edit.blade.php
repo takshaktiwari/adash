@@ -69,7 +69,7 @@
 
         </style>
     @endpush
-    <x-slot name="script">
+    @push('scripts')
         <script>
             var previewImg = {
                 width: '70px',
@@ -77,5 +77,5 @@
             };
             imageCropper('crop-image', 1 / 1, previewImg);
         </script>
-    </x-slot>
+    @endpush
 </x-admin.layout>

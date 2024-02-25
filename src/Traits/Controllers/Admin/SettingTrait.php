@@ -3,12 +3,14 @@
 namespace Takshak\Adash\Traits\Controllers\Admin;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Takshak\Adash\Models\Setting;
 
 trait SettingTrait
 {
     public function index(Request $request)
     {
+        $this->authorize('settings_access');
         $settings = Setting::get();
         return view('admin.settings.index', [
             'settings' => $settings
@@ -17,11 +19,18 @@ trait SettingTrait
 
     public function create(Request $request)
     {
+        $this->authorize('settings_create');
         return view('admin.settings.create');
     }
 
     public function store(Request $request)
     {
+        abort_if(
+            !Gate::check(['settings_create', 'settings_update']),
+            403,
+            'THIS ACTION IS UNAUTHORIZED.'
+        );
+
         $request->validate([
             'title' => 'required',
             'setting_key' => 'required',
@@ -59,6 +68,7 @@ trait SettingTrait
 
     public function edit(Setting $setting, Request $request)
     {
+        $this->authorize('settings_update');
         return view('admin.settings.edit', [
             'setting' => $setting
         ]);
@@ -66,6 +76,7 @@ trait SettingTrait
 
     public function destroy(Setting $setting)
     {
+        $this->authorize('settings_delete');
         $setting->delete();
         cache()->forget('settings');
         return redirect()->route('admin.settings.index')->withSuccess('SUCCESS !! Setting has been deleted.');

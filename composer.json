@@ -12,7 +12,7 @@
         }
     ],
     "require": {
-        "laravel/breeze": "1.20.0",
+        "laravel/breeze": "^1.28",
         "intervention/image": "^2.7",
         "takshak/alertt": "^1.0",
         "takshak/imager": "^1.0"

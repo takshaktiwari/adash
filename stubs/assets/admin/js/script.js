@@ -3,6 +3,12 @@ $("select.select2").select2();
 
 Waves.attach('.btn');
 
+$('.summernote-editor').summernote({
+    placeholder: 'Write here',
+    tabsize: 2,
+    height: 200
+});
+
 function loader(action = true) {
   var elm = $("#loader");
   if (action) {

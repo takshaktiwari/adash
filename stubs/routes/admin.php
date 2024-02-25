@@ -21,7 +21,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware(['auth', GatesMiddleware::class, ReferrerMiddleware::class])->prefix('admin')->name('admin.')->group(function () {
+Route::middleware(['auth', 'verified', GatesMiddleware::class, ReferrerMiddleware::class])->prefix('admin')->name('admin.')->group(function () {
     Route::get('dashboard', [AdminController::class, 'index'])->name('dashboard');
     Route::get('profile/edit', [AdminController::class, 'profileEdit'])->name('profile.edit');
     Route::post('profile/update', [AdminController::class, 'profileUpdate'])->name('profile.update');

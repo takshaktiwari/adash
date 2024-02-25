@@ -12,7 +12,9 @@ class InstallCommand extends Command
 {
     use PublishFilesTrait;
 
-    protected $signature = 'adash:install {install=default}';
+    protected $signature = 'adash:install {install=default : Choose from `default` or `fresh`}
+    {--modules= : Specify the modules from faqs, pages, testimonials or default or all}
+    {--seed-images= : Do you want to seed images, specify 0 / 1 or true / false}';
     protected $modules;
     protected $filesystem;
     protected $installType;
@@ -28,18 +30,31 @@ class InstallCommand extends Command
 
     public function handle()
     {
-        $this->modules = $this->choice(
-            "Please specify modules you want to install. \nEg: 0, 1, 3",
-            ['default', 'faqs', 'pages', 'testimonials', 'all of above'],
-            0,
-            null,
-            true
-        );
+        if($this->option('modules')){
+            if ($this->option('modules') == 'all') {
+                $this->modules = ['faqs', 'pages', 'testimonials', 'default'];
+            } else {
+                $this->modules = array_map(fn ($item) => trim($item), explode(',', $this->option('modules')));
+                $this->modules = array_filter($this->modules, function ($item) {
+                    return in_array($item, ['faqs', 'pages', 'testimonials', 'default']);
+                });
+            }
+        }else{
+            $this->modules = $this->choice(
+                "Please specify modules you want to install. \nEg: 0, 1, 3",
+                ['default', 'faqs', 'pages', 'testimonials', 'all of above'],
+                0,
+                null,
+                true
+            );
 
-        if(in_array('all of above', $this->modules)) {
-            $this->modules = ['faqs', 'pages', 'testimonials'];
+            if (in_array('all of above', $this->modules)) {
+                $this->modules = ['faqs', 'pages', 'testimonials'];
+            }
         }
+
         $this->modules[] = 'default';
+        $this->modules = array_unique($this->modules);
 
         if ($this->filesystem->missing(config_path('site.php'))) {
             $this->filesystem->copy(__DIR__ . '/../../config/config.php', config_path('site.php'));
@@ -50,12 +65,15 @@ class InstallCommand extends Command
             exit;
         }
 
-        if ($this->confirm('Do you wish to seed dummy images?', true)) {
+        $seedImages = ($this->option('seed-images') != null)
+            ? (bool)json_decode(strtolower($this->option('seed-images')))
+            : $this->confirm('Do you wish to seed dummy images?', true);
+
+        if ($seedImages) {
             Artisan::call('imager:seed 50');
             $this->line(Artisan::output());
         }
 
-        $this->filesystem->cleanDirectory(resource_path('views/profile'));
         $this->askQuestions();
         $this->publishFiles();
         $this->migrateDB();
@@ -81,10 +99,10 @@ class InstallCommand extends Command
     public function publishFiles()
     {
         if ($this->installType == 'fresh' || in_array('default', $this->modules)) {
-
             $this->call('breeze:install', [
                 'stack' => 'blade'
             ]);
+            $this->filesystem->deleteDirectory(resource_path('views/profile'));
         }
 
         $options['--force'] = true;

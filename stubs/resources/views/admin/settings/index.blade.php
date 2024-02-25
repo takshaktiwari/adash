@@ -5,6 +5,7 @@
             'icon' => 'fas fa-plus',
             'url' => route('admin.settings.create'),
             'class' => 'btn-success btn-loader',
+            'permission' => 'settings_create'
         ],
     ]" />
 
@@ -60,22 +61,26 @@
                                 <em class="d-block small">{{ $setting->remarks }}</em>
                             </td>
                             <td class="text-nowrap">
-                                <a href="{{ route('admin.settings.edit', [$setting]) }}"
-                                    class="btn btn-sm btn-success btn-loader load-circle">
-                                    <i class="fas fa-edit"></i>
-                                </a>
+                                @can('settings_update')
+                                    <a href="{{ route('admin.settings.edit', [$setting]) }}"
+                                        class="btn btn-sm btn-success btn-loader load-circle">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                @endcan
 
-                                @if (!$setting->protected)
-                                    <form action="{{ route('admin.settings.destroy', [$setting]) }}" method="POST"
-                                        class="d-inline-block">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit"
-                                            class="btn btn-sm btn-danger delete-alert btn-loader load-circle">
-                                            <i class="fas fa-trash"></i>
-                                        </button>
-                                    </form>
-                                @endif
+                                @can('settings_delete')
+                                    @if (!$setting->protected)
+                                        <form action="{{ route('admin.settings.destroy', [$setting]) }}" method="POST"
+                                            class="d-inline-block">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit"
+                                                class="btn btn-sm btn-danger delete-alert btn-loader load-circle">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </form>
+                                    @endif
+                                @endcan
                             </td>
                         </tr>
                     @endforeach
