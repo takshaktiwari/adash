@@ -17,16 +17,6 @@ class UserSeeder extends Seeder
      */
     public function run(Faker $faker)
     {
-        $user = User::factory()->create([
-            'name'  =>  'Admin',
-            'mobile'    =>  '7079582411',
-            'email'     =>  'adash@gmail.com',
-            'email_verified_at' =>  date('Y-m-d H:i:s'),
-            'password'          =>  Hash::make('123456'),
-        ]);
-        $userRole = Role::firstOrCreate(['name' => 'admin']);
-        $user->roles()->sync([$userRole->id]);
-
         User::factory(10)->create();
     }
 }
