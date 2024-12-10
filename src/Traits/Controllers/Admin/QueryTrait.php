@@ -2,11 +2,13 @@
 
 namespace Takshak\Adash\Traits\Controllers\Admin;
 
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
 use Takshak\Adash\Models\Query;
 
 trait QueryTrait
 {
+    use AuthorizesRequests;
     public function index(Request $request)
     {
         $queries = Query::latest()->paginate(100);

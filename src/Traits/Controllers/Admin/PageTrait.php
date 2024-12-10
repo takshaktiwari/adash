@@ -2,6 +2,7 @@
 
 namespace Takshak\Adash\Traits\Controllers\Admin;
 
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Takshak\Adash\Actions\PageAction;
 use Takshak\Adash\Traits\ImageTrait;
 use Illuminate\Http\Request;
@@ -11,7 +12,7 @@ use Takshak\Adash\Models\Page;
 trait PageTrait
 {
 
-    use ImageTrait;
+    use ImageTrait, AuthorizesRequests;
     public function index()
     {
         $this->authorize('pages_access');

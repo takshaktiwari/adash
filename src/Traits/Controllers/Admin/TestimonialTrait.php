@@ -2,6 +2,7 @@
 
 namespace Takshak\Adash\Traits\Controllers\Admin;
 
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Takshak\Adash\Actions\TestimonialAction;
@@ -9,7 +10,7 @@ use Takshak\Adash\Models\Testimonial;
 
 trait TestimonialTrait
 {
-
+    use AuthorizesRequests;
     public function index(Request $request)
     {
         $this->authorize('testimonials_access');

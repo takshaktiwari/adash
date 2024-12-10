@@ -2,12 +2,14 @@
 
 namespace Takshak\Adash\Traits\Controllers\Admin;
 
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Takshak\Adash\Actions\FaqAction;
 use Illuminate\Http\Request;
 use Takshak\Adash\Models\Faq;
 
 trait FaqTrait
 {
+    use AuthorizesRequests;
     public function index(Request $request)
     {
         $this->authorize('faqs_access');

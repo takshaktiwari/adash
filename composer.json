@@ -12,10 +12,11 @@
         }
     ],
     "require": {
-        "laravel/breeze": "^1.28",
+        "laravel/breeze": "^2.2",
         "intervention/image": "^2.7",
         "takshak/alertt": "^1.0",
-        "takshak/imager": "^1.0"
+        "takshak/imager": "^1.0",
+        "laravel/prompts": "^0.3.2"
     },
     "autoload": {
         "psr-4" : {

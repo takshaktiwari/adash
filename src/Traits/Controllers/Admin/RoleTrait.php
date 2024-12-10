@@ -2,12 +2,13 @@
 
 namespace Takshak\Adash\Traits\Controllers\Admin;
 
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
 use Takshak\Adash\Models\Role;
 
 trait RoleTrait
 {
-
+    use AuthorizesRequests;
     public function index()
     {
         $this->authorize('roles_access');

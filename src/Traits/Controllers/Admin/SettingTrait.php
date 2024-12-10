@@ -2,12 +2,14 @@
 
 namespace Takshak\Adash\Traits\Controllers\Admin;
 
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Takshak\Adash\Models\Setting;
 
 trait SettingTrait
 {
+    use AuthorizesRequests;
     public function index(Request $request)
     {
         $this->authorize('settings_access');

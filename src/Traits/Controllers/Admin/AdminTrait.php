@@ -3,12 +3,14 @@
 namespace Takshak\Adash\Traits\Controllers\Admin;
 
 use App\Models\User;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Takshak\Imager\Facades\Imager;
 
 trait AdminTrait
 {
+    use AuthorizesRequests;
     public function index($value = '')
     {
         $users_count  = User::count();
