@@ -2,6 +2,7 @@
 
 namespace Takshak\Adash\Traits\Controllers\Admin;
 
+use App\DataTables\UsersDataTable;
 use App\Models\User;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
@@ -15,25 +16,10 @@ use Takshak\Imager\Facades\Imager;
 trait UserTrait
 {
     use ImageTrait, AuthorizesRequests;
-    public function index(Request $request)
+    public function index(UsersDataTable $dataTable)
     {
         $this->authorize('users_access');
-        $query = User::with('roles');
-        if ($request->get('search')) {
-            $query->where(function ($query) use ($request) {
-                $query->where('name', 'like', '%' . $request->get('search') . '%');
-                $query->orWhere('email', 'like', '%' . $request->get('search') . '%');
-                $query->orWhere('mobile', 'like', '%' . $request->get('search') . '%');
-            });
-        }
-        if ($request->get('role_id')) {
-            $query->whereHas('roles', function ($query) {
-                $query->where('roles.id', request()->get('role_id'));
-            });
-        }
-        $users = $query->paginate(25)->withQueryString();
-        $roles = Role::orderBy('name', 'DESC')->get();
-        return view('admin.users.index')->with('users', $users)->with('roles', $roles);
+        return $dataTable->render('admin.users.index');
     }
 
     public function create()

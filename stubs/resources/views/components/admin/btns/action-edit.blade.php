@@ -2,7 +2,7 @@
     <a href="{{ $url }}" @class([
         'btn',
         'btn-loader',
-        'btn-'.($color ?? 'primary'),
+        'btn-'.($color ?? 'success'),
         'btn-'.($size ?? 'sm'),
         'load-circle' => !($text ?? null),
         ])>

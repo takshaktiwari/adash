@@ -4,7 +4,7 @@ namespace App\View\Components\Admin\Btns;
 
 use Illuminate\View\Component;
 
-class ActionDelete extends Component
+class ActionShow extends Component
 {
     public function __construct(public $url, public $permission = null, public $size = 'sm', public $color = 'info', public $text = null)
     {

@@ -45,51 +45,12 @@
     @endif
 
     <div class="card shadow-sm">
-        <x-admin.paginator-info :items="$users" class="card-header" />
         <div class="card-body table-responsive">
-            <table class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Name</th>
-                        <th>Email</th>
-                        <th>Mobile</th>
-                        <th>Role</th>
-                        <th>Verified</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($users as $user)
-                        <tr>
-                            <td>{{ $loop->iteration }}</td>
-                            <td>
-                                {{ $user->name }}
-
-                                <a href="{{ route('admin.users.status-toggle', [$user]) }}"
-                                    class="badge bg-{{ $user->status ? 'success' : 'danger' }} fs-12">
-                                    {{ $user->status ? 'Active' : 'In-active' }}
-                                </a>
-                            </td>
-                            <td>{{ $user->email }}</td>
-                            <td>{{ $user->mobile }}</td>
-                            <td>{{ implode(', ', $user->roles->pluck('name')->toArray()) }}</td>
-                            <td>{{ $user->email_verified_at ? date('d-M-y h:i A', strtotime($user->email_verified_at)) : '' }}
-                            </td>
-                            <td>
-                                <x-admin.btns.action-show permission="users_show" :url="route('admin.users.show', [$user])" />
-                                <x-admin.btns.action-edit permission="users_update" :url="route('admin.users.edit', [$user])" />
-                                @if ($user->id != 1)
-                                    <x-admin.btns.action-delete permission="users_delete" :url="route('admin.users.destroy', [$user])" />
-                                @endif
-                            </td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        </div>
-        <div class="card-footer">
-            {{ $users->links() }}
+            {{ $dataTable->table() }}
         </div>
     </div>
+
+    @push('scripts')
+        {{ $dataTable->scripts(attributes: ['type' => 'module']) }}
+    @endpush
 </x-admin.layout>
