@@ -29,19 +29,8 @@
             </table>
         </div>
         <div class="card-footer">
-            @can('faqs_update')
-            <a href="{{ route('admin.faqs.edit', [$faq]) }}" class="btn btn-success btn-loader">
-                <i class="fas fa-edit"></i> Edit
-            </a>
-            @endcan
-
-            @can('faqs_delete')
-            <form action="{{ route('admin.faqs.destroy', [$faq]) }}" method="POST" class="d-inline-block">
-                @csrf
-                @method('DELETE')
-                <button class="btn btn-danger delete-alert btn-loader"><i class="fas fa-trash"></i> Delete</button>
-            </form>
-            @endcan
+            <x-admin.btns.action-edit permission="faqs_update" :url="route('admin.faqs.edit', [$faq])" size="md" text="Edit" />
+            <x-admin.btns.action-delete permission="faqs_delete" :url="route('admin.faqs.destroy', [$faq])" size="md" text="Delete" />
         </div>
     </div>
 </x-admin.layout>

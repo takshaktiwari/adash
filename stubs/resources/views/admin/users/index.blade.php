@@ -77,31 +77,11 @@
                             <td>{{ $user->email_verified_at ? date('d-M-y h:i A', strtotime($user->email_verified_at)) : '' }}
                             </td>
                             <td>
-                                @can('users_show')
-                                    <a href="{{ route('admin.users.show', [$user]) }}"
-                                        class="btn btn-info btn-sm btn-loader load-circle">
-                                        <i class="fas fa-info-circle"></i>
-                                    </a>
-                                @endcan
-
-                                @can('users_update')
-                                    <a href="{{ route('admin.users.edit', [$user]) }}"
-                                        class="btn btn-success btn-sm btn-loader load-circle">
-                                        <i class="fas fa-edit"></i>
-                                    </a>
-                                @endcan
-
-                                @can('users_delete')
-                                    @if ($user->id != 1)
-                                        <form action="{{ route('admin.users.destroy', [$user]) }}" method="POST"
-                                            class="d-inline-block">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button class="btn btn-sm btn-danger delete-alert btn-loader load-circle"><i
-                                                    class="fas fa-trash"></i></button>
-                                        </form>
-                                    @endif
-                                @endcan
+                                <x-admin.btns.action-show permission="users_show" :url="route('admin.users.show', [$user])" />
+                                <x-admin.btns.action-edit permission="users_update" :url="route('admin.users.edit', [$user])" />
+                                @if ($user->id != 1)
+                                    <x-admin.btns.action-delete permission="users_delete" :url="route('admin.users.destroy', [$user])" />
+                                @endif
                             </td>
                         </tr>
                     @endforeach

@@ -2,6 +2,7 @@
 
 namespace Takshak\Adash\Traits\Controllers\Admin;
 
+use App\DataTables\QueriesDataTable;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
 use Takshak\Adash\Models\Query;
@@ -9,12 +10,9 @@ use Takshak\Adash\Models\Query;
 trait QueryTrait
 {
     use AuthorizesRequests;
-    public function index(Request $request)
+    public function index(QueriesDataTable $dataTable)
     {
-        $queries = Query::latest()->paginate(100);
-        return view('admin.queries.index')->with([
-            'queries' => $queries
-        ]);
+        return $dataTable->render('admin.queries.index');
     }
 
     public function show(Query $query)

@@ -1,5 +1,5 @@
 <x-admin.layout>
-	<x-admin.breadcrumb 
+	<x-admin.breadcrumb
 			title='All Pages'
 			:links="[
 				['text' => 'Dashboard', 'url' => route('admin.dashboard') ],
@@ -37,25 +37,9 @@
                             </td>
                             <td>{{ $page->status ? 'Active' : 'In-Active' }}</td>
                             <td class="text-nowrap">
-                                @can('pages_show')
-                                <a href="{{ route('admin.pages.show', [$page]) }}" class="btn btn-info btn-sm btn-loader load-circle">
-                                    <i class="fas fa-info-circle"></i>
-                                </a>
-                                @endcan
-
-                                @can('pages_update')
-                                <a href="{{ route('admin.pages.edit', [$page]) }}" class="btn btn-success btn-sm btn-loader load-circle">
-                                    <i class="fas fa-edit"></i>
-                                </a>
-                                @endcan
-
-                                @can('pages_delete')
-                                <form action="{{ route('admin.pages.destroy', [$page]) }}" method="POST" class="d-inline-block">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button class="btn btn-sm btn-danger delete-alert btn-loader load-circle"><i class="fas fa-trash"></i></button>
-                                </form>
-                                @endcan
+                                <x-admin.btns.action-show permission="pages_show" :url="route('admin.pages.show', [$page])" />
+                                <x-admin.btns.action-edit permission="pages_update" :url="route('admin.pages.edit', [$page])" />
+                                <x-admin.btns.action-delete permission="pages_delete" :url="route('admin.pages.destroy', [$page])" />
                             </td>
                         </tr>
                     @endforeach

@@ -5,7 +5,7 @@
             'icon' => 'fas fa-plus',
             'url' => route('admin.settings.create'),
             'class' => 'btn-success btn-loader',
-            'permission' => 'settings_create'
+            'permission' => 'settings_create',
         ],
     ]" />
 
@@ -61,26 +61,11 @@
                                 <em class="d-block small">{{ $setting->remarks }}</em>
                             </td>
                             <td class="text-nowrap">
-                                @can('settings_update')
-                                    <a href="{{ route('admin.settings.edit', [$setting]) }}"
-                                        class="btn btn-sm btn-success btn-loader load-circle">
-                                        <i class="fas fa-edit"></i>
-                                    </a>
-                                @endcan
+                                <x-admin.btns.action-edit permission="settings_update" :url="route('admin.settings.edit', [$setting])" />
 
-                                @can('settings_delete')
-                                    @if (!$setting->protected)
-                                        <form action="{{ route('admin.settings.destroy', [$setting]) }}" method="POST"
-                                            class="d-inline-block">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit"
-                                                class="btn btn-sm btn-danger delete-alert btn-loader load-circle">
-                                                <i class="fas fa-trash"></i>
-                                            </button>
-                                        </form>
-                                    @endif
-                                @endcan
+                                @if (!$setting->protected)
+                                    <x-admin.btns.action-delete permission="settings_delete" :url="route('admin.settings.destroy', [$setting])" />
+                                @endif
                             </td>
                         </tr>
                     @endforeach

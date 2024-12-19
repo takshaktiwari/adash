@@ -31,20 +31,8 @@
             {!! $page->content !!}
         </div>
         <div class="card-footer">
-            @can('pages_update')
-                <a href="{{ route('admin.pages.edit', [$page]) }}" class="btn btn-success btn-loader load-circle">
-                    <i class="fas fa-edit"></i> Edit
-                </a>
-            @endcan
-
-            @can('pages_delete')
-                <form action="{{ route('admin.pages.destroy', [$page]) }}" method="POST" class="d-inline-block">
-                    @csrf
-                    @method('DELETE')
-                    <button class="btn btn-danger delete-alert btn-loader load-circle"><i class="fas fa-trash"></i>
-                        Delete</button>
-                </form>
-            @endcan
+            <x-admin.btns.action-edit permission="pages_update" :url="route('admin.pages.edit', [$page])" size="md" text="Edit" />
+            <x-admin.btns.action-delete permission="pages_delete" :url="route('admin.pages.destroy', [$page])" size="md" text="Delete" />
         </div>
     </div>
 </x-admin.layout>

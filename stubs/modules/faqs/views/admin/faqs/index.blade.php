@@ -1,5 +1,5 @@
 <x-admin.layout>
-	<x-admin.breadcrumb 
+	<x-admin.breadcrumb
 		title='All FAQs'
 		:links="[
 			['text' => 'Dashboard', 'url' => route('admin.dashboard') ],
@@ -36,7 +36,7 @@
             </div>
         </form>
     @endif
-	
+
     <div class="card shadow-sm">
         <x-admin.paginator-info :items="$faqs" class="card-header" />
         <div class="card-body table-responsive">
@@ -64,25 +64,9 @@
                                 </span>
                             </td>
                             <td class="text-nowrap">
-                                @can('faqs_show')
-                                <a href="{{ route('admin.faqs.show', [$faq]) }}" class="btn btn-info btn-sm btn-loader load-circle">
-                                    <i class="fas fa-info-circle"></i>
-                                </a>
-                                @endcan
-
-                                @can('faqs_update')
-                                <a href="{{ route('admin.faqs.edit', [$faq]) }}" class="btn btn-success btn-sm btn-loader load-circle">
-                                    <i class="fas fa-edit"></i>
-                                </a>
-                                @endcan
-
-                                @can('faqs_delete')
-                                <form action="{{ route('admin.faqs.destroy', [$faq]) }}" method="POST" class="d-inline-block">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button class="btn btn-sm btn-danger delete-alert btn-loader load-circle"><i class="fas fa-trash"></i></button>
-                                </form>
-                                @endcan
+                                <x-admin.btns.action-show permission="faqs_show" :url="route('admin.faqs.show', [$faq])" />
+                                <x-admin.btns.action-edit permission="faqs_update" :url="route('admin.faqs.edit', [$faq])" />
+                                <x-admin.btns.action-delete permission="faqs_delete" :url="route('admin.faqs.destroy', [$faq])" />
                                 <div class="small">{{ $faq->created_at->format('d-M-Y h:i a') }}</div>
                             </td>
                         </tr>

@@ -60,15 +60,7 @@
                     </table>
                 </div>
                 <div class="card-footer">
-                    @can('queries_delete')
-                    <form action="{{ route('admin.queries.destroy', [$query]) }}" method="POST" class="d-inline-block">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="btn btn-danger delete-alert btn-loader load-circle">
-                            <i class="fas fa-trash"></i> Delete
-                        </button>
-                    </form>
-                    @endcan
+                    <x-admin.btns.action-delete permission="queries_delete" :url="route('admin.queries.destroy', [$query])" />
                 </div>
             </div>
         </div>

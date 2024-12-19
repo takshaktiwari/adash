@@ -55,6 +55,7 @@ class AdashServiceProvider extends ServiceProvider
 
             $this->baseStubs . 'assets' => public_path('assets'),
             $this->baseStubs . 'resources/views' => resource_path('views'),
+            $this->baseStubs . 'app/DataTables' => app_path('DataTables'),
             $this->baseStubs . 'app/Models' => app_path('Models'),
             $this->baseStubs . 'app/View' => app_path('View'),
             $this->baseStubs . 'routes/admin.php' => base_path('routes/admin.php'),

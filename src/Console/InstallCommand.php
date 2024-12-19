@@ -6,8 +6,9 @@ use App\Models\User;
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Process;
 use Takshak\Adash\Traits\Console\PublishFilesTrait;
-use Symfony\Component\Process\Process;
 use Takshak\Adash\Models\Role;
 
 use function Laravel\Prompts\confirm;
@@ -97,7 +98,24 @@ class InstallCommand extends Command
         $this->migrateDB();
         $this->createAdmin();
         $this->seedDB();
-        $this->installOtherPackages();
+
+        info('Setting up vite for datatables');
+        Process::run('npm i laravel-datatables-vite datatables.net-bs5 datatables.net-responsive-bs5');
+        $this->filesystem->put(resource_path('css/app.css'), "
+            @import url('https://fonts.bunny.net/css?family=Nunito');
+            @import 'bootstrap-icons/font/bootstrap-icons.css';
+            @import 'datatables.net-bs5/css/dataTables.bootstrap5.min.css';
+            @import 'datatables.net-buttons-bs5/css/buttons.bootstrap5.min.css';
+            @import 'datatables.net-select-bs5/css/select.bootstrap5.css';
+            @import 'datatables.net-responsive-bs5/css/responsive.bootstrap5.min.css';
+        ");
+        $this->filesystem->append(resource_path('js/app.js'), "
+            import 'laravel-datatables-vite';
+            import 'datatables.net-bs5';
+            import 'datatables.net-responsive-bs5';
+        ");
+        Process::run('npm run build');
+
         $this->call('storage:link');
 
         $this->info('Adash Setup is successfully installed.');
@@ -217,6 +235,7 @@ class InstallCommand extends Command
                 ->submit();
 
             $data['email_verified_at'] = $data['email_verified_at'] ? now() : null;
+            $data['password'] = Hash::make($data['password']);
 
             $admin = User::create($data);
             $role = Role::firstOrCreate(['name' => 'admin']);
@@ -224,36 +243,5 @@ class InstallCommand extends Command
 
             info('Admin user created successfully.');
         }
-    }
-
-    public function installOtherPackages()
-    {
-        $packages = config('site.install.packages', []);
-        if (!count($packages)) {
-            return true;
-        }
-
-        $this->requireComposerPackages($packages);
-        $this->newLine();
-    }
-
-    protected function requireComposerPackages($packages)
-    {
-        $composer = $this->option('composer');
-
-        if ($composer !== 'global') {
-            $command = ['php', $composer, 'require'];
-        }
-
-        $command = array_merge(
-            $command ?? ['composer', 'require'],
-            is_array($packages) ? $packages : func_get_args()
-        );
-
-        (new Process($command, base_path(), ['COMPOSER_MEMORY_LIMIT' => '-1']))
-            ->setTimeout(null)
-            ->run(function ($type, $output) {
-                $this->output->write($output);
-            });
     }
 }
