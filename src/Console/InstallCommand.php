@@ -100,8 +100,8 @@ class InstallCommand extends Command
         $this->seedDB();
 
         info('Setting up vite for datatables');
-        Process::run('npm i laravel-datatables-vite datatables.net-bs5 datatables.net-responsive-bs5');
-        $this->filesystem->put(resource_path('css/app.css'), "
+        Process::run('npm install laravel-datatables-vite datatables.net-bs5 datatables.net-responsive-bs5');
+        $this->filesystem->append(resource_path('css/app.css'), "
             @import url('https://fonts.bunny.net/css?family=Nunito');
             @import 'bootstrap-icons/font/bootstrap-icons.css';
             @import 'datatables.net-bs5/css/dataTables.bootstrap5.min.css';

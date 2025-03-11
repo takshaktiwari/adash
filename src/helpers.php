@@ -25,7 +25,7 @@ if (!function_exists('storage')) {
 }
 
 if (!function_exists('setting')) {
-    function setting(string|array $key, string|array $default = null, bool $onlyValue = true)
+    function setting(string|array $key, mixed $default = null, bool $onlyValue = true)
     {
         $settings = cache()->rememberForever('settings', function () {
             return Setting::get();
