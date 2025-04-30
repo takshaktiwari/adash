@@ -27,4 +27,13 @@ trait QueryTrait
         $query->delete();
         return redirect()->route('admin.queries.index')->withSuccess('SUCCESS !! Query has been deleted.');
     }
+
+    public function bulkDelete(Request $request) {
+        $request->validate([
+            'item_ids' => 'required|array'
+        ]);
+
+        Query::whereIn('id', $request->input('item_ids'))->delete();
+        return redirect()->route('admin.queries.index')->withSuccess('SUCCESS !! Queries has been deleted.');
+    }
 }

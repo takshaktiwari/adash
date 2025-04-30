@@ -51,4 +51,6 @@ trait QueryControllerTrait
         $route = $request->input('redirect') ? $request->input('redirect') : url()->previous();
         return redirect($route)->withSuccess('Your query has been stored. We will be back in a while. Thank you for choosing us.');
     }
+
+
 }

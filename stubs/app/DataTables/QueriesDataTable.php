@@ -4,16 +4,17 @@ namespace App\DataTables;
 
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Takshak\Adash\Models\Query;
+use Takshak\Adash\Traits\AdashDataTableTrait;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
-use Yajra\DataTables\Html\Editor\Editor;
-use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
 class QueriesDataTable extends DataTable
 {
+    use AdashDataTableTrait;
+
     /**
      * Build the DataTable class.
      *
@@ -30,8 +31,17 @@ class QueriesDataTable extends DataTable
 
                 return $html;
             })
-            ->editColumn('created_at', fn ($item) => $item->created_at->diffForHumans())
-            ->setRowId('id');
+            ->addColumn('checkbox', function ($cart) {
+                return '
+                    <div class="form-check">
+                        <label class="form-check-label mb-0">
+                            <input class="form-check-input selected_items" type="checkbox" name="selected_items[]" value="' . $cart->id . '">
+                        </label>
+                    </div>
+                ';
+            })
+            ->editColumn('created_at', fn($item) => $item->created_at->diffForHumans())
+            ->rawColumns(['action', 'checkbox', 'created_at']);;
     }
 
     /**
@@ -63,8 +73,17 @@ class QueriesDataTable extends DataTable
                 Button::make('pdf'),
                 Button::make('print'),
                 Button::make('reset'),
-                Button::make('reload')
-            ]);
+                Button::make('reload'),
+                Button::raw('deleteItems')
+                    ->text('<i class="bi bi-archive" title="Delete Items"></i>')
+                    ->addClass('bg-danger text-white')
+                    ->action($this->rawButtonActionUrl(url: route('admin.queries.bulk.delete'), confirm: true)),
+            ])
+            ->initComplete('function(settings, json) {
+                $("#check_all_items").click(function(){
+                    $(".selected_items").prop("checked", $(this).is(":checked"));
+                });
+            }');
     }
 
     /**
@@ -81,11 +100,27 @@ class QueriesDataTable extends DataTable
                 ->printable(true)
                 ->width(30)
                 ->addClass('text-center'),
+            Column::computed('checkbox')
+                ->title('
+                    <div class="form-check">
+                        <label class="form-check-label mb-0">
+                            <input class="form-check-input" type="checkbox" id="check_all_items" value="1">
+                        </label>
+                    </div>
+                ')
+                ->searchable(false)
+                ->orderable(false)
+                ->exportable(false)
+                ->printable(true)
+                ->width(20)
+                ->addClass('text-center'),
+
             Column::computed('action')
                 ->exportable(false)
                 ->printable(false)
                 ->width(100)
-                ->addClass('text-center'),
+                ->addClass('text-center text-nowrap'),
+
             Column::make('name'),
             Column::make('email'),
             Column::make('mobile'),

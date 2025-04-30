@@ -34,6 +34,7 @@ Route::middleware(['auth', 'verified', GatesMiddleware::class, ReferrerMiddlewar
 
     Route::resource('settings', SettingController::class);
     Route::resource('queries', QueryController::class);
+    Route::get('queries/bulk/delete', [QueryController::class, 'bulkDelete'])->name('queries.bulk.delete');
     Route::resource('roles', RoleController::class)->except(['show']);
     Route::get('login-to/{user:id}', [UserController::class, 'loginToUser'])->name('login-to');
 
