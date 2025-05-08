@@ -32,8 +32,12 @@ Route::middleware(['auth', 'verified', GatesMiddleware::class, ReferrerMiddlewar
         Route::get('profile-img/remove/{user}', 'profileImgRemove')->name('users.profile_img.remove');
     });
 
-    Route::resource('settings', SettingController::class);
+    Route::get('queries/block', [QueryController::class, 'block'])->name('queries.block');
+    Route::get('queries/blocked', [QueryController::class, 'blocked'])->name('queries.blocked');
+    Route::post('queries/blocked', [QueryController::class, 'blockedUpdate'])->name('queries.blocked.update');
     Route::resource('queries', QueryController::class);
+
+    Route::resource('settings', SettingController::class);
     Route::get('queries/bulk/delete', [QueryController::class, 'bulkDelete'])->name('queries.bulk.delete');
     Route::resource('roles', RoleController::class)->except(['show']);
     Route::get('login-to/{user:id}', [UserController::class, 'loginToUser'])->name('login-to');

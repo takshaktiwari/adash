@@ -33,6 +33,24 @@ This package comes with some default users, roles, and permission, which are ins
 
 ## Extra functionalities
 
+There are some action button components which can be used to create action buttons
+
+1. `x-admin.btns.action-show` : this can be used for a detail page. this comes with class btn-info, size small and with icon 'info-circle' as default
+2. `x-admin.btns.action-edit` : this can be used for a edit action. this comes with class btn-success, size small and with icon 'edit' as default
+3. `x-admin.btns.action-delete` : this can be used for delete action. It is a form with method 'POST' and 'DELETE'. this comes with class btn-danger, size small and with icon 'info-trash' as default
+4. `x-admin.btns.action-btn` : this can be used for any general. this comes with class btn-primary, size small and with icon 'paper-plane' as default
+
+Above all action buttons will have these parameters:
+
+- _string_ **$url**: action url where user will be redirected on click
+- _string_ **$permission** (optional)
+- _string_ **$size** (optional) (default: 'sm')
+- _string_ **$color** (optional) (eg: info, danger, primary, etc...)
+- _string_ **$text** (optional): To show text on the button otherwise button will appear only with icon, without text
+- _string_ **$icon** (optional) (eg. `<i class="fas fa-trash"></i>`): Button comes with default icon, but you can change it
+
+## Extra functionalities
+
 - **ReferrerMiddleware middleware:**  This middleware can be used to redirect from specific route to some other route. Both routes (form, to) should be passed in the route, eg. 
 
         route(
@@ -89,4 +107,4 @@ Most of the settings can be managed on the settings page. You can add your own c
 
 ## Summernote editor
 
-Summernote CDN is by default added to admin layout. Add class 'summernote-editor' to apply the editor on any element to get the summernote with the default configurations.
+Summernote CDN is by default added to admin layout. Add class `summernote-editor` to apply the editor on any element to get the summernote with the default configurations.

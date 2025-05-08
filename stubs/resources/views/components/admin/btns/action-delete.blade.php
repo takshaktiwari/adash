@@ -10,7 +10,7 @@
             'btn-'.($size ?? 'sm'),
             'load-circle' => !($text ?? null),
             ]) >
-            <i class="fas fa-trash"></i> {{ $text ?? null }}
+            {!! $icon ?? '<i class="fas fa-trash"></i>' !!} {{ $text ?? null }}
         </button>
     </form>
 @endcan

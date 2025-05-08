@@ -6,7 +6,7 @@ use Illuminate\View\Component;
 
 class ActionEdit extends Component
 {
-    public function __construct(public $url, public $permission = null, public $size = 'sm', public $color = 'success', public $text = null) {}
+    public function __construct(public $url, public $permission = null, public $size = 'sm', public $color = 'success', public $text = null, public $icon = null) {}
 
     /**
      * Get the view / contents that represent the component.

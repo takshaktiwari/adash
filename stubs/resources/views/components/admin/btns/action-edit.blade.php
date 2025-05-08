@@ -6,6 +6,6 @@
         'btn-'.($size ?? 'sm'),
         'load-circle' => !($text ?? null),
         ])>
-        <i class="fas fa-edit"></i> {{ $text ?? null }}
+        {!! $icon ?? '<i class="fas fa-edit"></i>' !!} {{ $text ?? null }}
     </a>
 @endcan

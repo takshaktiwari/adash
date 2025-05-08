@@ -6,7 +6,7 @@ use Illuminate\View\Component;
 
 class ActionDelete extends Component
 {
-    public function __construct(public $url, public $permission = null, public $size = 'sm', public $color = 'danger', public $text = null)
+    public function __construct(public $url, public $permission = null, public $size = 'sm', public $color = 'danger', public $text = null, public $icon = null)
     {
 
     }

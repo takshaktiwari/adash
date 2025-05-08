@@ -1,10 +1,10 @@
 <x-admin.layout>
     <x-admin.breadcrumb title='Queries' :links="[['text' => 'Dashboard', 'url' => route('admin.dashboard')], ['text' => 'Queries']]" :actions="[
         [
-            'text' => 'Dashboard',
-            'icon' => 'fas fa-technometer',
-            'url' => auth()->user()->dashboardRoute(),
-            'class' => 'btn-dark btn-loader',
+            'text' => 'Blocked',
+            'icon' => 'fas fa-ban',
+            'url' => route('admin.queries.blocked'),
+            'class' => 'btn-danger btn-loader',
         ],
     ]" />
 

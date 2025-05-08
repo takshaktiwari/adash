@@ -125,8 +125,9 @@ class QueriesDataTable extends DataTable
             Column::make('email'),
             Column::make('mobile'),
             Column::make('subject'),
-            Column::make('origin'),
             Column::make('title'),
+            Column::make('origin'),
+            Column::make('ip'),
             Column::make('created_at'),
         ];
     }

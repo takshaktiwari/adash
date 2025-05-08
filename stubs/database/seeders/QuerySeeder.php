@@ -28,6 +28,7 @@ class QuerySeeder extends Seeder
                 'origin' => $faker->url(),
                 'content' => $faker->realText(rand(50, 250)),
                 'others' => $others,
+                'ip' => $faker->ipv4(),
             ]);
         }
     }

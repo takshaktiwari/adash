@@ -2,9 +2,10 @@
 
 namespace Takshak\Adash\Traits\Models;
 
+use Illuminate\Database\Eloquent\Builder;
+
 trait CommonModelTrait
 {
-
     public function image_sm()
     {
         return $this->image_sm
@@ -28,8 +29,19 @@ trait CommonModelTrait
     {
         return storage($nextPath);
     }
+
     public function placeholderImage($value = ''): string
     {
         return asset('assets/admin/images/placeholder-image.png');
+    }
+
+    public function scopeActive(Builder $query)
+    {
+        return $query->where('status', true);
+    }
+
+    public function scopeFeatured(Builder $query)
+    {
+        return $query->where('featured', true);
     }
 }
