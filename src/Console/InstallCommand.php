@@ -8,6 +8,7 @@ use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Process;
+use Symfony\Component\Console\Output\Output;
 use Takshak\Adash\Traits\Console\PublishFilesTrait;
 use Takshak\Adash\Models\Role;
 
@@ -97,6 +98,7 @@ class InstallCommand extends Command
         $this->publishFiles();
         $this->migrateDB();
         $this->createAdmin();
+
         $this->seedDB();
 
         info('Setting up vite for datatables');
@@ -225,23 +227,42 @@ class InstallCommand extends Command
         $admin = User::whereRelation('roles', 'name', 'admin')->first();
         if (!$admin) {
             info('Creating admin user, which will be used to login. Please enter the details.');
-            $data = form()
-                ->text(label: 'Name', name: 'name', default: 'Admin', required: true)
-                ->text(label: 'Email', name: 'email', default: 'adash@gmail.com', validate: ['email' => 'required|email|unique:users,email'])
-                ->password(label: 'Password', name: 'password', hint: 'At least 6 characters', validate: ['password' => 'required|min:6'])
-                ->text(label: 'Mobile', name: 'mobile', default: '9876543210', validate: ['mobile' => 'required|min:10'])
-                ->confirm(label: 'Email verified?', name: 'email_verified_at', default: true)
-                ->select(label: 'Status', name: 'status', options: [true => 'Active', false => 'Inactive'], default: true)
-                ->submit();
+            if (PHP_OS_FAMILY === 'Windows') {
+                $adminPassword = '123456';
+                $data = [
+                    'email' =>  'adash@gmail.com',
+                    'name'  =>  'Admin',
+                    'mobile' =>  '9876543210',
+                    'email_verified_at' =>  date('Y-m-d H:i:s'),
+                    'password' =>  $adminPassword,
+                    'status' => true
+                ];
+            } else {
+                $data = form()
+                    ->text(label: 'Name', name: 'name', default: 'Admin', required: true)
+                    ->text(label: 'Email', name: 'email', default: 'adash@gmail.com', validate: ['email' => 'required|email|unique:users,email'])
+                    ->password(label: 'Password', name: 'password', hint: 'At least 6 characters', validate: ['password' => 'required|min:6'])
+                    ->text(label: 'Mobile', name: 'mobile', default: '9876543210', validate: ['mobile' => 'required|min:10'])
+                    ->confirm(label: 'Email verified?', name: 'email_verified_at', default: true)
+                    ->select(label: 'Status', name: 'status', options: [true => 'Active', false => 'Inactive'], default: true)
+                    ->submit();
 
-            $data['email_verified_at'] = $data['email_verified_at'] ? now() : null;
-            $data['password'] = Hash::make($data['password']);
+                $adminPassword = $data['password'];
+                $data['email_verified_at'] = $data['email_verified_at'] ? now() : null;
+                $data['password'] = Hash::make($adminPassword);
+            }
+
 
             $admin = User::create($data);
             $role = Role::firstOrCreate(['name' => 'admin']);
             $admin->roles()->attach([$role->id]);
 
+            $this->line('    Name: ' . $admin->name);
+            $this->line('    Email: ' . $admin->email);
+            $this->line('    Password: ' . $adminPassword);
             info('Admin user created successfully.');
+
+            $this->ask('Press Enter to continue?');
         }
     }
 }
