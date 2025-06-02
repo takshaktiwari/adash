@@ -96,13 +96,9 @@ class InstallCommand extends Command
 
         $this->askQuestions();
         $this->publishFiles();
-        $this->migrateDB();
-        $this->createAdmin();
-
-        $this->seedDB();
 
         info('Setting up vite for datatables');
-        Process::run('npm install laravel-datatables-vite datatables.net-bs5 datatables.net-responsive-bs5');
+        Process::run('npm install laravel-datatables-vite datatables.net-bs5 datatables.net-buttons datatables.net-buttons-bs5 datatables.net-responsive-bs5');
         $this->filesystem->append(resource_path('css/app.css'), "
             @import url('https://fonts.bunny.net/css?family=Nunito');
             @import 'bootstrap-icons/font/bootstrap-icons.css';
@@ -111,12 +107,20 @@ class InstallCommand extends Command
             @import 'datatables.net-select-bs5/css/select.bootstrap5.css';
             @import 'datatables.net-responsive-bs5/css/responsive.bootstrap5.min.css';
         ");
-        $this->filesystem->append(resource_path('js/app.js'), "
-            import 'laravel-datatables-vite';
-            import 'datatables.net-bs5';
-            import 'datatables.net-responsive-bs5';
-        ");
+        $this->filesystem->append(resource_path('js/app.js'), '
+            import "laravel-datatables-vite";
+            import "datatables.net-bs5";
+            import "datatables.net-buttons/js/buttons.colVis";
+            import "datatables.net-buttons/js/buttons.html5";
+            import "datatables.net-buttons/js/buttons.print";
+            import "datatables.net-responsive-bs5";
+        ');
+
         Process::run('npm run build');
+
+        $this->migrateDB();
+        $this->createAdmin();
+        $this->seedDB();
 
         $this->call('storage:link');
 

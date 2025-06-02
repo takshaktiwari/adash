@@ -40,8 +40,9 @@ class QueriesDataTable extends DataTable
                     </div>
                 ';
             })
-            ->editColumn('created_at', fn($item) => $item->created_at->diffForHumans())
-            ->rawColumns(['action', 'checkbox', 'created_at']);;
+            ->editColumn('created_at', fn ($item) => $item->created_at->diffForHumans())
+            ->rawColumns(['action', 'checkbox', 'created_at']);
+        ;
     }
 
     /**
@@ -67,13 +68,19 @@ class QueriesDataTable extends DataTable
             ->pageLength(100)
             ->serverSide(true) // Enable server-side processing
             ->processing(true)
+            ->stateSave(true)
             ->buttons([
-                Button::make('excel'),
+                // Button::make('excel'),
                 Button::make('csv'),
                 Button::make('pdf'),
-                Button::make('print'),
-                Button::make('reset'),
+                // Button::make('print'),
+                // Button::make('reset'),
                 Button::make('reload'),
+                Button::raw([
+                    'extend' => 'colvis',
+                    'text' => '<i class="fas fa-columns"></i>',
+                    'className' => 'btn btn-secondary btn-sm'
+                ]),
                 Button::raw('deleteItems')
                     ->text('<i class="bi bi-archive" title="Delete Items"></i>')
                     ->addClass('bg-danger text-white')

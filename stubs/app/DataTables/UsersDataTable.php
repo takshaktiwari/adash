@@ -82,13 +82,19 @@ class UsersDataTable extends DataTable
             ->pageLength(100)
             ->serverSide(true) // Enable server-side processing
             ->processing(true)
+            ->stateSave(true)
             ->buttons([
-                Button::make('excel'),
+                // Button::make('excel'),
                 Button::make('csv'),
                 Button::make('pdf'),
-                Button::make('print'),
-                Button::make('reset'),
-                Button::make('reload')
+                // Button::make('print'),
+                // Button::make('reset'),
+                Button::make('reload'),
+                Button::raw([
+                    'extend' => 'colvis',
+                    'text' => '<i class="fas fa-columns"></i>',
+                    'className' => 'btn btn-secondary btn-sm'
+                ]),
             ]);
     }
 
