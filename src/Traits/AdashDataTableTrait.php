@@ -4,7 +4,7 @@ namespace Takshak\Adash\Traits;
 
 trait AdashDataTableTrait
 {
-    public function rawButtonActionUrl(string $url, bool $confirm = false): string
+    public function rawButtonActionUrl(string $url, bool $hasCheckbox = true, bool $confirm = false): string
     {
         $html = '';
         if ($confirm) {
@@ -15,23 +15,27 @@ trait AdashDataTableTrait
             ";
         }
 
-        $html .= "
-            let selectedValues = [];
-            $('.selected_items:checked').each(function() {
-                selectedValues.push($(this).val());
-            });
+        if (!$hasCheckbox) {
+            $html .= "window.location.href = '".$url."'";
+        } else {
+            $html .= "
+                let selectedValues = [];
+                $('.selected_items:checked').each(function() {
+                    selectedValues.push($(this).val());
+                });
 
-            if(!selectedValues.length) {
-                alert('Please select at least one item.');
-                return false;
-            }
+                if(!selectedValues.length) {
+                    alert('Please select at least one item.');
+                    return false;
+                }
 
-            let baseUrl = '" . $url . "';
-            let params = selectedValues.map(value => `item_ids[]=`+value).join('&');
-            let fullUrl = baseUrl+`?`+params;
+                let baseUrl = '" . $url . "';
+                let params = selectedValues.map(value => `item_ids[]=`+value).join('&');
+                let fullUrl = baseUrl+`?`+params;
 
-            window.location.href = fullUrl;
-        ";
+                window.location.href = fullUrl;
+            ";
+        }
 
         return $html;
     }
