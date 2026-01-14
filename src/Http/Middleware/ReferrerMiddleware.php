@@ -18,41 +18,33 @@ class ReferrerMiddleware
     {
         if (session('refer') && session('refer')['refer_to'] && session('refer')['refer_from']) {
             if (in_array(url()->current(), session('refer')['refer_from'])) {
-                if (empty(session('refer')['method'])) {
-                    return $this->redirectRoute($request);
+                if (empty(session('refer')['method']) || trim(strtolower(session('refer')['method'])) != trim(strtolower($request->method()))) {
+                    return $next($request);
                 } else {
-                    if (trim(strtolower(session('refer')['method'])) != trim(strtolower($request->method()))) {
-                        return $this->redirectRoute($request);
-                    } else {
-                        return $next($request);
-                    }
+                    return $this->redirectRoute($request);
                 }
             }
         }
 
-        if ($request->input('refer.refer_from')) {
-            $method = '';
-            $referTo = url()->previous();
-            if ($request->input('refer.refer_to')) {
-                $referTo = $request->input('refer.refer_to');
-            }
-            if ($request->input('refer.method')) {
-                $method = $request->input('refer.method');
+        $requestReferFrom = $request->input('refer_from') ?? $request->input('refer.refer_from');
+
+        if ($requestReferFrom) {
+            $requestMethod = $request->input('method') ?? $request->input('refer.method');
+            $requestReferTo = $request->input('refer_to') ?? $request->input('refer.refer_to');
+            if (!$requestReferTo) {
+                $requestReferTo = url()->previous();
             }
 
-            $referFrom = $request->input('refer.refer_from');
-
-            if ($referTo && $referFrom) {
-                if (!is_array($referFrom)) {
-                    $referFrom = [$referFrom];
+            if ($requestReferTo && $requestReferFrom) {
+                if (!is_array($requestReferFrom)) {
+                    $requestReferFrom = [$requestReferFrom];
                 }
 
                 $refer = [
-                    'refer_to'      =>  $referTo,
-                    'refer_from'    =>  $referFrom,
-                    'method'        =>  $method
+                    'refer_to'      =>  $requestReferTo,
+                    'refer_from'    =>  $requestReferFrom,
+                    'method'        =>  $requestMethod
                 ];
-
                 session(['refer' => $refer]);
             }
         }
@@ -62,7 +54,7 @@ class ReferrerMiddleware
 
     public function redirectRoute($request)
     {
-        $referTo = session('refer.refer_to');
+        $referTo = session('refer')['refer_to'];
         $request->session()->forget('refer');
 
         return redirect($referTo);
