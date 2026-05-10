@@ -2,54 +2,45 @@
 
 namespace Database\Factories;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
 class UserFactory extends Factory
 {
-    /**
-     * Define the model's default state.
-     *
-     * @return array
-     */
-    public function definition()
+    protected $model = User::class;
+
+    public function definition(): array
     {
         return [
-            'name'      => $this->faker->name(),
-            'mobile'    =>  '7079582411',
-            'email'     => $this->faker->unique()->safeEmail(),
+            'name'              => fake()->name(),
+            'mobile'            => fake()->numerify('##########'),
+            'email'             => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),
-            'password'          => Hash::make('123456'),
+            'password'          => 'password',
             'remember_token'    => Str::random(10),
-            'status'            =>  true,
+            'status'            => true,
         ];
     }
 
-    public function unverified()
+    public function unverified(): static
     {
-        return $this->state(function (array $attributes) {
-            return [
-                'email_verified_at' => null,
-            ];
-        });
+        return $this->state(fn(array $attributes) => [
+            'email_verified_at' => null,
+        ]);
     }
 
-    public function active()
+    public function active(): static
     {
-        return $this->state(function (array $attributes) {
-            return [
-                'status' => true,
-            ];
-        });
+        return $this->state(fn(array $attributes) => [
+            'status' => true,
+        ]);
     }
 
-    public function inactive()
+    public function inactive(): static
     {
-        return $this->state(function (array $attributes) {
-            return [
-                'status' => false,
-            ];
-        });
+        return $this->state(fn(array $attributes) => [
+            'status' => false,
+        ]);
     }
 }

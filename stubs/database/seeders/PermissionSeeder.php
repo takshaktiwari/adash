@@ -11,7 +11,7 @@ class PermissionSeeder extends Seeder
 {
     public $permissions = [];
 
-    public function run()
+    public function run(): void
     {
         DB::statement('SET FOREIGN_KEY_CHECKS=0;');
         Permission::truncate();
@@ -23,7 +23,7 @@ class PermissionSeeder extends Seeder
             ]);
             $this->bifurcatePermissions($item);
 
-            if (count($item['children']) > 0) {
+            if (\count($item['children']) > 0) {
                 foreach ($item['children'] as $child) {
                     Permission::create([
                         'name' => $child['name'],
@@ -35,10 +35,12 @@ class PermissionSeeder extends Seeder
             }
         }
 
-        foreach ($this->permissions as $role => $permissions) {
-            $permissions = Permission::whereIn('name', $permissions)->pluck('id')->toArray();
-            $role = Role::where('name', $role)->first();
-            $role->permissions()->sync($permissions);
+        foreach ($this->permissions as $roleName => $permissions) {
+            $permissionIds = Permission::whereIn('name', $permissions)->pluck('id')->toArray();
+            $role = Role::where('name', $roleName)->first();
+            if ($role instanceof Role) {
+                $role->permissions()->sync($permissionIds);
+            }
         }
     }
 
@@ -53,7 +55,7 @@ class PermissionSeeder extends Seeder
         }
     }
 
-    public function data($value = '')
+    public function data()
     {
         return collect([
             [

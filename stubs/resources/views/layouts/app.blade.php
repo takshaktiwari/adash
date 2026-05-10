@@ -1,51 +1,21 @@
 <!DOCTYPE html>
-<html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Laravel</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
-        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
-        integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
+    <title>{{ config('app.name', 'Laravel') }}</title>
+
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 
     <style>
-        html {
-            scroll-behavior: smooth;
-        }
-
-        .lc-1 {
-            display: -webkit-box;
-            -webkit-line-clamp: 1;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-        }
-
-        .lc-2 {
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-        }
-
-        .lc-3 {
-            display: -webkit-box;
-            -webkit-line-clamp: 3;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-        }
-
-        .lc-4 {
-            display: -webkit-box;
-            -webkit-line-clamp: 4;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-        }
-
+        html { scroll-behavior: smooth; }
+        .lc-1 { display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden; }
+        .lc-2 { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+        .lc-3 { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+        .lc-4 { display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; }
     </style>
 
     @stack('styles')
@@ -55,7 +25,7 @@
     <x-alertt-alert />
     <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
         <div class="container">
-            <a class="navbar-brand" href="{{ url('/') }}">Adash</a>
+            <a class="navbar-brand" href="{{ url('/') }}">{{ config('app.name', 'Adash') }}</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -64,42 +34,21 @@
                     <li class="nav-item">
                         <a class="nav-link px-3" href="{{ url('/') }}">Home</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link px-3" href="#">Shop</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link px-3" href="#">About</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link px-3" href="#">Contact</a>
-                    </li>
                 </ul>
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link px-3" href="#">
-                            <i class="fa-solid fa-cart-shopping"></i>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link px-3" href="#">
-                            <i class="fa-solid fa-heart"></i>
-                        </a>
-                    </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link px-3 dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
                             <i class="fa-solid fa-user"></i>
                         </a>
-                        <ul class="dropdown-menu">
+                        <ul class="dropdown-menu dropdown-menu-end">
                             @auth
                                 <li><a class="dropdown-item" href="{{ route('dashboard') }}">Dashboard</a></li>
                                 <li>
-                                    <a class="dropdown-item" href="{{ route('logout') }}"
-                                        onclick="event.preventDefault();document.getElementById('logout-form').submit();">Logout</a>
+                                    <form action="{{ route('logout') }}" method="POST">
+                                        @csrf
+                                        <button type="submit" class="dropdown-item">Logout</button>
+                                    </form>
                                 </li>
-                                <form id="logout-form" action="{{ route('logout') }}" method="POST"
-                                    style="display: none;">
-                                    @csrf
-                                </form>
                             @else
                                 <li><a class="dropdown-item" href="{{ route('login') }}">Login</a></li>
                                 <li><a class="dropdown-item" href="{{ route('register') }}">Register</a></li>
@@ -116,7 +65,7 @@
     <footer class="bg-dark py-3">
         <div class="container">
             <p class="mb-0 text-center text-secondary">
-                <i class="fa-solid fa-copyright"></i> Copyrignt {{ date('Y') }} | Generated by <a
+                &copy; {{ date('Y') }} | Generated by <a
                     href="https://github.com/takshaktiwari/adash" class="text-light fw-bold">takshak/adash</a>
             </p>
         </div>

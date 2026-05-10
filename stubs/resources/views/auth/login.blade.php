@@ -6,46 +6,37 @@
             </a>
         </x-slot>
 
-        <!-- Session Status -->
-        <x-auth-session-status class="mb-4" :status="session('status')" />
-
-        <!-- Validation Errors -->
-        <x-auth-validation-errors class="mb-4" :errors="$errors" />
+        <x-auth-session-status class="mb-3" :status="session('status')" />
+        <x-auth-validation-errors class="mb-3" :errors="$errors" />
 
         <form method="POST" action="{{ route('login') }}">
             @csrf
 
-            <!-- Email Address -->
-            <div class="form-group">
-                <label for="email" >Email</label>
-                <input id="email" class="form-control" type="email" name="email" value="{{ old('email') }}" required autofocus />
+            <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input id="email" class="form-control" type="email" name="email" value="{{ old('email') }}" required autofocus autocomplete="username" />
             </div>
 
-            <!-- Password -->
-            <div class="form-group">
-                <label for="password" >Password</label>
-                <input id="password" class="form-control"
-                                type="password"
-                                name="password"
-                                required autocomplete="current-password" />
+            <div class="mb-3">
+                <label for="password" class="form-label">Password</label>
+                <input id="password" class="form-control" type="password" name="password" required autocomplete="current-password" />
             </div>
 
-            <!-- Remember Me -->
-            <div class="block mt-4">
-                <label for="remember_me" class="inline-flex items-center">
-                    <input id="remember_me" type="checkbox" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" name="remember">
-                    <span class="ml-2 text-sm text-gray-600">{{ __('Remember me') }}</span>
-                </label>
+            <div class="mb-3">
+                <div class="form-check">
+                    <input id="remember_me" type="checkbox" class="form-check-input" name="remember">
+                    <label class="form-check-label" for="remember_me">{{ __('Remember me') }}</label>
+                </div>
             </div>
 
-            <div class="d-flex justify-content-between mt-4">
+            <div class="d-flex justify-content-between align-items-center mt-4">
                 @if (Route::has('password.request'))
-                    <a class="underline text-sm text-gray-600 hover:text-gray-900" href="{{ route('password.request') }}">
+                    <a class="text-decoration-none text-secondary" href="{{ route('password.request') }}">
                         {{ __('Forgot your password?') }}
                     </a>
                 @endif
 
-                <x-button class="ml-3">
+                <x-button>
                     {{ __('Log in') }}
                 </x-button>
             </div>

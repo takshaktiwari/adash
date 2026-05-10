@@ -3,8 +3,6 @@
     "keywords": ["laravel", "breeze", "admin panel", "panel", "dashboard"],
     "description": "Simple admin panel starter kit",
     "license": "MIT",
-    "minimum-stability": "dev",
-    "prefer-stable": true,
     "authors": [
         {
             "name": "Takshak Tiwari",
@@ -12,14 +10,14 @@
         }
     ],
     "require": {
-        "laravel/breeze": "^2.2",
-        "intervention/image": "^2.7",
+        "php": "^8.2",
+        "laravel/framework": "^12.0",
+        "laravel/breeze": "^2.3",
         "takshak/alertt": "^1.0",
         "takshak/imager": "^1.0",
         "maatwebsite/excel": "^3.1",
-        "barryvdh/laravel-snappy": "^1.0",
         "yajra/laravel-datatables": "*",
-        "laravel/prompts": "^0.3.2"
+        "laravel/prompts": "^0.3.0"
     },
     "autoload": {
         "psr-4" : {

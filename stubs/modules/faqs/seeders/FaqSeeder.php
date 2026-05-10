@@ -7,7 +7,7 @@ use Takshak\Adash\Models\Faq;
 
 class FaqSeeder extends Seeder
 {
-    public function run()
+    public function run(): void
     {
         Faq::truncate();
         Faq::factory(15)->create();

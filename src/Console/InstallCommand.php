@@ -6,9 +6,7 @@ use App\Models\User;
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Facades\Artisan;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Process;
-use Symfony\Component\Console\Output\Output;
 use Takshak\Adash\Traits\Console\PublishFilesTrait;
 use Takshak\Adash\Models\Role;
 
@@ -38,7 +36,7 @@ class InstallCommand extends Command
         $this->filesystem = new Filesystem();
     }
 
-    public function handle()
+    public function handle(): void
     {
         if ($this->option('modules')) {
             if ($this->option('modules') == 'all') {
@@ -50,7 +48,6 @@ class InstallCommand extends Command
                 });
             }
         } else {
-
             $this->modules = multiselect(
                 label: 'Please specify modules you want to install?',
                 options: ['default', 'faqs', 'pages', 'testimonials', 'all of above'],
@@ -81,11 +78,10 @@ class InstallCommand extends Command
                 default: false
             );
 
-
         if ($seedImages) {
             $imagesCount = text(
                 label: 'How many dummy images you want to seed?',
-                default: 10
+                default: '10'
             );
             $imagesCount = (int)$imagesCount;
 
@@ -97,26 +93,30 @@ class InstallCommand extends Command
         $this->askQuestions();
         $this->publishFiles();
 
-        info('Setting up vite for datatables');
-        Process::run('npm install laravel-datatables-vite datatables.net-bs5 datatables.net-buttons datatables.net-buttons-bs5 datatables.net-responsive-bs5');
-        $this->filesystem->append(resource_path('css/app.css'), "
-            @import url('https://fonts.bunny.net/css?family=Nunito');
-            @import 'bootstrap-icons/font/bootstrap-icons.css';
-            @import 'datatables.net-bs5/css/dataTables.bootstrap5.min.css';
-            @import 'datatables.net-buttons-bs5/css/buttons.bootstrap5.min.css';
-            @import 'datatables.net-select-bs5/css/select.bootstrap5.css';
-            @import 'datatables.net-responsive-bs5/css/responsive.bootstrap5.min.css';
-        ");
-        $this->filesystem->append(resource_path('js/app.js'), '
-            import "laravel-datatables-vite";
-            import "datatables.net-bs5";
-            import "datatables.net-buttons/js/buttons.colVis";
-            import "datatables.net-buttons/js/buttons.html5";
-            import "datatables.net-buttons/js/buttons.print";
-            import "datatables.net-responsive-bs5";
-        ');
+        info('Setting up npm packages for datatables');
+        $result = Process::run('npm install laravel-datatables-vite datatables.net-bs5 datatables.net-buttons datatables.net-buttons-bs5 datatables.net-responsive-bs5');
+        if (!$result->successful()) {
+            $this->warn('npm install encountered issues: ' . $result->errorOutput());
+        }
 
-        Process::run('npm run build');
+        $this->filesystem->append(resource_path('css/app.css'), "\n"
+            . "@import 'datatables.net-bs5/css/dataTables.bootstrap5.min.css';\n"
+            . "@import 'datatables.net-buttons-bs5/css/buttons.bootstrap5.min.css';\n"
+            . "@import 'datatables.net-responsive-bs5/css/responsive.bootstrap5.min.css';\n"
+        );
+        $this->filesystem->append(resource_path('js/app.js'), "\n"
+            . "import 'laravel-datatables-vite';\n"
+            . "import 'datatables.net-bs5';\n"
+            . "import 'datatables.net-buttons/js/buttons.colVis.mjs';\n"
+            . "import 'datatables.net-buttons/js/buttons.html5.mjs';\n"
+            . "import 'datatables.net-buttons/js/buttons.print.mjs';\n"
+            . "import 'datatables.net-responsive-bs5';\n"
+        );
+
+        $buildResult = Process::run('npm run build');
+        if (!$buildResult->successful()) {
+            $this->warn('npm run build encountered issues: ' . $buildResult->errorOutput());
+        }
 
         $this->migrateDB();
         $this->createAdmin();
@@ -129,7 +129,7 @@ class InstallCommand extends Command
         $this->info('https://github.com/takshaktiwari/adash');
     }
 
-    public function askQuestions()
+    public function askQuestions(): void
     {
         $this->installType = $this->argument('install');
         if ($this->installType != 'fresh') {
@@ -139,25 +139,27 @@ class InstallCommand extends Command
             );
 
             $this->migrateFresh = confirm(
-                label: 'How do you run fresh migration?',
+                label: 'Do you want to run a fresh migration (drops all tables)?',
                 default: true
             );
 
             $this->seedDatabase = confirm(
-                label: 'Do you wish to seed database?',
+                label: 'Do you wish to seed the database?',
                 default: true
             );
         }
     }
 
-    public function publishFiles()
+    public function publishFiles(): void
     {
         if ($this->installType == 'fresh' || in_array('default', $this->modules)) {
             info('Installing breeze: breeze:install');
             $this->call('breeze:install', [
-                'stack' => 'blade'
+                'stack' => 'blade',
+                '--no-interaction' => true,
             ]);
 
+            // Remove Breeze's Tailwind-based components that adash replaces with Bootstrap versions
             $this->filesystem->delete([
                 resource_path('views/layouts/navigation.blade.php'),
                 resource_path('views/components/text-input.blade.php'),
@@ -203,7 +205,7 @@ class InstallCommand extends Command
         info('Adash scaffolding installed successfully.');
     }
 
-    public function migrateDB()
+    public function migrateDB(): void
     {
         if ($this->migrateFresh) {
             $this->call('migrate:fresh');
@@ -215,10 +217,10 @@ class InstallCommand extends Command
         $this->newLine();
     }
 
-    public function seedDB()
+    public function seedDB(): void
     {
         if (!$this->seedDatabase) {
-            return false;
+            return;
         }
 
         $this->call('db:seed');
@@ -226,7 +228,7 @@ class InstallCommand extends Command
         $this->newLine();
     }
 
-    public function createAdmin()
+    public function createAdmin(): void
     {
         $admin = User::whereRelation('roles', 'name', 'admin')->first();
         if (!$admin) {
@@ -234,12 +236,12 @@ class InstallCommand extends Command
             if (PHP_OS_FAMILY === 'Windows') {
                 $adminPassword = '123456';
                 $data = [
-                    'email' =>  'adash@gmail.com',
-                    'name'  =>  'Admin',
-                    'mobile' =>  '9876543210',
-                    'email_verified_at' =>  date('Y-m-d H:i:s'),
-                    'password' =>  $adminPassword,
-                    'status' => true
+                    'email'             => 'adash@gmail.com',
+                    'name'              => 'Admin',
+                    'mobile'            => '9876543210',
+                    'email_verified_at' => now(),
+                    'password'          => $adminPassword,
+                    'status'            => true,
                 ];
             } else {
                 $data = form()
@@ -248,14 +250,12 @@ class InstallCommand extends Command
                     ->password(label: 'Password', name: 'password', hint: 'At least 6 characters', validate: ['password' => 'required|min:6'])
                     ->text(label: 'Mobile', name: 'mobile', default: '9876543210', validate: ['mobile' => 'required|min:10'])
                     ->confirm(label: 'Email verified?', name: 'email_verified_at', default: true)
-                    ->select(label: 'Status', name: 'status', options: [true => 'Active', false => 'Inactive'], default: true)
+                    ->select(label: 'Status', name: 'status', options: ['1' => 'Active', '0' => 'Inactive'], default: '1')
                     ->submit();
 
                 $adminPassword = $data['password'];
                 $data['email_verified_at'] = $data['email_verified_at'] ? now() : null;
-                $data['password'] = Hash::make($adminPassword);
             }
-
 
             $admin = User::create($data);
             $role = Role::firstOrCreate(['name' => 'admin']);

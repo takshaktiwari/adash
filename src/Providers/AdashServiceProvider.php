@@ -11,34 +11,29 @@ class AdashServiceProvider extends ServiceProvider
 {
     public $baseStubs = __DIR__ . '/../../stubs/';
 
-    public function boot()
+    public function boot(): void
     {
+        Paginator::useBootstrapFive();
+
         if (!$this->app->runningInConsole()) {
             return;
         }
-
-        Paginator::useBootstrapFive();
 
         $this->commands([InstallCommand::class, SettingsCommand::class]);
         $this->publishFiles();
         $this->loadMigrationsFrom(__DIR__ . '/../../database/migrations');
     }
 
-    /**
-     * Get the services provided by the provider.
-     *
-     * @return array
-     */
-    public function provides()
+    public function provides(): array
     {
         return [InstallCommand::class];
     }
 
-    public function register()
+    public function register(): void
     {
     }
 
-    public function publishFiles()
+    public function publishFiles(): void
     {
         $controllerStubs = $this->baseStubs . 'app/Http/Controllers/';
         $databaseStubs = $this->baseStubs . 'database/';
@@ -93,5 +88,3 @@ class AdashServiceProvider extends ServiceProvider
         ], 'adash-testimonials');
     }
 }
-
-require_once __DIR__ . '/../helpers.php';

@@ -8,7 +8,7 @@ use Takshak\Adash\Models\Page;
 
 class PageSeeder extends Seeder
 {
-    public function run()
+    public function run(): void
     {
         Storage::disk('public')->deleteDirectory('pages');
         Page::truncate();

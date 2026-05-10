@@ -7,20 +7,14 @@ use Takshak\Adash\Models\Role;
 
 class RoleSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     *
-     * @return void
-     */
-    public function run()
+    public function run(): void
     {
-        Role::create(['name'    =>    'admin']);
-        Role::create(['name'    =>    'user']);
-
-        Role::create(['name'    =>  'editor']);
-        Role::create(['name'    =>  'manager']);
-        Role::create(['name'    =>  'author']);
-        Role::create(['name'    =>  'executive']);
-        Role::create(['name'    =>  'viewer']);
+        Role::firstOrCreate(['name' => 'admin']);
+        Role::firstOrCreate(['name' => 'user']);
+        Role::firstOrCreate(['name' => 'editor']);
+        Role::firstOrCreate(['name' => 'manager']);
+        Role::firstOrCreate(['name' => 'author']);
+        Role::firstOrCreate(['name' => 'executive']);
+        Role::firstOrCreate(['name' => 'viewer']);
     }
 }

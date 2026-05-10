@@ -8,7 +8,7 @@ use Takshak\Adash\Models\Testimonial;
 
 class TestimonialSeeder extends Seeder
 {
-    public function run()
+    public function run(): void
     {
         Storage::disk('public')->deleteDirectory('testimonials');
         Testimonial::truncate();

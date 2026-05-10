@@ -22,21 +22,21 @@ class User extends Authenticatable implements MustVerifyEmail
         'remember_token',
     ];
 
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-    ];
+    protected function casts(): array
+    {
+        return [
+            'email_verified_at' => 'datetime',
+            'password' => 'hashed',
+            'status' => 'boolean',
+        ];
+    }
 
-    /**
-     * The roles that belong to the User
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
-     */
     public function roles(): BelongsToMany
     {
         return $this->belongsToMany(Role::class);
     }
 
-    public function profileImg()
+    public function profileImg(): string
     {
         if (!empty($this->profile_img)) {
             if (Str::is('https://*', $this->profile_img)) {
@@ -56,12 +56,12 @@ class User extends Authenticatable implements MustVerifyEmail
             ->url();
     }
 
-    public function getFirstNameAttribute()
+    public function getFirstNameAttribute(): string
     {
         return explode(' ', $this->name)[0];
     }
 
-    public function dashboardRoute()
+    public function dashboardRoute(): string
     {
         return route('admin.dashboard');
     }

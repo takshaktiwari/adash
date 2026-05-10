@@ -7,16 +7,11 @@
 
         <title>{{ config('app.name', 'Laravel') }}</title>
 
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-
-        <!-- Scripts -->
-        <script src="{{ asset('js/app.js') }}" defer></script>
+        @vite(['resources/css/app.css', 'resources/js/app.js'])
 
         <style>
-            body {
-                background-color: #eaeaea;
-            }
-            .auth-card .logo svg{ max-width: 80px; }
+            body { background-color: #eaeaea; }
+            .auth-card .logo svg { max-width: 80px; }
         </style>
     </head>
     <body>
