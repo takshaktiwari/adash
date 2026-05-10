@@ -1,6 +1,8 @@
 # Introduction to Adash
 
-**Adash** is a admin panel package made for laravel on top of *Laravel Breeze*. It is a very simple setup for a quick start, with a separate admin panel having user, roles & permissions,  posts, pages, faqs and testimonials management. This package uses Bootstrap 5.x. 
+**Adash** is an admin panel package for Laravel 12+ built on top of *Laravel Breeze*. It is a simple setup for a quick start, with a separate admin panel having user, roles & permissions, posts, pages, FAQs and testimonials management. This package uses Bootstrap 5.x.
+
+**Requirements:** PHP 8.2+, Laravel 12.x
 
 ## Installation
 Update your *.env* file, provide database name, user and password. Execute command given below to install **adash admin panel**
@@ -28,7 +30,7 @@ You can disable *install command* from *config/site.php* by setting *command* ke
 **`Imager:`** Takshak/Imager is integrated to generate seeds and resize and modify images at the time of upload images in different sections in the panel. This is also user to get default placeholder images and user avatars. For more information about this package, please refer to [takshak/imager](https://github.com/takshaktiwari/imager)
 
 
-This package comes with some default users, roles, and permission, which are inserted using seeders. There seeders for all the modules. You will get a default admin user  with email: *adash@gmail.com* and password: *123456*
+This package comes with default users, roles, and permissions inserted via seeders. You will get a default admin user with email: *admin@gmail.com* and password: *password*
 - - -
 
 ## Extra functionalities
@@ -84,7 +86,7 @@ Above all action buttons will have these parameters:
 
 ## Queries Management
 
-You can directly submit query forms from frontend to admin panel by posting forms on `route('queries.store')`. It will be stored on the database and an email will also be send to the mail defined in env file `MAIL_PRIMARY`. 
+You can directly submit query forms from frontend to admin panel by posting forms on `route('queries.store')`. It will be stored on the database and an email will also be sent to the address stored in the **`primary_email`** setting (configurable from the Settings page in the admin panel). 
 
 Possible input names are given below. All inputs are optional can will be defined in form if required:
 
