@@ -8,7 +8,8 @@
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    @vite(['resources/app/css/app.css', 'resources/app/js/app.js'])
 
     <style>
         html { scroll-behavior: smooth; }

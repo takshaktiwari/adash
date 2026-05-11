@@ -1,7 +1,7 @@
 $("select[multiple]").select2();
 $("select.select2").select2();
 
-Waves.attach('.btn');
+Waves.attach('.btn:not([data-bs-toggle])');
 
 $('.summernote-editor').summernote({
     placeholder: 'Write here',

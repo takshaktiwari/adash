@@ -44,7 +44,7 @@ class InstallCommand extends Command
             } else {
                 $this->modules = array_map(fn($item) => trim($item), explode(',', $this->option('modules')));
                 $this->modules = array_filter($this->modules, function ($item) {
-                    return in_array($item, ['faqs', 'pages', 'testimonials', 'default']);
+                    return \in_array($item, ['faqs', 'pages', 'testimonials', 'default']);
                 });
             }
         } else {
@@ -54,7 +54,7 @@ class InstallCommand extends Command
                 default: ['all of above'],
             );
 
-            if (in_array('all of above', $this->modules)) {
+            if (\in_array('all of above', $this->modules)) {
                 $this->modules = ['faqs', 'pages', 'testimonials'];
             }
         }
@@ -93,25 +93,17 @@ class InstallCommand extends Command
         $this->askQuestions();
         $this->publishFiles();
 
-        info('Setting up npm packages for datatables');
-        $result = Process::run('npm install laravel-datatables-vite datatables.net-bs5 datatables.net-buttons datatables.net-buttons-bs5 datatables.net-responsive-bs5');
+        info('Installing npm packages (Bootstrap 5 + jQuery + DataTables)');
+        $result = Process::run(
+            'npm install bootstrap bootstrap-icons jquery'
+            . ' laravel-datatables-vite'
+            . ' datatables.net-bs5 datatables.net-buttons datatables.net-buttons-bs5 datatables.net-responsive-bs5'
+        );
         if (!$result->successful()) {
             $this->warn('npm install encountered issues: ' . $result->errorOutput());
         }
 
-        $this->filesystem->append(resource_path('css/app.css'), "\n"
-            . "@import 'datatables.net-bs5/css/dataTables.bootstrap5.min.css';\n"
-            . "@import 'datatables.net-buttons-bs5/css/buttons.bootstrap5.min.css';\n"
-            . "@import 'datatables.net-responsive-bs5/css/responsive.bootstrap5.min.css';\n"
-        );
-        $this->filesystem->append(resource_path('js/app.js'), "\n"
-            . "import 'laravel-datatables-vite';\n"
-            . "import 'datatables.net-bs5';\n"
-            . "import 'datatables.net-buttons/js/buttons.colVis.mjs';\n"
-            . "import 'datatables.net-buttons/js/buttons.html5.mjs';\n"
-            . "import 'datatables.net-buttons/js/buttons.print.mjs';\n"
-            . "import 'datatables.net-responsive-bs5';\n"
-        );
+        $this->writeViteResources();
 
         $buildResult = Process::run('npm run build');
         if (!$buildResult->successful()) {
@@ -152,7 +144,11 @@ class InstallCommand extends Command
 
     public function publishFiles(): void
     {
-        if ($this->installType == 'fresh' || in_array('default', $this->modules)) {
+        if ($this->installType == 'fresh' || \in_array('default', $this->modules)) {
+            // Breeze copies files into resources/css and resources/js — ensure they exist
+            $this->filesystem->ensureDirectoryExists(resource_path('css'));
+            $this->filesystem->ensureDirectoryExists(resource_path('js'));
+
             info('Installing breeze: breeze:install');
             $this->call('breeze:install', [
                 'stack' => 'blade',
@@ -185,19 +181,19 @@ class InstallCommand extends Command
             $options['--force'] = true;
         }
 
-        if (in_array('default', $this->modules)) {
+        if (\in_array('default', $this->modules)) {
             $options['--tag'] = 'adash-default';
             $this->publishDefault($options);
         }
-        if (in_array('faqs', $this->modules)) {
+        if (\in_array('faqs', $this->modules)) {
             $options['--tag'] = 'adash-faqs';
             $this->publishFaqs($options);
         }
-        if (in_array('pages', $this->modules)) {
+        if (\in_array('pages', $this->modules)) {
             $options['--tag'] = 'adash-pages';
             $this->publishPages($options);
         }
-        if (in_array('testimonials', $this->modules)) {
+        if (\in_array('testimonials', $this->modules)) {
             $options['--tag'] = 'adash-testimonials';
             $this->publishTestimonials($options);
         }
@@ -226,6 +222,81 @@ class InstallCommand extends Command
         $this->call('db:seed');
         info('Database successfully seeded');
         $this->newLine();
+    }
+
+    public function writeViteResources(): void
+    {
+        // vite.config.js — three separate entry groups: admin, guest, app
+        $this->filesystem->put(base_path('vite.config.js'),
+            "import { defineConfig } from 'vite';\n"
+            . "import laravel from 'laravel-vite-plugin';\n\n"
+            . "export default defineConfig({\n"
+            . "    plugins: [\n"
+            . "        laravel({\n"
+            . "            input: [\n"
+            . "                'resources/admin/css/admin.css',\n"
+            . "                'resources/admin/js/admin.js',\n"
+            . "                'resources/guest/css/guest.css',\n"
+            . "                'resources/guest/js/guest.js',\n"
+            . "                'resources/app/css/app.css',\n"
+            . "                'resources/app/js/app.js',\n"
+            . "            ],\n"
+            . "            refresh: true,\n"
+            . "        }),\n"
+            . "    ],\n"
+            . "});\n"
+        );
+
+        // admin — DataTables only; the admin theme ships its own Bootstrap static assets
+        $this->filesystem->ensureDirectoryExists(resource_path('admin/css'));
+        $this->filesystem->ensureDirectoryExists(resource_path('admin/js'));
+        $this->filesystem->put(resource_path('admin/css/admin.css'),
+            "@import 'datatables.net-bs5/css/dataTables.bootstrap5.min.css';\n"
+            . "@import 'datatables.net-buttons-bs5/css/buttons.bootstrap5.min.css';\n"
+            . "@import 'datatables.net-responsive-bs5/css/responsive.bootstrap5.min.css';\n"
+        );
+        $this->filesystem->put(resource_path('admin/js/admin.js'),
+            "import $ from 'jquery';\n"
+            . "window.$ = window.jQuery = $;\n"
+            . "import 'laravel-datatables-vite';\n"
+            . "import 'datatables.net-bs5';\n"
+            . "import 'datatables.net-buttons/js/buttons.colVis.mjs';\n"
+            . "import 'datatables.net-buttons/js/buttons.html5.mjs';\n"
+            . "import 'datatables.net-buttons/js/buttons.print.mjs';\n"
+            . "import 'datatables.net-responsive-bs5';\n"
+        );
+
+        // guest — Bootstrap 5 for login/register/forgot-password pages
+        $this->filesystem->ensureDirectoryExists(resource_path('guest/css'));
+        $this->filesystem->ensureDirectoryExists(resource_path('guest/js'));
+        $this->filesystem->put(resource_path('guest/css/guest.css'),
+            "@import 'bootstrap/dist/css/bootstrap.min.css';\n"
+        );
+        $this->filesystem->put(resource_path('guest/js/guest.js'),
+            "import $ from 'jquery';\n"
+            . "window.$ = window.jQuery = $;\n"
+            . "import * as bootstrap from 'bootstrap';\n"
+            . "window.bootstrap = bootstrap;\n"
+        );
+
+        // app — Bootstrap 5 for authenticated frontend layout
+        $this->filesystem->ensureDirectoryExists(resource_path('app/css'));
+        $this->filesystem->ensureDirectoryExists(resource_path('app/js'));
+        $this->filesystem->put(resource_path('app/css/app.css'),
+            "@import 'bootstrap/dist/css/bootstrap.min.css';\n"
+        );
+        $this->filesystem->put(resource_path('app/js/app.js'),
+            "import $ from 'jquery';\n"
+            . "window.$ = window.jQuery = $;\n"
+            . "import * as bootstrap from 'bootstrap';\n"
+            . "window.bootstrap = bootstrap;\n"
+        );
+
+        // Remove Breeze's Tailwind entry files and folders so they don't conflict
+        $this->filesystem->deleteDirectory(resource_path('css'));
+        $this->filesystem->deleteDirectory(resource_path('js'));
+
+        info('Vite entry points written: resources/{admin,guest,app}/{css,js}');
     }
 
     public function createAdmin(): void

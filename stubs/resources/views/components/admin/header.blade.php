@@ -15,7 +15,7 @@
                 </a>
             </div>
 
-            <button type="button" class="btn btn-sm px-3 font-size-24 header-item waves-effect" id="vertical-menu-btn">
+            <button type="button" class="btn btn-sm px-3 font-size-24 header-item" id="vertical-menu-btn">
                 <i class="fas fa-bars"></i>
             </button>
 
@@ -53,13 +53,13 @@
 
         <div class="d-flex">
 
-            <div class="dropdown d-inline-block dropstart">
+            <div class="dropdown d-inline-block">
                 <button type="button" class="btn header-item waves-effect" id="page-header-user-dropdown"
                     data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <img class="rounded-circle header-profile-user" src="{{ auth()->user()->profileImg() }}"
                         alt="Header Avatar">
                 </button>
-                <div class="dropdown-menu dropdown-menu-right">
+                <div class="dropdown-menu dropdown-menu-end">
                     <!-- item-->
                     <a class="dropdown-item" href="{{ route('admin.dashboard') }}">
                         <i class="mdi mdi-account-circle font-size-17 align-middle mr-1"></i>
