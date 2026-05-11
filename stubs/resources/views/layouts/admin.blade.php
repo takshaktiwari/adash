@@ -10,10 +10,13 @@
     <meta name="author" content="Themesbrand" />
     <!-- App favicon -->
     <link rel="shortcut icon" href="{{ setting('favicon', asset('assets/admin/images/favicon.ico')) }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #333547;
-            --primary2: #383b4e;
+            --primary: #2d44c0;
+            --primary2: #2538ab;
             --secondary: #e6e6e6;
             --text-color: #e6e6e6;
             --text-color2: #b4c9de;

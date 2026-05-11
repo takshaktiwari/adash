@@ -33,8 +33,8 @@
 	        	@foreach($actions as $action)
         			@if(isset($action['permission']))
         				@can($action['permission'])
-			            	<a 	href="{{ isset($action['url']) ? $action['url'] : 'javascript:void(0)' }}" 
-			            		class="btn {{ (isset($action['class']) && $action['class'] != '') ? $action['class'] : 'btn-dark' }}"
+			            	<a 	href="{{ $action['url'] ?? 'javascript:void(0)' }}" 
+			            		class="btn {{ (isset($action['class']) && $action['class'] != '') ? $action['class'] : 'btn-secondary' }}"
 			            		@if(isset($action['data']))
 			            			@foreach ($action['data'] as $key => $data)
 			            				{{ 'data-'.$key.'='.$data }}
@@ -48,8 +48,8 @@
 			            	</a>
 		            	@endcan
 		            @else
-		            	<a 	href="{{ isset($action['url']) ? $action['url'] : 'javascript:void(0)' }}" 
-		            		class="btn {{ (isset($action['class']) && $action['class'] != '') ? $action['class'] : 'btn-dark' }}"
+		            	<a 	href="{{ $action['url'] ?? 'javascript:void(0)' }}" 
+		            		class="btn {{ (isset($action['class']) && $action['class'] != '') ? $action['class'] : 'btn-secondary' }}"
 		            		@if(isset($action['data']))
 		            			@foreach ($action['data'] as $key => $data)
 		            				{{ 'data-'.$key.'='.$data }}
