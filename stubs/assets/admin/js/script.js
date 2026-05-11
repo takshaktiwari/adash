@@ -3,6 +3,23 @@ $("select.select2").select2();
 
 Waves.attach('.btn:not([data-bs-toggle])');
 
+// Manual dropdown: toggle .show class and stop Bootstrap data-api from competing
+document.querySelectorAll('[data-bs-toggle="dropdown"]').forEach(function (toggle) {
+    toggle.addEventListener('click', function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        var parent = this.closest('.dropdown');
+        var menu = parent ? parent.querySelector('.dropdown-menu') : null;
+        if (!menu) return;
+        var isOpen = menu.classList.contains('show');
+        document.querySelectorAll('.dropdown-menu.show').forEach(function (m) { m.classList.remove('show'); });
+        if (!isOpen) { menu.classList.add('show'); }
+    });
+});
+document.addEventListener('click', function () {
+    document.querySelectorAll('.dropdown-menu.show').forEach(function (m) { m.classList.remove('show'); });
+});
+
 $('.summernote-editor').summernote({
     placeholder: 'Write here',
     tabsize: 2,
